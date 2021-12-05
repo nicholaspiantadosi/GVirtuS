@@ -42,7 +42,10 @@
 using namespace std;
 using namespace log4cplus;
 
-class CusparseHandler : public Handler {
+using gvirtus::communicators::Buffer;
+using gvirtus::communicators::Result;
+
+class CusparseHandler : public gvirtus::backend::Handler {
 public:
     CusparseHandler();
     virtual ~CusparseHandler();
@@ -59,10 +62,11 @@ private:
 #define CUSPARSE_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CusparseHandler * pThis, std::shared_ptr<Buffer> in)
 #define CUSPARSE_ROUTINE_HANDLER_PAIR(name) make_pair("cusparse" #name, handle##name)
 
+
 CUSPARSE_ROUTINE_HANDLER(GetVersion);
-CUSPARSE_ROUTINE_HANDLER(GetErrorString);
 CUSPARSE_ROUTINE_HANDLER(Create);
 CUSPARSE_ROUTINE_HANDLER(Destroy);
+CUSPARSE_ROUTINE_HANDLER(GetErrorString);
 CUSPARSE_ROUTINE_HANDLER(SetStream);
 CUSPARSE_ROUTINE_HANDLER(GetStream);
 
