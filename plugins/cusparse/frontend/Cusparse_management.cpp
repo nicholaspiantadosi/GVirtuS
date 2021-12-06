@@ -88,3 +88,21 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseGetProperty(libraryPropertyType_
         *value = CusparseFrontend::GetOutputVariable<int>();
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseGetPointerMode(cusparseHandle_t handle, cusparsePointerMode_t * mode){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddHostPointerForArguments<cusparsePointerMode_t>(mode);
+    CusparseFrontend::Execute("cusparseGetPointerMode");
+    if(CusparseFrontend::Success())
+        *mode = CusparseFrontend::GetOutputVariable<cusparsePointerMode_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSetPointerMode(cusparseHandle_t handle, cusparsePointerMode_t mode){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<cusparsePointerMode_t>(mode);
+    CusparseFrontend::Execute("cusparseSetPointerMode");
+    return CusparseFrontend::GetExitCode();
+}

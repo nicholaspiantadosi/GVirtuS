@@ -96,4 +96,6 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetStream));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetStream));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetProperty));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetPointerMode));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetPointerMode));
 }

@@ -128,6 +128,32 @@ CUSPARSE_ROUTINE_HANDLER(GetProperty){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(GetPointerMode){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetPointerMode"));
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    cusparsePointerMode_t mode;
+    cusparseStatus_t cs = cusparseGetPointerMode(handle, &mode);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        out->Add<cusparsePointerMode_t>(mode);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(cs);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseGetPointerMode Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SetPointerMode){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SetPointerMode"));
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    cusparsePointerMode_t mode = (cusparsePointerMode_t)in->Get<cusparsePointerMode_t>();
+    cusparseStatus_t cs = cusparseSetPointerMode(handle, mode);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    LOG4CPLUS_DEBUG(logger,"cusparseSetPointerMode Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif
