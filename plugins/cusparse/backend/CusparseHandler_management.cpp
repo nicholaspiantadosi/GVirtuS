@@ -112,6 +112,22 @@ CUSPARSE_ROUTINE_HANDLER(GetStream){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(GetProperty){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetProperty"));
+    libraryPropertyType_t type = (libraryPropertyType_t)in->Get<libraryPropertyType_t>();
+    int value;
+    cusparseStatus_t cs = cusparseGetProperty(type, &value);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        out->Add<int>(value);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(cs);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseGetProperty Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif

@@ -78,3 +78,13 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseGetStream(cusparseHandle_t handl
         *streamId = (cudaStream_t) CusparseFrontend::GetOutputVariable<long long int>();
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseGetProperty(libraryPropertyType_t type, int * value){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<libraryPropertyType_t>(type);
+    CusparseFrontend::AddHostPointerForArguments<int>(value);
+    CusparseFrontend::Execute("cusparseGetProperty");
+    if(CusparseFrontend::Success())
+        *value = CusparseFrontend::GetOutputVariable<int>();
+    return CusparseFrontend::GetExitCode();
+}
