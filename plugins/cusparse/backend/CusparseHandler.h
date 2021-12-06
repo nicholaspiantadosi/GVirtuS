@@ -62,7 +62,7 @@ private:
 #define CUSPARSE_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CusparseHandler * pThis, std::shared_ptr<Buffer> in)
 #define CUSPARSE_ROUTINE_HANDLER_PAIR(name) make_pair("cusparse" #name, handle##name)
 
-
+// MANAGEMENT
 CUSPARSE_ROUTINE_HANDLER(GetVersion);
 CUSPARSE_ROUTINE_HANDLER(Create);
 CUSPARSE_ROUTINE_HANDLER(Destroy);
@@ -72,5 +72,7 @@ CUSPARSE_ROUTINE_HANDLER(GetStream);
 CUSPARSE_ROUTINE_HANDLER(GetProperty);
 CUSPARSE_ROUTINE_HANDLER(GetPointerMode);
 CUSPARSE_ROUTINE_HANDLER(SetPointerMode);
+// HELPER
+CUSPARSE_ROUTINE_HANDLER(CreateColorInfo);
 
 #endif  /* CUSPARSEHANDLER_H */

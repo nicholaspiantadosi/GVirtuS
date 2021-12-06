@@ -89,6 +89,7 @@ void CusparseHandler::Initialize(){
    if (mspHandlers != NULL)
         return;
     mspHandlers = new map<string, CusparseHandler::CusparseRoutineHandler> ();
+    // MANAGEMENT
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetVersion));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Create));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Destroy));
@@ -98,4 +99,6 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetProperty));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetPointerMode));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetPointerMode));
+    // HELPER
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateColorInfo));
 }
