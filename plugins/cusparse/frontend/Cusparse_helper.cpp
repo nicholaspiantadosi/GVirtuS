@@ -130,3 +130,163 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSetMatType(cusparseMatDescr_t de
     CusparseFrontend::Execute("cusparseSetMatType");
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateCsrsv2Info(csrsv2Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<csrsv2Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateCsrsv2Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<csrsv2Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyCsrsv2Info(csrsv2Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyCsrsv2Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateCsrsm2Info(csrsm2Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<csrsm2Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateCsrsm2Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<csrsm2Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyCsrsm2Info(csrsm2Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyCsrsm2Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateCsric02Info(csric02Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<csric02Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateCsric02Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<csric02Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyCsric02Info(csric02Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyCsric02Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateCsrilu02Info(csrilu02Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<csrilu02Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateCsrilu02Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<csrilu02Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyCsrilu02Info(csrilu02Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyCsrilu02Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateBsrsv2Info(bsrsv2Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<bsrsv2Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateBsrsv2Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyBsrsv2Info(bsrsv2Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyBsrsv2Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateBsrsm2Info(bsrsm2Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<bsrsm2Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateBsrsm2Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<bsrsm2Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyBsrsm2Info(bsrsm2Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyBsrsm2Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateBsric02Info(bsric02Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<bsric02Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateBsric02Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<bsric02Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyBsric02Info(bsric02Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyBsric02Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateBsrilu02Info(bsrilu02Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<bsrilu02Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateBsrilu02Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<bsrilu02Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyBsrilu02Info(bsrilu02Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyBsrilu02Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateCsrgemm2Info(csrgemm2Info_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<csrgemm2Info_t>(info);
+    CusparseFrontend::Execute("cusparseCreateCsrgemm2Info");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<csrgemm2Info_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyCsrgemm2Info(csrgemm2Info_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyCsrgemm2Info");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreatePruneInfo(pruneInfo_t * info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddHostPointerForArguments<pruneInfo_t>(info);
+    CusparseFrontend::Execute("cusparseCreatePruneInfo");
+    if(CusparseFrontend::Success())
+        *info = CusparseFrontend::GetOutputVariable<pruneInfo_t>();
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyPruneInfo(pruneInfo_t info){
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
+    CusparseFrontend::Execute("cusparseDestroyPruneInfo");
+    return CusparseFrontend::GetExitCode();
+}

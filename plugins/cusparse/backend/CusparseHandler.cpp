@@ -112,4 +112,24 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetMatFillMode));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetMatIndexBase));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetMatType));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsrsv2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyCsrsv2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsrsm2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyCsrsm2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsric02Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyCsric02Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsrilu02Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyCsrilu02Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateBsrsv2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyBsrsv2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateBsrsm2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyBsrsm2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateBsric02Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyBsric02Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateBsrilu02Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyBsrilu02Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsrgemm2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyCsrgemm2Info));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreatePruneInfo));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyPruneInfo));
 }
