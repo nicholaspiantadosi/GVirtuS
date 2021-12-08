@@ -101,4 +101,15 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetPointerMode));
     // HELPER
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateColorInfo));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateMatDescr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyColorInfo));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyMatDescr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetMatDiagType));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetMatFillMode));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetMatIndexBase));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(GetMatType));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetMatDiagType));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetMatFillMode));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetMatIndexBase));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SetMatType));
 }

@@ -57,5 +57,10 @@ int main(void)
     cusparseColorInfo_t info;
     CHECK_CUSPARSE(cusparseCreateColorInfo(&info));
     printf("mode: %d\n", info);
+
+    printf("cusparseDestroyColorInfo\n");
+    CHECK_CUSPARSE(cusparseDestroyColorInfo(info));
+    printf("info destroyed\n");
+
     return 0;
 }
