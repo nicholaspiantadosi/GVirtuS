@@ -137,6 +137,10 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Daxpyi));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Caxpyi));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zaxpyi));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sgthr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgthr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgthr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgthr));
     // LEVEL2
     // LEVEL3
 }

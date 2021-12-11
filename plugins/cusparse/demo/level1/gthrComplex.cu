@@ -6,8 +6,8 @@
 #include "utilities.h"
 #include <cuda_runtime_api.h>
 
-void generateSparseVectorFormat(cuComplex *, int, cuComplex *, int *);
-void axpyi(cusparseHandle_t, int, int, cuComplex *, cuComplex *, int *, cuComplex *);
+void gthr(cusparseHandle_t, int, int, cuComplex *, cuComplex *, int *);
+void generateSparseIndex(cuComplex *, int, int *);
 
 int main(void)
 {
@@ -15,20 +15,17 @@ int main(void)
 
     int n = 10;
     int nnz = 4;
-    cuComplex alpha = make_cuComplex(2, 1);
+    cuComplex *y = (cuComplex *)malloc(n*sizeof(cuComplex));
     cuComplex *xVal = (cuComplex *)malloc(nnz*sizeof(cuComplex));
     int *xInd = (int *)malloc(nnz*sizeof(int));
-    cuComplex *y_result = (cuComplex *)malloc(n*sizeof(cuComplex));
 
-    cuComplex *vector = (cuComplex *)malloc(n*sizeof(cuComplex));
+    initializeArrayRandomSparsecuComplex(y, n, nnz);
+    initializeArrayToZerocuComplex(xVal, nnz);
 
-    initializeArrayRandomSparsecuComplex(vector, n, nnz);
-    initializeArrayToZerocuComplex(y_result, n);
+    printf("Array y:\n");
+    stampaArrayC(y, n);
 
-    printf("Array x:\n");
-    stampaArrayC(vector, n);
-
-    generateSparseVectorFormat(vector, n, xVal, xInd);
+    generateSparseIndex(y, n, xInd);
 
     printf("Array x in formato sparso:\n");
     printf("\txVal: ");
@@ -40,13 +37,12 @@ int main(void)
     cusparseHandle_t handle;
     CHECK_CUSPARSE(cusparseCreate(&handle));
 
-    axpyi(handle, n, nnz, &alpha, xVal, xInd, y_result);
+    gthr(handle, n, nnz, y, xVal, xInd);
 
     printf("Vettore risultato:\n");
-    stampaArrayC(y_result, n);
+    stampaArrayC(xVal, nnz);
 
-    free(vector);
-    free(y_result);
+    free(y);
     free(xVal);
     free(xInd);
     CHECK_CUSPARSE(cusparseDestroy(handle));
@@ -54,42 +50,40 @@ int main(void)
     return 0;
 }
 
-void axpyi(cusparseHandle_t handle, int n, int nnz, cuComplex * alpha, cuComplex * xVal, int * xInd, cuComplex * y) {
+void gthr(cusparseHandle_t handle, int n, int nnz, cuComplex * y, cuComplex * xVal, int * xInd) {
 
     // Variabili su device
+    cuComplex * y_device;
     cuComplex * xVal_device;
     int * xInd_device;
-    cuComplex * y_device;
 
     // Allocazione memoria su device
+    CHECK_CUDA(cudaMalloc((void**) &y_device, n * sizeof(cuComplex)));
     CHECK_CUDA(cudaMalloc((void**) &xVal_device, nnz * sizeof(cuComplex)));
     CHECK_CUDA(cudaMalloc((void**) &xInd_device, nnz * sizeof(int)));
-    CHECK_CUDA(cudaMalloc((void**) &y_device, n * sizeof(cuComplex)));
 
     // Inizializzazione variabili su device
+    CHECK_CUDA(cudaMemcpy(y_device, y, n * sizeof(cuComplex), cudaMemcpyHostToDevice));
     CHECK_CUDA(cudaMemcpy(xVal_device, xVal, nnz * sizeof(cuComplex), cudaMemcpyHostToDevice));
     CHECK_CUDA(cudaMemcpy(xInd_device, xInd, nnz * sizeof(int), cudaMemcpyHostToDevice));
-    CHECK_CUDA(cudaMemcpy(y_device, y, n * sizeof(cuComplex), cudaMemcpyHostToDevice));
 
-    // Calcolo prodotto tramite function axpyi
-    CHECK_CUSPARSE(cusparseCaxpyi(handle, nnz, alpha, xVal_device, xInd_device, y_device, CUSPARSE_INDEX_BASE_ZERO));
+    // Scrivi i valori sparsi in vettore denso
+    CHECK_CUSPARSE(cusparseCgthr(handle, nnz, y_device, xVal_device, xInd_device, CUSPARSE_INDEX_BASE_ZERO));
 
     // Copia risultato da device a host
-    CHECK_CUDA(cudaMemcpy(y, y_device, n * sizeof(cuComplex), cudaMemcpyDeviceToHost));
+    CHECK_CUDA(cudaMemcpy(xVal, xVal_device, nnz * sizeof(cuComplex), cudaMemcpyDeviceToHost));
 
     //Libera la memoria sul device
     CHECK_CUDA(cudaFree(xVal_device));
     CHECK_CUDA(cudaFree(xInd_device));
     CHECK_CUDA(cudaFree(y_device));
-
 }
 
-void generateSparseVectorFormat(cuComplex * vector_host, int n, cuComplex * sparse_values, int * sparse_col_index) {
+void generateSparseIndex(cuComplex * vector_host, int n, int * sparse_col_index) {
     int i = 0;
     int j = 0;
     for (i = 0; i < n; i++) {
         if (vector_host[i].x > 0) {
-            sparse_values[j] = vector_host[i];
             sparse_col_index[j] = i;
             ++j;
         }

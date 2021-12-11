@@ -118,7 +118,7 @@ void initializeArrayRandomSparseDouble(double *array, int n, int nnz)
     }
 }
 
-void initializeArrayToZerocuComplex(cuComplex *array, int n, int nnz)
+void initializeArrayRandomSparsecuComplex(cuComplex *array, int n, int nnz)
 {
     int i;
     float random_number;
@@ -135,7 +135,7 @@ void initializeArrayToZerocuComplex(cuComplex *array, int n, int nnz)
     }
 }
 
-void initializeArrayToZerocuDoubleComplex(cuDoubleComplex *array, int n, int nnz)
+void initializeArrayRandomSparsecuDoubleComplex(cuDoubleComplex *array, int n, int nnz)
 {
     int i;
     double random_number;
