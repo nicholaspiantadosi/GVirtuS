@@ -214,3 +214,39 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgthrz(cusparseHandle_t handle, 
     }
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSroti(cusparseHandle_t handle, int nnz, float* xVal, const int* xInd, float* y, const float* c, const float* s, cusparseIndexBase_t idxBase) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(xVal);
+    CusparseFrontend::AddDevicePointerForArguments(xInd);
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::AddHostPointerForArguments(c);
+    CusparseFrontend::AddHostPointerForArguments(s);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::Execute("cusparseSroti");
+    if (CusparseFrontend::Success()) {
+        y = (float *)CusparseFrontend::GetOutputDevicePointer();
+        xVal = (float *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDroti(cusparseHandle_t handle, int nnz, double* xVal, const int* xInd, double* y, const double* c, const double* s, cusparseIndexBase_t idxBase) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(xVal);
+    CusparseFrontend::AddDevicePointerForArguments(xInd);
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::AddHostPointerForArguments(c);
+    CusparseFrontend::AddHostPointerForArguments(s);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::Execute("cusparseDroti");
+    if (CusparseFrontend::Success()) {
+        y = (double *)CusparseFrontend::GetOutputDevicePointer();
+        xVal = (double *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}

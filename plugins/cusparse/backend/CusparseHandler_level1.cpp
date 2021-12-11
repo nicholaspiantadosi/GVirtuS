@@ -302,6 +302,56 @@ CUSPARSE_ROUTINE_HANDLER(Zgthrz){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(Sroti){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Sroti"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    float * xVal = in->GetFromMarshal<float*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    float * y = in->GetFromMarshal<float*>();
+    const float * c = in->Assign<float>();
+    const float * s = in->Assign<float>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSroti(handle, nnz, xVal, xInd, y, c, s, idxBase);
+        out->AddMarshal<float*>(y);
+        out->AddMarshal<float*>(xVal);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSroti Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Droti){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Droti"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    double * xVal = in->GetFromMarshal<double*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    double * y = in->GetFromMarshal<double*>();
+    const double * c = in->Assign<double>();
+    const double * s = in->Assign<double>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDroti(handle, nnz, xVal, xInd, y, c, s, idxBase);
+        out->AddMarshal<double*>(y);
+        out->AddMarshal<double*>(xVal);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDroti Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif
