@@ -63,6 +63,27 @@ void initializeArrayToZero(float *array, int n)
         array[i] = 0;
 }
 
+void initializeArrayToZeroDouble(double *array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        array[i] = 0;
+}
+
+void initializeArrayToZerocuComplex(cuComplex *array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        array[i] = make_cuComplex(0, 0);
+}
+
+void initializeArrayToZerocuDoubleComplex(cuDoubleComplex *array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        array[i] = make_cuDoubleComplex(0, 0);
+}
+
 void initializeArrayRandomSparse(float *array, int n, int nnz)
 {
     int i;
@@ -80,6 +101,57 @@ void initializeArrayRandomSparse(float *array, int n, int nnz)
     }
 }
 
+void initializeArrayRandomSparseDouble(double *array, int n, int nnz)
+{
+    int i;
+    double random_number;
+    initializeArrayToZeroDouble(array, n);
+    for(i=0;i<nnz;)
+    {
+        int index = (int) (n * ((double) rand() / (RAND_MAX)));
+        if (array[index]) {
+            continue;
+        }
+        random_number = (double) rand() / ( (double) RAND_MAX / 100 ) + 1;
+        array[index] = random_number;
+        ++i;
+    }
+}
+
+void initializeArrayToZerocuComplex(cuComplex *array, int n, int nnz)
+{
+    int i;
+    float random_number;
+    initializeArrayToZerocuComplex(array, n);
+    for(i=0;i<nnz;)
+    {
+        int index = (int) (n * ((float) rand() / (RAND_MAX)));
+        if (array[index].x) {
+            continue;
+        }
+        random_number = (float) rand() / ( (float) RAND_MAX / 100 ) + 1;
+        array[index] = make_cuComplex(random_number, 1);
+        ++i;
+    }
+}
+
+void initializeArrayToZerocuDoubleComplex(cuDoubleComplex *array, int n, int nnz)
+{
+    int i;
+    double random_number;
+    initializeArrayToZerocuDoubleComplex(array, n);
+    for(i=0;i<nnz;)
+    {
+        int index = (int) (n * ((double) rand() / (RAND_MAX)));
+        if (array[index].x) {
+            continue;
+        }
+        random_number = (double) rand() / ( (double) RAND_MAX / 100 ) + 1;
+        array[index] = make_cuDoubleComplex(random_number, 1);
+        ++i;
+    }
+}
+
 void stampaArray(int* array, int n)
 {
     int i;
@@ -93,5 +165,29 @@ void stampaArrayF(float* array, int n)
     int i;
     for(i=0;i<n;i++)
         printf("%f ", array[i]);
+    printf("\n");
+}
+
+void stampaArrayD(double* array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        printf("%f ", array[i]);
+    printf("\n");
+}
+
+void stampaArrayC(cuComplex* array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        printf("[%f %f] ", array[i].x, array[i].y);
+    printf("\n");
+}
+
+void stampaArrayZ(cuDoubleComplex* array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        printf("[%f %f] ", array[i].x, array[i].y);
     printf("\n");
 }

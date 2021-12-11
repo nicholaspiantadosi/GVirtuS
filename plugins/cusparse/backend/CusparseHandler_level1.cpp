@@ -53,6 +53,75 @@ CUSPARSE_ROUTINE_HANDLER(Saxpyi){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(Daxpyi){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Daxpyi"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    const double * alpha = in->Assign<double>();
+    const double * xVal = in->GetFromMarshal<double*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    double * y = in->GetFromMarshal<double*>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDaxpyi(handle, nnz, alpha, xVal, xInd, y, idxBase);
+        out->AddMarshal<double*>(y);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDaxpyi Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Caxpyi){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Caxpyi"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    const cuComplex * xVal = in->GetFromMarshal<cuComplex*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    cuComplex * y = in->GetFromMarshal<cuComplex*>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCaxpyi(handle, nnz, alpha, xVal, xInd, y, idxBase);
+        out->AddMarshal<cuComplex*>(y);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCaxpyi Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zaxpyi){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zaxpyi"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    const cuDoubleComplex * xVal = in->GetFromMarshal<cuDoubleComplex*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    cuDoubleComplex * y = in->GetFromMarshal<cuDoubleComplex*>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZaxpyi(handle, nnz, alpha, xVal, xInd, y, idxBase);
+        out->AddMarshal<cuDoubleComplex*>(y);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZaxpyi Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif
