@@ -150,3 +150,67 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgthr(cusparseHandle_t handle, i
     }
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgthrz(cusparseHandle_t handle, int nnz, float* y, float* xVal, const int* xInd, cusparseIndexBase_t idxBase) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::AddDevicePointerForArguments(xVal);
+    CusparseFrontend::AddDevicePointerForArguments(xInd);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::Execute("cusparseSgthrz");
+    if (CusparseFrontend::Success()) {
+        xVal = (float *)CusparseFrontend::GetOutputDevicePointer();
+        y = (float *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgthrz(cusparseHandle_t handle, int nnz, double* y, double* xVal, const int* xInd, cusparseIndexBase_t idxBase) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::AddDevicePointerForArguments(xVal);
+    CusparseFrontend::AddDevicePointerForArguments(xInd);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::Execute("cusparseDgthrz");
+    if (CusparseFrontend::Success()) {
+        xVal = (double *)CusparseFrontend::GetOutputDevicePointer();
+        y = (double *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgthrz(cusparseHandle_t handle, int nnz, cuComplex* y, cuComplex* xVal, const int* xInd, cusparseIndexBase_t idxBase) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::AddDevicePointerForArguments(xVal);
+    CusparseFrontend::AddDevicePointerForArguments(xInd);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::Execute("cusparseCgthrz");
+    if (CusparseFrontend::Success()) {
+        xVal = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+        y = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgthrz(cusparseHandle_t handle, int nnz, cuDoubleComplex* y, cuDoubleComplex* xVal, const int* xInd, cusparseIndexBase_t idxBase) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::AddDevicePointerForArguments(xVal);
+    CusparseFrontend::AddDevicePointerForArguments(xInd);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::Execute("cusparseZgthrz");
+    if (CusparseFrontend::Success()) {
+        xVal = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+        y = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
