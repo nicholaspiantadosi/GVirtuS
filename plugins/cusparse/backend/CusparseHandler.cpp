@@ -132,4 +132,8 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyCsrgemm2Info));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreatePruneInfo));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyPruneInfo));
+    // LEVEL1
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Saxpyi));
+    // LEVEL2
+    // LEVEL3
 }
