@@ -352,6 +352,94 @@ CUSPARSE_ROUTINE_HANDLER(Droti){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(Ssctr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Ssctr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    const float * xVal = in->GetFromMarshal<float*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    float * y = in->GetFromMarshal<float*>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSsctr(handle, nnz, xVal, xInd, y, idxBase);
+        out->AddMarshal<float*>(y);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSsctr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dsctr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dsctr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    const double * xVal = in->GetFromMarshal<double*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    double * y = in->GetFromMarshal<double*>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDsctr(handle, nnz, xVal, xInd, y, idxBase);
+        out->AddMarshal<double*>(y);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDsctr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Csctr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Csctr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    const cuComplex * xVal = in->GetFromMarshal<cuComplex*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    cuComplex * y = in->GetFromMarshal<cuComplex*>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCsctr(handle, nnz, xVal, xInd, y, idxBase);
+        out->AddMarshal<cuComplex*>(y);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCsctr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zsctr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zsctr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int nnz = in->Get<int>();
+    const cuDoubleComplex * xVal = in->GetFromMarshal<cuDoubleComplex*>();
+    const int * xInd = in->GetFromMarshal<int*>();
+    cuDoubleComplex * y = in->GetFromMarshal<cuDoubleComplex*>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZsctr(handle, nnz, xVal, xInd, y, idxBase);
+        out->AddMarshal<cuDoubleComplex*>(y);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZsctr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif
