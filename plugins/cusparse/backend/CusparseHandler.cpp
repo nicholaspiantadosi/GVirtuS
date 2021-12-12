@@ -152,5 +152,23 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Csctr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zsctr));
     // LEVEL2
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sbsrmv));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dbsrmv));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cbsrmv));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zbsrmv));
     // LEVEL3
+    // FORMAT CONVERSION REFERENCE
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2bsr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsr2bsr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsr2bsr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsr2bsr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sdense2csr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ddense2csr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cdense2csr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zdense2csr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Snnz));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dnnz));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cnnz));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Znnz));
 }

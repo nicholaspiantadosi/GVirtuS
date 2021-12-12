@@ -27,3 +27,98 @@
 
 using namespace std;
 
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSbsrmv(cusparseHandle_t handle, cusparseDirection_t dir, cusparseOperation_t trans, int mb, int nb, int nnzb, const float* alpha, const cusparseMatDescr_t descr, const float* bsrVal, const int* bsrRowPtr, const int* bsrColInd, int blockDim, const float* x, const float* beta, float* y) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseDirection_t>(dir);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(trans);
+    CusparseFrontend::AddVariableForArguments<int>(mb);
+    CusparseFrontend::AddVariableForArguments<int>(nb);
+    CusparseFrontend::AddVariableForArguments<int>(nnzb);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<float *>(alpha));
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)descr);
+    CusparseFrontend::AddDevicePointerForArguments(bsrVal);
+    CusparseFrontend::AddDevicePointerForArguments(bsrRowPtr);
+    CusparseFrontend::AddDevicePointerForArguments(bsrColInd);
+    CusparseFrontend::AddVariableForArguments<int>(blockDim);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<float *>(beta));
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::Execute("cusparseSbsrmv");
+    if (CusparseFrontend::Success()) {
+        y = (float *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDbsrmv(cusparseHandle_t handle, cusparseDirection_t dir, cusparseOperation_t trans, int mb, int nb, int nnzb, const double* alpha, const cusparseMatDescr_t descr, const double* bsrVal, const int* bsrRowPtr, const int* bsrColInd, int blockDim, const double* x, const double* beta, double* y) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseDirection_t>(dir);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(trans);
+    CusparseFrontend::AddVariableForArguments<int>(mb);
+    CusparseFrontend::AddVariableForArguments<int>(nb);
+    CusparseFrontend::AddVariableForArguments<int>(nnzb);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<double *>(alpha));
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)descr);
+    CusparseFrontend::AddDevicePointerForArguments(bsrVal);
+    CusparseFrontend::AddDevicePointerForArguments(bsrRowPtr);
+    CusparseFrontend::AddDevicePointerForArguments(bsrColInd);
+    CusparseFrontend::AddVariableForArguments<int>(blockDim);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<double *>(beta));
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::Execute("cusparseDbsrmv");
+    if (CusparseFrontend::Success()) {
+        y = (double *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCbsrmv(cusparseHandle_t handle, cusparseDirection_t dir, cusparseOperation_t trans, int mb, int nb, int nnzb, const cuComplex* alpha, const cusparseMatDescr_t descr, const cuComplex* bsrVal, const int* bsrRowPtr, const int* bsrColInd, int blockDim, const cuComplex* x, const cuComplex* beta, cuComplex* y) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseDirection_t>(dir);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(trans);
+    CusparseFrontend::AddVariableForArguments<int>(mb);
+    CusparseFrontend::AddVariableForArguments<int>(nb);
+    CusparseFrontend::AddVariableForArguments<int>(nnzb);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<cuComplex *>(alpha));
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)descr);
+    CusparseFrontend::AddDevicePointerForArguments(bsrVal);
+    CusparseFrontend::AddDevicePointerForArguments(bsrRowPtr);
+    CusparseFrontend::AddDevicePointerForArguments(bsrColInd);
+    CusparseFrontend::AddVariableForArguments<int>(blockDim);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<cuComplex *>(beta));
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::Execute("cusparseCbsrmv");
+    if (CusparseFrontend::Success()) {
+        y = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZbsrmv(cusparseHandle_t handle, cusparseDirection_t dir, cusparseOperation_t trans, int mb, int nb, int nnzb, const cuDoubleComplex* alpha, const cusparseMatDescr_t descr, const cuDoubleComplex* bsrVal, const int* bsrRowPtr, const int* bsrColInd, int blockDim, const cuDoubleComplex* x, const cuDoubleComplex* beta, cuDoubleComplex* y) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseDirection_t>(dir);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(trans);
+    CusparseFrontend::AddVariableForArguments<int>(mb);
+    CusparseFrontend::AddVariableForArguments<int>(nb);
+    CusparseFrontend::AddVariableForArguments<int>(nnzb);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<cuDoubleComplex *>(alpha));
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)descr);
+    CusparseFrontend::AddDevicePointerForArguments(bsrVal);
+    CusparseFrontend::AddDevicePointerForArguments(bsrRowPtr);
+    CusparseFrontend::AddDevicePointerForArguments(bsrColInd);
+    CusparseFrontend::AddVariableForArguments<int>(blockDim);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<cuDoubleComplex *>(beta));
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::Execute("cusparseZbsrmv");
+    if (CusparseFrontend::Success()) {
+        y = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
