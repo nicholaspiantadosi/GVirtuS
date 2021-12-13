@@ -56,6 +56,18 @@ void CHECK_CUDA(cudaError_t status)
     }
 }
 
+void initializeMatrixZeroF(float *matrix, int M, int N)
+{
+    int i, j, k=0;
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < M; j++)
+        {
+            matrix[k++]=0;
+        }
+    }
+}
+
 void initializeMatrixZeroD(double *matrix, int M, int N)
 {
     int i, j, k=0;
@@ -65,6 +77,46 @@ void initializeMatrixZeroD(double *matrix, int M, int N)
         {
             matrix[k++]=0;
         }
+    }
+}
+
+void initializeMatrixZeroC(cuComplex *matrix, int M, int N)
+{
+    int i, j, k=0;
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < M; j++)
+        {
+            matrix[k++]=make_cuComplex(0, 0);
+        }
+    }
+}
+
+void initializeMatrixZeroZ(cuDoubleComplex *matrix, int M, int N)
+{
+    int i, j, k=0;
+    for (i = 0; i < N; i++)
+    {
+        for (j = 0; j < M; j++)
+        {
+            matrix[k++]=make_cuDoubleComplex(0, 0);
+        }
+    }
+}
+
+void initializeMatrixRandomSparseF(float *matrix, int M, int N, int nnz)
+{
+    initializeMatrixZeroF(matrix, M, N);
+    int i=0;
+    float random_number;
+    for (i = 0; i < nnz;) {
+        int index = (int) (M * N * ((float) rand() / (RAND_MAX + 1.0)));
+        if (matrix[index]) {
+            continue;
+        }
+        random_number = (float) rand() / ( (float) RAND_MAX / 100 ) + 1;
+        matrix[index] = random_number;
+        ++i;
     }
 }
 
@@ -84,6 +136,49 @@ void initializeMatrixRandomSparseD(double *matrix, int M, int N, int nnz)
     }
 }
 
+void initializeMatrixRandomSparseC(cuComplex *matrix, int M, int N, int nnz)
+{
+    initializeMatrixZeroC(matrix, M, N);
+    int i=0;
+    float random_number;
+    for (i = 0; i < nnz;) {
+        int index = (int) (M * N * ((float) rand() / (RAND_MAX + 1.0)));
+        if (matrix[index].x) {
+            continue;
+        }
+        random_number = (float) rand() / ( (float) RAND_MAX / 100 ) + 1;
+        matrix[index] = make_cuComplex(random_number, 1);
+        ++i;
+    }
+}
+
+void initializeMatrixRandomSparseZ(cuDoubleComplex *matrix, int M, int N, int nnz)
+{
+    initializeMatrixZeroZ(matrix, M, N);
+    int i=0;
+    double random_number;
+    for (i = 0; i < nnz;) {
+        int index = (int) (M * N * ((double) rand() / (RAND_MAX + 1.0)));
+        if (matrix[index].x) {
+            continue;
+        }
+        random_number = (double) rand() / ( (double) RAND_MAX / 100 ) + 1;
+        matrix[index] = make_cuDoubleComplex(random_number, 1);
+        ++i;
+    }
+}
+
+void initializeArrayRandomF(float *array, int n)
+{
+    int i;
+    float random_number;
+    for(i=0;i<n;i++)
+    {
+        random_number=(float)rand()/((float)RAND_MAX/(100)) + 1;
+        array[i] = random_number;
+    }
+}
+
 void initializeArrayRandomD(double *array, int n)
 {
     int i;
@@ -95,11 +190,60 @@ void initializeArrayRandomD(double *array, int n)
     }
 }
 
+void initializeArrayRandomC(cuComplex *array, int n)
+{
+    int i;
+    float random_number;
+    for(i=0;i<n;i++)
+    {
+        random_number=(float)rand()/((float)RAND_MAX/(100)) + 1;
+        array[i] = make_cuComplex(random_number, 1);
+    }
+}
+
+void initializeArrayRandomZ(cuDoubleComplex *array, int n)
+{
+    int i;
+    double random_number;
+    for(i=0;i<n;i++)
+    {
+        random_number=(double)rand()/((double)RAND_MAX/(100)) + 1;
+        array[i] = make_cuDoubleComplex(random_number, 1);
+    }
+}
+
+void initializeArrayToZeroF(float *array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        array[i] = 0;
+}
+
 void initializeArrayToZeroD(double *array, int n)
 {
     int i;
     for(i=0;i<n;i++)
         array[i] = 0;
+}
+
+void initializeArrayToZeroC(cuComplex *array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        array[i] = make_cuComplex(0, 0);
+}
+
+void initializeArrayToZeroZ(cuDoubleComplex *array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        array[i] = make_cuDoubleComplex(0, 0);
+}
+
+void copyArrayF(float * source, float * destination, int n) {
+    int i;
+    for(i=0;i<n;i++)
+        destination[i] = source[i];
 }
 
 void copyArrayD(double * source, double * destination, int n) {
@@ -108,12 +252,59 @@ void copyArrayD(double * source, double * destination, int n) {
         destination[i] = source[i];
 }
 
+void copyArrayC(cuComplex * source, cuComplex * destination, int n) {
+    int i;
+    for(i=0;i<n;i++)
+        destination[i] = source[i];
+}
+
+void copyArrayZ(cuDoubleComplex * source, cuDoubleComplex * destination, int n) {
+    int i;
+    for(i=0;i<n;i++)
+        destination[i] = source[i];
+}
+
+void swapMatrixF(float * matrix, int m, int n, float * matrix_out)
+{
+    int i,j;
+    for (i = 0; i < m; i++)
+        for (j = 0; j < n; j++)
+            matrix_out[i*n+j]= matrix[j*m+i];
+}
+
 void swapMatrixD(double * matrix, int m, int n, double * matrix_out)
 {
     int i,j;
     for (i = 0; i < m; i++)
         for (j = 0; j < n; j++)
             matrix_out[i*n+j]= matrix[j*m+i];
+}
+
+void swapMatrixC(cuComplex * matrix, int m, int n, cuComplex * matrix_out)
+{
+    int i,j;
+    for (i = 0; i < m; i++)
+        for (j = 0; j < n; j++)
+            matrix_out[i*n+j]= matrix[j*m+i];
+}
+
+void swapMatrixZ(cuDoubleComplex * matrix, int m, int n, cuDoubleComplex * matrix_out)
+{
+    int i,j;
+    for (i = 0; i < m; i++)
+        for (j = 0; j < n; j++)
+            matrix_out[i*n+j]= matrix[j*m+i];
+}
+
+void stampaMatrixF(float* matrix, int M, int N)
+{
+    int i,j;
+    for(i=0;i<M;i++)
+    {
+        for(j=0;j<N;j++)
+            printf("%f ", matrix[i+j*M]);
+        printf("\n");
+    }
 }
 
 void stampaMatrixD(double* matrix, int M, int N)
@@ -127,11 +318,41 @@ void stampaMatrixD(double* matrix, int M, int N)
     }
 }
 
+void stampaMatrixC(cuComplex* matrix, int M, int N)
+{
+    int i,j;
+    for(i=0;i<M;i++)
+    {
+        for(j=0;j<N;j++)
+            printf("[%f, %f] ", matrix[i+j*M].x, matrix[i+j*M].y);
+        printf("\n");
+    }
+}
+
+void stampaMatrixZ(cuDoubleComplex* matrix, int M, int N)
+{
+    int i,j;
+    for(i=0;i<M;i++)
+    {
+        for(j=0;j<N;j++)
+            printf("[%f, %f] ", matrix[i+j*M].x, matrix[i+j*M].y);
+        printf("\n");
+    }
+}
+
 void stampaArray(int* array, int n)
 {
     int i;
     for(i=0;i<n;i++)
         printf("%d ", array[i]);
+    printf("\n");
+}
+
+void stampaArrayF(float* array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        printf("%f ", array[i]);
     printf("\n");
 }
 
@@ -143,6 +364,33 @@ void stampaArrayD(double* array, int n)
     printf("\n");
 }
 
+void stampaArrayC(cuComplex* array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        printf("[%f, %f] ", array[i].x, array[i].y);
+    printf("\n");
+}
+
+void stampaArrayZ(cuDoubleComplex* array, int n)
+{
+    int i;
+    for(i=0;i<n;i++)
+        printf("[%f, %f] ", array[i].x, array[i].y);
+    printf("\n");
+}
+
+void stampaMatrixF1D(float* matrix, int M, int N)
+{
+    int i,j;
+    for(i=0;i<M;i++)
+    {
+        for(j=0;j<N;j++)
+            printf("%f ", matrix[i*N+j]);
+        printf("\n");
+    }
+}
+
 void stampaMatrixD1D(double* matrix, int M, int N)
 {
     int i,j;
@@ -150,6 +398,28 @@ void stampaMatrixD1D(double* matrix, int M, int N)
     {
         for(j=0;j<N;j++)
             printf("%f ", matrix[i*N+j]);
+        printf("\n");
+    }
+}
+
+void stampaMatrixC1D(cuComplex* matrix, int M, int N)
+{
+    int i,j;
+    for(i=0;i<M;i++)
+    {
+        for(j=0;j<N;j++)
+            printf("[%f, %f] ", matrix[i*N+j].x, matrix[i*N+j].y);
+        printf("\n");
+    }
+}
+
+void stampaMatrixZ1D(cuDoubleComplex* matrix, int M, int N)
+{
+    int i,j;
+    for(i=0;i<M;i++)
+    {
+        for(j=0;j<N;j++)
+            printf("[%f, %f] ", matrix[i*N+j].x, matrix[i*N+j].y);
         printf("\n");
     }
 }
