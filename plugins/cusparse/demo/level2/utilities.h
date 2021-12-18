@@ -168,10 +168,133 @@ void initializeMatrixRandomSparseZ(cuDoubleComplex *matrix, int M, int N, int nn
     }
 }
 
+void initializeMatrixLowerTriangularSparseRandomF(float *matrix, int M, int nnz)
+{
+    initializeMatrixZeroF(matrix, M, M);
+    int i=0;
+    double random_number;
+    for (i = 0; i < M*M; i++) {
+        random_number = (float) rand() / ( (float) RAND_MAX / 100 ) + 1;
+        //matrix[i] = random_number;
+        matrix[i] = i+1;
+    }
+    int j=0;
+    int size=0;
+    for (i = 0; i < M; i++) {
+        for (j = 0; j < M; j++) {
+            if (i > j) {
+                matrix[i*M+j] = 0;
+            } else {
+                ++size;
+            }
+        }
+    }
+    for (i = 0; i < size-nnz;) {
+        int index = (int) (M * M * ((float) rand() / (RAND_MAX + 1.0)));
+        if (matrix[index] == 0) {
+            continue;
+        }
+        matrix[index] = 0;
+        ++i;
+    }
+}
+
+void initializeMatrixLowerTriangularSparseRandomD(double *matrix, int M, int nnz)
+{
+    initializeMatrixZeroD(matrix, M, M);
+    int i=0;
+    double random_number;
+    for (i = 0; i < M*M; i++) {
+        random_number = (double) rand() / ( (double) RAND_MAX / 100 ) + 1;
+        //matrix[i] = random_number;
+        matrix[i] = i+1;
+    }
+    int j=0;
+    int size=0;
+    for (i = 0; i < M; i++) {
+        for (j = 0; j < M; j++) {
+            if (i > j) {
+                matrix[i*M+j] = 0;
+            } else {
+                ++size;
+            }
+        }
+    }
+    for (i = 0; i < size-nnz;) {
+        int index = (int) (M * M * ((double) rand() / (RAND_MAX + 1.0)));
+        if (matrix[index] == 0) {
+            continue;
+        }
+        matrix[index] = 0;
+        ++i;
+    }
+}
+
+void initializeMatrixLowerTriangularSparseRandomC(cuComplex *matrix, int M, int nnz)
+{
+    initializeMatrixZeroC(matrix, M, M);
+    int i=0;
+    double random_number;
+    for (i = 0; i < M*M; i++) {
+        random_number = (float) rand() / ( (float) RAND_MAX / 100 ) + 1;
+        //matrix[i] = make_cuComplex(random_number, 1);
+        matrix[i] = make_cuComplex(i+1, 1);
+    }
+    int j=0;
+    int size=0;
+    for (i = 0; i < M; i++) {
+        for (j = 0; j < M; j++) {
+            if (i > j) {
+                matrix[i*M+j] = make_cuComplex(0, 0);
+            } else {
+                ++size;
+            }
+        }
+    }
+    for (i = 0; i < size-nnz;) {
+        int index = (int) (M * M * ((float) rand() / (RAND_MAX + 1.0)));
+        if (matrix[index].x == 0) {
+            continue;
+        }
+        matrix[index] = make_cuComplex(0, 0);
+        ++i;
+    }
+}
+
+void initializeMatrixLowerTriangularSparseRandomZ(cuDoubleComplex *matrix, int M, int nnz)
+{
+    initializeMatrixZeroZ(matrix, M, M);
+    int i=0;
+    double random_number;
+    for (i = 0; i < M*M; i++) {
+        random_number = (double) rand() / ( (double) RAND_MAX / 100 ) + 1;
+        //matrix[i] = make_cuDoubleComplex(random_number, 1);
+        matrix[i] = make_cuDoubleComplex(i+1, 1);
+    }
+    int j=0;
+    int size=0;
+    for (i = 0; i < M; i++) {
+        for (j = 0; j < M; j++) {
+            if (i > j) {
+                matrix[i*M+j] = make_cuDoubleComplex(0, 0);
+            } else {
+                ++size;
+            }
+        }
+    }
+    for (i = 0; i < size-nnz;) {
+        int index = (int) (M * M * ((double) rand() / (RAND_MAX + 1.0)));
+        if (matrix[index].x == 0) {
+            continue;
+        }
+        matrix[index] = make_cuDoubleComplex(0, 0);
+        ++i;
+    }
+}
+
 void initializeArrayTo2(int *array, int n)
 {
     int i;
-    int random_number;
     for(i=0;i<n;i++)
     {
         array[i] = 2;
