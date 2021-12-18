@@ -156,6 +156,10 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dbsrmv));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cbsrmv));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zbsrmv));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sbsrxmv));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dbsrxmv));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cbsrxmv));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zbsrxmv));
     // LEVEL3
     // FORMAT CONVERSION REFERENCE
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));

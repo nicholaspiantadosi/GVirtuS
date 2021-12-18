@@ -168,6 +168,27 @@ void initializeMatrixRandomSparseZ(cuDoubleComplex *matrix, int M, int N, int nn
     }
 }
 
+void initializeArrayTo2(int *array, int n)
+{
+    int i;
+    int random_number;
+    for(i=0;i<n;i++)
+    {
+        array[i] = 2;
+    }
+}
+
+void initializeArrayRandom(int *array, int n)
+{
+    int i;
+    int random_number;
+    for(i=0;i<n;i++)
+    {
+        random_number=(int)rand()/((int)RAND_MAX/(100)) + 1;
+        array[i] = random_number;
+    }
+}
+
 void initializeArrayRandomF(float *array, int n)
 {
     int i;
