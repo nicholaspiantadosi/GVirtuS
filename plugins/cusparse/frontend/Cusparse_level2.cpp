@@ -247,6 +247,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSbsrsv2_bufferSize(cusparseHandl
     CusparseFrontend::AddDevicePointerForArguments(pBufferSizeInBytes);
     CusparseFrontend::Execute("cusparseSbsrsv2_bufferSize");
     if (CusparseFrontend::Success()) {
+        info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
         pBufferSizeInBytes = (int *)CusparseFrontend::GetOutputDevicePointer();
     }
     return CusparseFrontend::GetExitCode();
@@ -268,6 +269,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDbsrsv2_bufferSize(cusparseHandl
     CusparseFrontend::AddDevicePointerForArguments(pBufferSizeInBytes);
     CusparseFrontend::Execute("cusparseDbsrsv2_bufferSize");
     if (CusparseFrontend::Success()) {
+        info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
         pBufferSizeInBytes = (int *)CusparseFrontend::GetOutputDevicePointer();
     }
     return CusparseFrontend::GetExitCode();
@@ -289,6 +291,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseCbsrsv2_bufferSize(cusparseHandl
     CusparseFrontend::AddDevicePointerForArguments(pBufferSizeInBytes);
     CusparseFrontend::Execute("cusparseCbsrsv2_bufferSize");
     if (CusparseFrontend::Success()) {
+        info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
         pBufferSizeInBytes = (int *)CusparseFrontend::GetOutputDevicePointer();
     }
     return CusparseFrontend::GetExitCode();
@@ -310,6 +313,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZbsrsv2_bufferSize(cusparseHandl
     CusparseFrontend::AddDevicePointerForArguments(pBufferSizeInBytes);
     CusparseFrontend::Execute("cusparseZbsrsv2_bufferSize");
     if (CusparseFrontend::Success()) {
+        info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
         pBufferSizeInBytes = (int *)CusparseFrontend::GetOutputDevicePointer();
     }
     return CusparseFrontend::GetExitCode();
@@ -330,7 +334,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSbsrsv2_analysis(cusparseHandle_
     CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
     CusparseFrontend::AddVariableForArguments<cusparseSolvePolicy_t>(policy);
     CusparseFrontend::AddDevicePointerForArguments(pBuffer);
-    CusparseFrontend::Execute("cusparseSbsrsv2_bufferSize");
+    CusparseFrontend::Execute("cusparseSbsrsv2_analysis");
     if (CusparseFrontend::Success()) {
         info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
     }
@@ -352,7 +356,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDbsrsv2_analysis(cusparseHandle_
     CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
     CusparseFrontend::AddVariableForArguments<cusparseSolvePolicy_t>(policy);
     CusparseFrontend::AddDevicePointerForArguments(pBuffer);
-    CusparseFrontend::Execute("cusparseDbsrsv2_bufferSize");
+    CusparseFrontend::Execute("cusparseDbsrsv2_analysis");
     if (CusparseFrontend::Success()) {
         info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
     }
@@ -374,7 +378,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseCbsrsv2_analysis(cusparseHandle_
     CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
     CusparseFrontend::AddVariableForArguments<cusparseSolvePolicy_t>(policy);
     CusparseFrontend::AddDevicePointerForArguments(pBuffer);
-    CusparseFrontend::Execute("cusparseCbsrsv2_bufferSize");
+    CusparseFrontend::Execute("cusparseCbsrsv2_analysis");
     if (CusparseFrontend::Success()) {
         info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
     }
@@ -396,7 +400,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZbsrsv2_analysis(cusparseHandle_
     CusparseFrontend::AddVariableForArguments<long long int>((long long int) info);
     CusparseFrontend::AddVariableForArguments<cusparseSolvePolicy_t>(policy);
     CusparseFrontend::AddDevicePointerForArguments(pBuffer);
-    CusparseFrontend::Execute("cusparseZbsrsv2_bufferSize");
+    CusparseFrontend::Execute("cusparseZbsrsv2_analysis");
     if (CusparseFrontend::Success()) {
         info = CusparseFrontend::GetOutputVariable<bsrsv2Info_t>();
     }

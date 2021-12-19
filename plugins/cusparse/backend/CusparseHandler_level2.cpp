@@ -294,21 +294,22 @@ CUSPARSE_ROUTINE_HANDLER(Sbsrsv2_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Sbsrsv2_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
     cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
-    const cusparseDirection_t dir = in->Get<cusparseDirection_t>();
-    const cusparseOperation_t trans = in->Get<cusparseOperation_t>();
+    cusparseDirection_t dir = in->Get<cusparseDirection_t>();
+    cusparseOperation_t trans = in->Get<cusparseOperation_t>();
     const int mb = in->Get<int>();
     const int nnzb = in->Get<int>();
-    const cusparseMatDescr_t descr = in->Get<cusparseMatDescr_t>();
+    cusparseMatDescr_t descr = in->Get<cusparseMatDescr_t>();
     float * bsrVal = in->GetFromMarshal<float*>();
     const int * bsrRowPtr = in->GetFromMarshal<int*>();
     const int * bsrColInd = in->GetFromMarshal<int*>();
-    const int blockDim = in->Get<int>();
-    const bsrsv2Info_t info = in->Get<bsrsv2Info_t>();
+    int blockDim = in->Get<int>();
+    bsrsv2Info_t info = (bsrsv2Info_t)in->Get<long long int>();
     int * pBufferSizeInBytes = in->GetFromMarshal<int*>();
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseSbsrsv2_bufferSize(handle, dir, trans, mb, nnzb, descr, bsrVal, bsrRowPtr, bsrColInd, blockDim, info, pBufferSizeInBytes);
+        out->Add<bsrsv2Info_t>(info);
         out->AddMarshal<int*>(pBufferSizeInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -322,21 +323,22 @@ CUSPARSE_ROUTINE_HANDLER(Dbsrsv2_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dbsrsv2_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
     cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
-    const cusparseDirection_t dir = in->Get<cusparseDirection_t>();
-    const cusparseOperation_t trans = in->Get<cusparseOperation_t>();
+    cusparseDirection_t dir = in->Get<cusparseDirection_t>();
+    cusparseOperation_t trans = in->Get<cusparseOperation_t>();
     const int mb = in->Get<int>();
     const int nnzb = in->Get<int>();
-    const cusparseMatDescr_t descr = in->Get<cusparseMatDescr_t>();
+    cusparseMatDescr_t descr = in->Get<cusparseMatDescr_t>();
     double * bsrVal = in->GetFromMarshal<double*>();
     const int * bsrRowPtr = in->GetFromMarshal<int*>();
     const int * bsrColInd = in->GetFromMarshal<int*>();
-    const int blockDim = in->Get<int>();
-    const bsrsv2Info_t info = in->Get<bsrsv2Info_t>();
+    int blockDim = in->Get<int>();
+    bsrsv2Info_t info = (bsrsv2Info_t)in->Get<long long int>();
     int * pBufferSizeInBytes = in->GetFromMarshal<int*>();
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseDbsrsv2_bufferSize(handle, dir, trans, mb, nnzb, descr, bsrVal, bsrRowPtr, bsrColInd, blockDim, info, pBufferSizeInBytes);
+        out->Add<bsrsv2Info_t>(info);
         out->AddMarshal<int*>(pBufferSizeInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -350,21 +352,22 @@ CUSPARSE_ROUTINE_HANDLER(Cbsrsv2_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Cbsrsv2_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
     cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
-    const cusparseDirection_t dir = in->Get<cusparseDirection_t>();
-    const cusparseOperation_t trans = in->Get<cusparseOperation_t>();
+    cusparseDirection_t dir = in->Get<cusparseDirection_t>();
+    cusparseOperation_t trans = in->Get<cusparseOperation_t>();
     const int mb = in->Get<int>();
     const int nnzb = in->Get<int>();
-    const cusparseMatDescr_t descr = in->Get<cusparseMatDescr_t>();
+    cusparseMatDescr_t descr = in->Get<cusparseMatDescr_t>();
     cuComplex * bsrVal = in->GetFromMarshal<cuComplex*>();
     const int * bsrRowPtr = in->GetFromMarshal<int*>();
     const int * bsrColInd = in->GetFromMarshal<int*>();
-    const int blockDim = in->Get<int>();
-    const bsrsv2Info_t info = in->Get<bsrsv2Info_t>();
+    int blockDim = in->Get<int>();
+    bsrsv2Info_t info = (bsrsv2Info_t)in->Get<long long int>();
     int * pBufferSizeInBytes = in->GetFromMarshal<int*>();
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseCbsrsv2_bufferSize(handle, dir, trans, mb, nnzb, descr, bsrVal, bsrRowPtr, bsrColInd, blockDim, info, pBufferSizeInBytes);
+        out->Add<bsrsv2Info_t>(info);
         out->AddMarshal<int*>(pBufferSizeInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -378,21 +381,22 @@ CUSPARSE_ROUTINE_HANDLER(Zbsrsv2_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zbsrsv2_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
     cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
-    const cusparseDirection_t dir = in->Get<cusparseDirection_t>();
-    const cusparseOperation_t trans = in->Get<cusparseOperation_t>();
+    cusparseDirection_t dir = in->Get<cusparseDirection_t>();
+    cusparseOperation_t trans = in->Get<cusparseOperation_t>();
     const int mb = in->Get<int>();
     const int nnzb = in->Get<int>();
-    const cusparseMatDescr_t descr = in->Get<cusparseMatDescr_t>();
+    cusparseMatDescr_t descr = in->Get<cusparseMatDescr_t>();
     cuDoubleComplex * bsrVal = in->GetFromMarshal<cuDoubleComplex*>();
     const int * bsrRowPtr = in->GetFromMarshal<int*>();
     const int * bsrColInd = in->GetFromMarshal<int*>();
-    const int blockDim = in->Get<int>();
-    const bsrsv2Info_t info = in->Get<bsrsv2Info_t>();
+    int blockDim = in->Get<int>();
+    bsrsv2Info_t info = (bsrsv2Info_t)in->Get<long long int>();
     int * pBufferSizeInBytes = in->GetFromMarshal<int*>();
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseZbsrsv2_bufferSize(handle, dir, trans, mb, nnzb, descr, bsrVal, bsrRowPtr, bsrColInd, blockDim, info, pBufferSizeInBytes);
+        out->Add<bsrsv2Info_t>(info);
         out->AddMarshal<int*>(pBufferSizeInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
