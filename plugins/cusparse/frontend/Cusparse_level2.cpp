@@ -518,3 +518,63 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseXbsrsv2_zeroPivot(cusparseHandle
     }
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCsrmvEx_bufferSize(cusparseHandle_t handle, cusparseAlgMode_t alg, cusparseOperation_t transA, int m, int n, int nnz, const void* alpha, cudaDataType alphatype, const cusparseMatDescr_t descrA, const void* csrValA, cudaDataType csrValAtype, const int* csrRowPtrA, const int* csrColIndA, const void* x, cudaDataType xtype, const void* beta, cudaDataType betatype, void* y, cudaDataType ytype, cudaDataType executiontype, size_t* buffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseAlgMode_t>(alg);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(transA);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(alpha);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(alphatype);
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(csrValAtype);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(xtype);
+    CusparseFrontend::AddDevicePointerForArguments(beta);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(betatype);
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(ytype);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(executiontype);
+    CusparseFrontend::AddDevicePointerForArguments(buffer);
+    CusparseFrontend::Execute("cusparseCsrmvEx_bufferSize");
+    if (CusparseFrontend::Success()) {
+        buffer = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCsrmvEx(cusparseHandle_t handle, cusparseAlgMode_t alg, cusparseOperation_t transA, int m, int n, int nnz, const void* alpha, cudaDataType alphatype, const cusparseMatDescr_t descrA, const void* csrValA, cudaDataType csrValAtype, const int* csrRowPtrA, const int* csrColIndA, const void* x, cudaDataType xtype, const void* beta, cudaDataType betatype, void* y, cudaDataType ytype, cudaDataType executiontype, void* buffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseAlgMode_t>(alg);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(transA);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(alpha);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(alphatype);
+    CusparseFrontend::AddVariableForArguments<long long int>((long long int)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(csrValAtype);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(xtype);
+    CusparseFrontend::AddDevicePointerForArguments(beta);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(betatype);
+    CusparseFrontend::AddDevicePointerForArguments(y);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(ytype);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(executiontype);
+    CusparseFrontend::AddDevicePointerForArguments(buffer);
+    CusparseFrontend::Execute("cusparseCsrmvEx");
+    if (CusparseFrontend::Success()) {
+        y = (void *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}

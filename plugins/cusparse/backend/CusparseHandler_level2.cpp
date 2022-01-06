@@ -669,6 +669,81 @@ CUSPARSE_ROUTINE_HANDLER(Xbsrsv2_zeroPivot){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(CsrmvEx_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CsrmvEx_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    cusparseAlgMode_t alg = in->Get<cusparseAlgMode_t>();
+    cusparseOperation_t transA = in->Get<cusparseOperation_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int nnz = in->Get<int>();
+    void* alpha = in->Get<void*>();
+    cudaDataType alphatype = in->Get<cudaDataType>();
+    cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    void * csrValA = in->GetFromMarshal<void*>();
+    cudaDataType csrValAtype = in->Get<cudaDataType>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    void * x = in->GetFromMarshal<void*>();
+    cudaDataType xtype = in->Get<cudaDataType>();
+    void* beta = in->Get<void*>();
+    cudaDataType betatype = in->Get<cudaDataType>();
+    void * y = in->GetFromMarshal<void*>();
+    cudaDataType ytype = in->Get<cudaDataType>();
+    cudaDataType executiontype = in->Get<cudaDataType>();
+    size_t* bufferSizeInBytes = in->GetFromMarshal<size_t*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCsrmvEx_bufferSize(handle, alg, transA, m, n, nnz, alpha, alphatype, descrA, csrValA, csrValAtype, csrRowPtrA, csrColIndA, x, xtype, beta, betatype, y, ytype, executiontype, bufferSizeInBytes);
+        out->AddMarshal<size_t*>(bufferSizeInBytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCsrmvEx_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(CsrmvEx){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CsrmvEx"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    cusparseAlgMode_t alg = in->Get<cusparseAlgMode_t>();
+    cusparseOperation_t transA = in->Get<cusparseOperation_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int nnz = in->Get<int>();
+    void* alpha = in->Get<void*>();
+    cudaDataType alphatype = in->Get<cudaDataType>();
+    cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    void * csrValA = in->GetFromMarshal<void*>();
+    cudaDataType csrValAtype = in->Get<cudaDataType>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    void * x = in->GetFromMarshal<void*>();
+    cudaDataType xtype = in->Get<cudaDataType>();
+    void* beta = in->Get<void*>();
+    cudaDataType betatype = in->Get<cudaDataType>();
+    void * y = in->GetFromMarshal<void*>();
+    cudaDataType ytype = in->Get<cudaDataType>();
+    cudaDataType executiontype = in->Get<cudaDataType>();
+    void* buffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCsrmvEx(handle, alg, transA, m, n, nnz, alpha, alphatype, descrA, csrValA, csrValAtype, csrRowPtrA, csrColIndA, x, xtype, beta, betatype, y, ytype, executiontype, buffer);
+        out->AddMarshal<void*>(y);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCsrmvEx Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif

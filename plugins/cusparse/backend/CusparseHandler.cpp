@@ -173,6 +173,8 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cbsrsv2_solve));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zbsrsv2_solve));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xbsrsv2_zeroPivot));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CsrmvEx_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CsrmvEx));
     // LEVEL3
     // FORMAT CONVERSION REFERENCE
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
@@ -188,4 +190,13 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dnnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cnnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Znnz));
+    // GENERIC API REFERENCE - SPARSE MATRIX API
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroySpMat));
+    // GENERIC API REFERENCE - DENSE VECTOR API
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateDnVec));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyDnVec));
+    // GENERIC API REFERENCE - GENERIC API FUNCTIONS
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV));
 }
