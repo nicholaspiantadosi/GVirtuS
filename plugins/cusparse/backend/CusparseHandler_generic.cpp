@@ -43,11 +43,11 @@ CUSPARSE_ROUTINE_HANDLER(CreateCsr){
     cusparseIndexType_t csrColIndType = in->Get<cusparseIndexType_t>();
     cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
     cudaDataType valueType = in->Get<cudaDataType>();
-    cusparseSpMatDescr_t spMatDescr;
+    cusparseSpMatDescr_t * spMatDescr = new cusparseSpMatDescr_t;
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusparseCreateCsr(&spMatDescr, rows, cols, nnz, csrRowOffsets, csrColInd, csrValues, csrRowOffsetsType, csrColIndType, idxBase, valueType);
+        cs = cusparseCreateCsr(spMatDescr, rows, cols, nnz, csrRowOffsets, csrColInd, csrValues, csrRowOffsetsType, csrColIndType, idxBase, valueType);
         out->Add<cusparseSpMatDescr_t>(spMatDescr);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -60,7 +60,7 @@ CUSPARSE_ROUTINE_HANDLER(CreateCsr){
 CUSPARSE_ROUTINE_HANDLER(DestroySpMat){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DestroySpMat"));
     CusparseHandler::setLogLevel(&logger);
-    cusparseSpMatDescr_t spMatDescr = (cusparseSpMatDescr_t) in->Get<long long int>();
+    cusparseSpMatDescr_t spMatDescr = (cusparseSpMatDescr_t)in->Get<size_t>();
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
@@ -79,12 +79,16 @@ CUSPARSE_ROUTINE_HANDLER(CreateDnVec){
     int64_t size = in->Get<int64_t>();
     void* values = in->Get<void*>();
     cudaDataType valueType = in->Get<cudaDataType>();
-    cusparseDnVecDescr_t dnVecDescr;
+    //cusparseDnVecDescr_t* dnVecDescr = in->Get<cusparseDnVecDescr_t*>();
+    //cusparseDnVecDescr_t * dnVecDescr = in->Assign<cusparseDnVecDescr_t>();
+    cusparseDnVecDescr_t * dnVecDescr = new cusparseDnVecDescr_t;
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusparseCreateDnVec(&dnVecDescr, size, values, valueType);
+        cs = cusparseCreateDnVec(dnVecDescr, size, values, valueType);
+        //out->Add<cusparseDnVecDescr_t*>(dnVecDescr);
         out->Add<cusparseDnVecDescr_t>(dnVecDescr);
+        //out->AddMarshal<cusparseDnVecDescr_t*>(dnVecDescr);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -96,7 +100,7 @@ CUSPARSE_ROUTINE_HANDLER(CreateDnVec){
 CUSPARSE_ROUTINE_HANDLER(DestroyDnVec){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DestroyDnVec"));
     CusparseHandler::setLogLevel(&logger);
-    cusparseDnVecDescr_t dnVecDescr = in->Get<cusparseDnVecDescr_t>();
+    cusparseDnVecDescr_t dnVecDescr = (cusparseDnVecDescr_t)in->Get<size_t>();
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
@@ -113,25 +117,29 @@ CUSPARSE_ROUTINE_HANDLER(SpMV_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMV_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
 
-    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    //cusparseHandle_t handle = in->Get<cusparseHandle_t>();
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
     cusparseOperation_t opA = in->Get<cusparseOperation_t>();
     void* alpha=in->Get<void *>();
     //printf("\nalpha address: %d\n", alpha);
-    cusparseSpMatDescr_t matA = in->Get<cusparseSpMatDescr_t>();
-    cusparseDnVecDescr_t vecX = in->Get<cusparseDnVecDescr_t>();
+    //cusparseSpMatDescr_t matA = in->Get<cusparseSpMatDescr_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    //cusparseDnVecDescr_t vecX = in->Get<cusparseDnVecDescr_t>();
+    cusparseDnVecDescr_t vecX = (cusparseDnVecDescr_t)in->Get<size_t>();
     void* beta = in->Get<void*>();
-    cusparseDnVecDescr_t vecY = in->Get<cusparseDnVecDescr_t>();
+    //cusparseDnVecDescr_t vecY = in->Get<cusparseDnVecDescr_t>();
+    cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
     cudaDataType computeType = in->Get<cudaDataType>();
     cusparseSpMVAlg_t alg = in->Get<cusparseSpMVAlg_t>();
-    size_t bufferSize;
+    //size_t * bufferSize = in->Assign<size_t>();
+    size_t * bufferSize = new size_t;
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusparseSpMV_bufferSize(handle, opA, alpha, matA, vecX, beta, vecY, computeType, alg, &bufferSize);
-        //printf("\nbufferSize address: %d\n", &bufferSize);
-        //printf("\nbufferSize value: %d\n", bufferSize);
+        cs = cusparseSpMV_bufferSize(handle, opA, alpha, matA, vecX, beta, vecY, computeType, alg, bufferSize);
         out->Add<size_t>(bufferSize);
     } catch (string e){
+        printf("\nexception\n");
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
     }
@@ -143,16 +151,16 @@ CUSPARSE_ROUTINE_HANDLER(SpMV){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMV"));
     CusparseHandler::setLogLevel(&logger);
 
-    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
     cusparseOperation_t opA = in->Get<cusparseOperation_t>();
     void* alpha = in->Get<void*>();
     //printf("\nalpha address: %d\n", alpha);
-    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<long long int>();
-    cusparseDnVecDescr_t vecX = (cusparseDnVecDescr_t)in->Get<long long int>();
-    printf("\nvecX address: %d\n", vecX);
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnVecDescr_t vecX = (cusparseDnVecDescr_t)in->Get<size_t>();
+    //printf("\nvecX address: %d\n", vecX);
     void* beta = in->Get<void*>();
-    cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<long long int>();
-    printf("\nvecY address: %d\n", vecY);
+    cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
+    //printf("\nvecY address: %d\n", vecY);
     cudaDataType computeType = in->Get<cudaDataType>();
     cusparseSpMVAlg_t alg = in->Get<cusparseSpMVAlg_t>();
     //void* externalBuffer = in->GetFromMarshal<void*>();
@@ -160,10 +168,12 @@ CUSPARSE_ROUTINE_HANDLER(SpMV){
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
+        //printf("\nvecY address: %d\n", vecY);
         cs = cusparseSpMV(handle, opA, alpha, matA, vecX, beta, vecY, computeType, alg, externalBuffer);
-        printf("\nvecY address: %d\n", vecY);
+        out->Add<size_t>((size_t)vecY);
+        //printf("\nvecY address: %d\n", vecY);
         //out->Add<cusparseDnVecDescr_t>(vecY);
-        out->AddMarshal<cusparseDnVecDescr_t>(vecY);
+        //out->AddMarshal<cusparseDnVecDescr_t>(vecY);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);

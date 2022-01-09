@@ -42,14 +42,15 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateCsr(cusparseSpMatDescr_t* 
     CusparseFrontend::AddHostPointerForArguments(spMatDescr);
     CusparseFrontend::Execute("cusparseCreateCsr");
     if (CusparseFrontend::Success()) {
-        *spMatDescr = CusparseFrontend::GetOutputVariable<cusparseSpMatDescr_t>();
+        //spMatDescr = CusparseFrontend::GetOutputVariable<cusparseSpMatDescr_t*>();
+        *spMatDescr = *(CusparseFrontend::GetOutputHostPointer<cusparseSpMatDescr_t>());
     }
     return CusparseFrontend::GetExitCode();
 }
 
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroySpMat(cusparseSpMatDescr_t spMatDescr) {
     CusparseFrontend::Prepare();
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int)spMatDescr);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) spMatDescr);
     CusparseFrontend::Execute("cusparseDestroySpMat");
     return CusparseFrontend::GetExitCode();
 }
@@ -60,38 +61,42 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateDnVec(cusparseDnVecDescr_t
     CusparseFrontend::AddDevicePointerForArguments(values);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(valueType);
     CusparseFrontend::AddHostPointerForArguments(dnVecDescr);
+    //CusparseFrontend::AddVariableForArguments(dnVecDescr);
+    //CusparseFrontend::AddHostPointerForArguments(dnVecDescr);
+    //CusparseFrontend::AddHostPointerForArguments<cusparseDnVecDescr_t>(dnVecDescr);
     CusparseFrontend::Execute("cusparseCreateDnVec");
     if (CusparseFrontend::Success()) {
-        *dnVecDescr = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
+        *dnVecDescr = *(CusparseFrontend::GetOutputHostPointer<cusparseDnVecDescr_t>());
     }
     return CusparseFrontend::GetExitCode();
 }
 
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyDnVec(cusparseDnVecDescr_t dnVecDescr) {
     CusparseFrontend::Prepare();
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int) dnVecDescr);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) dnVecDescr);
     CusparseFrontend::Execute("cusparseDestroyDnVec");
     return CusparseFrontend::GetExitCode();
 }
 
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA, cusparseDnVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpMVAlg_t alg, size_t* bufferSize) {
     CusparseFrontend::Prepare();
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
     CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
     //printf("\nalpha address: %d\n", alpha);
     //printf("\nalpha value: %f\n", *(float*) alpha);
     CusparseFrontend::AddDevicePointerForArguments(alpha);
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int) matA);
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int) vecX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
     CusparseFrontend::AddDevicePointerForArguments(beta);
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int) vecY);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
     CusparseFrontend::AddVariableForArguments<cusparseSpMVAlg_t>(alg);
     CusparseFrontend::AddHostPointerForArguments(bufferSize);
     CusparseFrontend::Execute("cusparseSpMV_bufferSize");
     if (CusparseFrontend::Success()) {
-        *bufferSize = CusparseFrontend::GetOutputVariable<size_t>();
-        //printf("\nbufferSize address: %d\n", bufferSize);
+        //printf("\nFE-PRE-bufferSize address: %d\n", bufferSize);
+        *bufferSize = *(CusparseFrontend::GetOutputHostPointer<size_t>());
+        //printf("\nFE-POST-bufferSize address: %d\n", bufferSize);
         //printf("\nbufferSize value: %d\n", *bufferSize);
     }
     return CusparseFrontend::GetExitCode();
@@ -99,25 +104,22 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t
 
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA, cusparseDnVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpMVAlg_t alg, void* externalBuffer) {
     CusparseFrontend::Prepare();
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
     CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
     //printf("\nalpha address: %d\n", alpha);
     //printf("\nalpha value: %f\n", *(float*) alpha);
     CusparseFrontend::AddDevicePointerForArguments(alpha);
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int) matA);
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int) vecX);
-    printf("\nvecX address: %d\n", vecX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
     CusparseFrontend::AddDevicePointerForArguments(beta);
-    printf("\nvecY address: %d\n", vecY);
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int) vecY);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
     CusparseFrontend::AddVariableForArguments<cusparseSpMVAlg_t>(alg);
     CusparseFrontend::AddDevicePointerForArguments(externalBuffer);
     CusparseFrontend::Execute("cusparseSpMV");
     if (CusparseFrontend::Success()) {
         vecY = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
-        //vecY = (cusparseDnVecDescr_t)CusparseFrontend::GetOutputDevicePointer();
-        printf("\nvecY address: %d\n", vecY);
+        //printf("\nvecY address: %d\n", vecY);
     }
     return CusparseFrontend::GetExitCode();
 }

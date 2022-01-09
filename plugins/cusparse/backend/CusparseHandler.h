@@ -46,6 +46,7 @@ using gvirtus::communicators::Buffer;
 using gvirtus::communicators::Result;
 
 class CusparseHandler : public gvirtus::backend::Handler {
+
 public:
     CusparseHandler();
     virtual ~CusparseHandler();
