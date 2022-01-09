@@ -66,7 +66,9 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateDnVec(cusparseDnVecDescr_t
     //CusparseFrontend::AddHostPointerForArguments<cusparseDnVecDescr_t>(dnVecDescr);
     CusparseFrontend::Execute("cusparseCreateDnVec");
     if (CusparseFrontend::Success()) {
-        *dnVecDescr = *(CusparseFrontend::GetOutputHostPointer<cusparseDnVecDescr_t>());
+        //*dnVecDescr = *(CusparseFrontend::GetOutputHostPointer<cusparseDnVecDescr_t>());
+        *dnVecDescr = (cusparseDnVecDescr_t) CusparseFrontend::GetOutputVariable<size_t>();
+        printf("\n\tFE - CreateDnVec - dnVecDescr pointer: %p\n", dnVecDescr);
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -78,7 +80,8 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyDnVec(cusparseDnVecDescr_
     return CusparseFrontend::GetExitCode();
 }
 
-extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA, cusparseDnVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpMVAlg_t alg, size_t* bufferSize) {
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA,
+                                                                cusparseDnVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpMVAlg_t alg, size_t* bufferSize) {
     CusparseFrontend::Prepare();
     CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
     CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
@@ -87,8 +90,12 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t
     CusparseFrontend::AddDevicePointerForArguments(alpha);
     CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
     CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    printf("\n\tFE - SpMV_bufferSize - vecX pointer: %p\n", vecX);
+    //CusparseFrontend::AddHostPointerForArguments(&vecX);
     CusparseFrontend::AddDevicePointerForArguments(beta);
     CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    printf("\n\tFE - SpMV_bufferSize - vecY pointer: %p\n", vecY);
+    //CusparseFrontend::AddHostPointerForArguments(&vecY);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
     CusparseFrontend::AddVariableForArguments<cusparseSpMVAlg_t>(alg);
     CusparseFrontend::AddHostPointerForArguments(bufferSize);
@@ -111,14 +118,49 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV(cusparseHandle_t handle, cu
     CusparseFrontend::AddDevicePointerForArguments(alpha);
     CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
     CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    /*
+    float hX[4];
+    cudaMemcpy(hX, vecX, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+    printf("\tSpMV - vecX: [");
+    for (int i = 0; i < 4; i++) {
+        printf("%f", hX[i]);
+        if (i < 3) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+    */
     CusparseFrontend::AddDevicePointerForArguments(beta);
     CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    /*
+    float hY[4];
+    cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+    printf("\tSpMV - BEFORE - vecY: [");
+    for (int i = 0; i < 4; i++) {
+        printf("%f", hY[i]);
+        if (i < 3) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+    */
     CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
     CusparseFrontend::AddVariableForArguments<cusparseSpMVAlg_t>(alg);
     CusparseFrontend::AddDevicePointerForArguments(externalBuffer);
     CusparseFrontend::Execute("cusparseSpMV");
     if (CusparseFrontend::Success()) {
         vecY = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
+        /*
+        cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+        printf("\tSpMV - AFTER - vecY: [");
+        for (int i = 0; i < 4; i++) {
+            printf("%f", hY[i]);
+            if (i < 3) {
+                printf(", ");
+            }
+        }
+        printf("]\n");
+        */
         //printf("\nvecY address: %d\n", vecY);
     }
     return CusparseFrontend::GetExitCode();
