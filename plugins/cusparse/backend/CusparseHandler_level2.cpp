@@ -672,32 +672,70 @@ CUSPARSE_ROUTINE_HANDLER(Xbsrsv2_zeroPivot){
 CUSPARSE_ROUTINE_HANDLER(CsrmvEx_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CsrmvEx_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
-    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
     cusparseAlgMode_t alg = in->Get<cusparseAlgMode_t>();
     cusparseOperation_t transA = in->Get<cusparseOperation_t>();
     const int m = in->Get<int>();
     const int n = in->Get<int>();
     const int nnz = in->Get<int>();
-    void* alpha = in->Get<void*>();
     cudaDataType alphatype = in->Get<cudaDataType>();
-    cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    void* alpha;
+    if (alphatype == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+    } else if (alphatype == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+    } else if (alphatype == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+    } else if (alphatype == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t) in->Get<size_t>();
     void * csrValA = in->GetFromMarshal<void*>();
     cudaDataType csrValAtype = in->Get<cudaDataType>();
     int * csrRowPtrA = in->GetFromMarshal<int*>();
     int * csrColIndA = in->GetFromMarshal<int*>();
-    void * x = in->GetFromMarshal<void*>();
+    void * x = in->Get<void*>();
     cudaDataType xtype = in->Get<cudaDataType>();
-    void* beta = in->Get<void*>();
     cudaDataType betatype = in->Get<cudaDataType>();
-    void * y = in->GetFromMarshal<void*>();
+    void* beta;
+    if (betatype == CUDA_R_32F) {
+        // float
+        float betaFloat = in->Get<float>();
+        beta = &betaFloat;
+    } else if (betatype == CUDA_R_64F) {
+        // double
+        double betaDouble = in->Get<double>();
+        beta = &betaDouble;
+    } else if (betatype == CUDA_C_32F) {
+        // cuComplex
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        beta = &betaCuComplex;
+    } else if (betatype == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    void * y = in->Get<void*>();
     cudaDataType ytype = in->Get<cudaDataType>();
     cudaDataType executiontype = in->Get<cudaDataType>();
-    size_t* bufferSizeInBytes = in->GetFromMarshal<size_t*>();
+    size_t * bufferSizeInBytes = new size_t;
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseCsrmvEx_bufferSize(handle, alg, transA, m, n, nnz, alpha, alphatype, descrA, csrValA, csrValAtype, csrRowPtrA, csrColIndA, x, xtype, beta, betatype, y, ytype, executiontype, bufferSizeInBytes);
-        out->AddMarshal<size_t*>(bufferSizeInBytes);
+        out->Add<size_t>(bufferSizeInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -709,32 +747,70 @@ CUSPARSE_ROUTINE_HANDLER(CsrmvEx_bufferSize){
 CUSPARSE_ROUTINE_HANDLER(CsrmvEx){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CsrmvEx"));
     CusparseHandler::setLogLevel(&logger);
-    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
     cusparseAlgMode_t alg = in->Get<cusparseAlgMode_t>();
     cusparseOperation_t transA = in->Get<cusparseOperation_t>();
     const int m = in->Get<int>();
     const int n = in->Get<int>();
     const int nnz = in->Get<int>();
-    void* alpha = in->Get<void*>();
     cudaDataType alphatype = in->Get<cudaDataType>();
-    cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    void* alpha;
+    if (alphatype == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+    } else if (alphatype == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+    } else if (alphatype == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+    } else if (alphatype == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t) in->Get<size_t>();
     void * csrValA = in->GetFromMarshal<void*>();
     cudaDataType csrValAtype = in->Get<cudaDataType>();
     int * csrRowPtrA = in->GetFromMarshal<int*>();
     int * csrColIndA = in->GetFromMarshal<int*>();
     void * x = in->GetFromMarshal<void*>();
     cudaDataType xtype = in->Get<cudaDataType>();
-    void* beta = in->Get<void*>();
     cudaDataType betatype = in->Get<cudaDataType>();
+    void* beta;
+    if (betatype == CUDA_R_32F) {
+        // float
+        float betaFloat = in->Get<float>();
+        beta = &betaFloat;
+    } else if (betatype == CUDA_R_64F) {
+        // double
+        double betaDouble = in->Get<double>();
+        beta = &betaDouble;
+    } else if (betatype == CUDA_C_32F) {
+        // cuComplex
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        beta = &betaCuComplex;
+    } else if (betatype == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
     void * y = in->GetFromMarshal<void*>();
     cudaDataType ytype = in->Get<cudaDataType>();
     cudaDataType executiontype = in->Get<cudaDataType>();
-    void* buffer = in->GetFromMarshal<void*>();
+    void* buffer = in->Get<void*>();
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseCsrmvEx(handle, alg, transA, m, n, nnz, alpha, alphatype, descrA, csrValA, csrValAtype, csrRowPtrA, csrColIndA, x, xtype, beta, betatype, y, ytype, executiontype, buffer);
-        out->AddMarshal<void*>(y);
+        out->Add<void*>(y);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);

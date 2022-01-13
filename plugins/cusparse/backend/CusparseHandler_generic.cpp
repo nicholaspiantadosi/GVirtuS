@@ -99,7 +99,7 @@ CUSPARSE_ROUTINE_HANDLER(CreateDnVec){
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseCreateDnVec(dnVecDescr, size, values, valueType);
-        printf("\n\tBE - CreateDnVec - dnVecDescr pointer: %p\n", dnVecDescr);
+        //printf("\n\tBE - CreateDnVec - dnVecDescr pointer: %p\n", *dnVecDescr);
         /*
         cudaMemcpy(hV, dnVecDescr, 4 * sizeof(float), cudaMemcpyDeviceToHost);
         printf("\tCreateDnVec AFTER - values: [");
@@ -142,50 +142,45 @@ CUSPARSE_ROUTINE_HANDLER(DestroyDnVec){
 CUSPARSE_ROUTINE_HANDLER(SpMV_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMV_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
-
-    //cusparseHandle_t handle = in->Get<cusparseHandle_t>();
     cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
     cusparseOperation_t opA = in->Get<cusparseOperation_t>();
-    void* alpha=in->Get<void *>();
-    //printf("\nalpha address: %d\n", alpha);
-    //cusparseSpMatDescr_t matA = in->Get<cusparseSpMatDescr_t>();
     cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
-    //cusparseDnVecDescr_t vecX = in->Get<cusparseDnVecDescr_t>();
     cusparseDnVecDescr_t vecX = (cusparseDnVecDescr_t)in->Get<size_t>();
-    printf("\n\tBE - SpMV_bufferSize - vecX pointer: %p\n", vecX);
-    //cusparseDnVecDescr_t vecX = in->GetFromMarshal<cusparseDnVecDescr_t>();
-    /*
-    float hX[4];
-    cudaMemcpy(hX, vecX, 4 * sizeof(float), cudaMemcpyDeviceToHost);
-    printf("\tSpMV_bufferSize - vecX: [");
-    for (int i = 0; i < 4; i++) {
-        printf("%f", hX[i]);
-        if (i < 3) {
-            printf(", ");
-        }
-    }
-    printf("]\n");
-    */
-    void* beta = in->Get<void*>();
-    //cusparseDnVecDescr_t vecY = in->Get<cusparseDnVecDescr_t>();
+    //printf("\n\tBE - SpMV_bufferSize - vecX pointer: %p\n", vecX);
     cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
-    printf("\n\tBE - SpMV_bufferSize - vecY pointer: %p\n", vecY);
-    /*
-    float hY[4];
-    cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
-    printf("\tSpMV_bufferSize - vecY: [");
-    for (int i = 0; i < 4; i++) {
-        printf("%f", hY[i]);
-        if (i < 3) {
-            printf(", ");
-        }
-    }
-    printf("]\n");
-    */
+    //printf("\n\tBE - SpMV_bufferSize - vecY pointer: %p\n", vecY);
     cudaDataType computeType = in->Get<cudaDataType>();
     cusparseSpMVAlg_t alg = in->Get<cusparseSpMVAlg_t>();
-    //size_t * bufferSize = in->Assign<size_t>();
     size_t * bufferSize = new size_t;
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
@@ -203,64 +198,50 @@ CUSPARSE_ROUTINE_HANDLER(SpMV_bufferSize){
 CUSPARSE_ROUTINE_HANDLER(SpMV){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMV"));
     CusparseHandler::setLogLevel(&logger);
-
     cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
     cusparseOperation_t opA = in->Get<cusparseOperation_t>();
-    void* alpha = in->Get<void*>();
-    //printf("\nalpha address: %d\n", alpha);
     cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
     cusparseDnVecDescr_t vecX = (cusparseDnVecDescr_t)in->Get<size_t>();
-    /*
-    float hX[4];
-    cudaMemcpy(hX, vecX, 4 * sizeof(float), cudaMemcpyDeviceToHost);
-    printf("\tSpMV - vecX: [");
-    for (int i = 0; i < 4; i++) {
-        printf("%f", hX[i]);
-        if (i < 3) {
-            printf(", ");
-        }
-    }
-    printf("]\n");
-    */
-    void* beta = in->Get<void*>();
+    //printf("\n\tBE - SpMV - vecX pointer: %p\n", vecX);
     cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
-    /*
-    float hY[4];
-    cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
-    printf("\tSpMV - BEFORE - vecY: [");
-    for (int i = 0; i < 4; i++) {
-        printf("%f", hY[i]);
-        if (i < 3) {
-            printf(", ");
-        }
-    }
-    printf("]\n");
-    */
+    //printf("\n\tBE - SpMV - vecY pointer: %p\n", vecY);
     cudaDataType computeType = in->Get<cudaDataType>();
     cusparseSpMVAlg_t alg = in->Get<cusparseSpMVAlg_t>();
-    //void* externalBuffer = in->GetFromMarshal<void*>();
     void* externalBuffer = in->Get<void*>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        //printf("\nvecY address: %d\n", vecY);
-
         cs = cusparseSpMV(handle, opA, alpha, matA, vecX, beta, vecY, computeType, alg, externalBuffer);
-        /*
-        cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
-        printf("\tSpMV - AFTER  - vecY: [");
-        for (int i = 0; i < 4; i++) {
-            printf("%f", hY[i]);
-            if (i < 3) {
-                printf(", ");
-            }
-        }
-        printf("]\n");
-        */
         out->Add<size_t>((size_t)vecY);
-        //printf("\nvecY address: %d\n", vecY);
-        //out->Add<cusparseDnVecDescr_t>(vecY);
-        //out->AddMarshal<cusparseDnVecDescr_t>(vecY);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);

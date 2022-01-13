@@ -521,53 +521,128 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseXbsrsv2_zeroPivot(cusparseHandle
 
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseCsrmvEx_bufferSize(cusparseHandle_t handle, cusparseAlgMode_t alg, cusparseOperation_t transA, int m, int n, int nnz, const void* alpha, cudaDataType alphatype, const cusparseMatDescr_t descrA, const void* csrValA, cudaDataType csrValAtype, const int* csrRowPtrA, const int* csrColIndA, const void* x, cudaDataType xtype, const void* beta, cudaDataType betatype, void* y, cudaDataType ytype, cudaDataType executiontype, size_t* buffer) {
     CusparseFrontend::Prepare();
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
     CusparseFrontend::AddVariableForArguments<cusparseAlgMode_t>(alg);
     CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(transA);
     CusparseFrontend::AddVariableForArguments<int>(m);
     CusparseFrontend::AddVariableForArguments<int>(n);
     CusparseFrontend::AddVariableForArguments<int>(nnz);
-    CusparseFrontend::AddDevicePointerForArguments(alpha);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(alphatype);
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int)descrA);
+    switch(alphatype){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)alpha);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)alpha);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)alpha);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)alpha);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
     CusparseFrontend::AddDevicePointerForArguments(csrValA);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(csrValAtype);
     CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
     CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
     CusparseFrontend::AddDevicePointerForArguments(x);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(xtype);
-    CusparseFrontend::AddDevicePointerForArguments(beta);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(betatype);
+    switch(betatype){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)beta);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)beta);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)beta);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)beta);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
     CusparseFrontend::AddDevicePointerForArguments(y);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(ytype);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(executiontype);
-    CusparseFrontend::AddDevicePointerForArguments(buffer);
     CusparseFrontend::Execute("cusparseCsrmvEx_bufferSize");
     if (CusparseFrontend::Success()) {
-        buffer = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *buffer = *(CusparseFrontend::GetOutputHostPointer<size_t>());
     }
     return CusparseFrontend::GetExitCode();
 }
 
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseCsrmvEx(cusparseHandle_t handle, cusparseAlgMode_t alg, cusparseOperation_t transA, int m, int n, int nnz, const void* alpha, cudaDataType alphatype, const cusparseMatDescr_t descrA, const void* csrValA, cudaDataType csrValAtype, const int* csrRowPtrA, const int* csrColIndA, const void* x, cudaDataType xtype, const void* beta, cudaDataType betatype, void* y, cudaDataType ytype, cudaDataType executiontype, void* buffer) {
     CusparseFrontend::Prepare();
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
     CusparseFrontend::AddVariableForArguments<cusparseAlgMode_t>(alg);
     CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(transA);
     CusparseFrontend::AddVariableForArguments<int>(m);
     CusparseFrontend::AddVariableForArguments<int>(n);
     CusparseFrontend::AddVariableForArguments<int>(nnz);
-    CusparseFrontend::AddDevicePointerForArguments(alpha);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(alphatype);
-    CusparseFrontend::AddVariableForArguments<long long int>((long long int)descrA);
+    switch(alphatype){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)alpha);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)alpha);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)alpha);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)alpha);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
     CusparseFrontend::AddDevicePointerForArguments(csrValA);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(csrValAtype);
     CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
     CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
     CusparseFrontend::AddDevicePointerForArguments(x);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(xtype);
-    CusparseFrontend::AddDevicePointerForArguments(beta);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(betatype);
+    switch(betatype){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)beta);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)beta);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)beta);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)beta);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
     CusparseFrontend::AddDevicePointerForArguments(y);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(ytype);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(executiontype);
