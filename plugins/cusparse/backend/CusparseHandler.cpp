@@ -188,6 +188,14 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsrsv2_solve));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsrsv2_solve));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsrsv2_zeroPivot));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sgemvi_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgemvi_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgemvi_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgemvi_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sgemvi));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgemvi));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgemvi));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgemvi));
     // LEVEL3
     // FORMAT CONVERSION REFERENCE
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
