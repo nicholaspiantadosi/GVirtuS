@@ -214,6 +214,19 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cbsrsm2_solve));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zbsrsm2_solve));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xbsrsm2_zeroPivot));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsrsm2_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsrsm2_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsrsm2_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsrsm2_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsrsm2_analysis));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsrsm2_analysis));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsrsm2_analysis));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsrsm2_analysis));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsrsm2_solve));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsrsm2_solve));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsrsm2_solve));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsrsm2_solve));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsrsm2_zeroPivot));
     // FORMAT CONVERSION REFERENCE
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2bsr));
