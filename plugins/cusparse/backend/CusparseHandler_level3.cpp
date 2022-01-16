@@ -1004,6 +1004,126 @@ CUSPARSE_ROUTINE_HANDLER(Xcsrsm2_zeroPivot){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(Sgemmi){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Sgemmi"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const int nnz = in->Get<int>();
+    const float * alpha = in->Assign<float>();
+    const float * A = in->Get<float*>();
+    const int lda = in->Get<int>();
+    const float * cscValB = in->Get<float*>();
+    const int * cscColPtrB = in->Get<int*>();
+    const int * cscRowIndB = in->Get<int*>();
+    const float * beta = in->Assign<float>();
+    float * C = in->Get<float*>();
+    const int ldc = in->Get<int>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSgemmi(handle, m, n, k, nnz, alpha, A, lda, cscValB, cscColPtrB, cscRowIndB, beta, C, ldc);
+        out->AddMarshal<float*>(C);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSgemmi Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dgemmi){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dgemmi"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const int nnz = in->Get<int>();
+    const double * alpha = in->Assign<double>();
+    const double * A = in->Get<double*>();
+    const int lda = in->Get<int>();
+    const double * cscValB = in->Get<double*>();
+    const int * cscColPtrB = in->Get<int*>();
+    const int * cscRowIndB = in->Get<int*>();
+    const double * beta = in->Assign<double>();
+    double * C = in->Get<double*>();
+    const int ldc = in->Get<int>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDgemmi(handle, m, n, k, nnz, alpha, A, lda, cscValB, cscColPtrB, cscRowIndB, beta, C, ldc);
+        out->AddMarshal<double*>(C);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDgemmi Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Cgemmi){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Cgemmi"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const int nnz = in->Get<int>();
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    const cuComplex * A = in->Get<cuComplex*>();
+    const int lda = in->Get<int>();
+    const cuComplex * cscValB = in->Get<cuComplex*>();
+    const int * cscColPtrB = in->Get<int*>();
+    const int * cscRowIndB = in->Get<int*>();
+    const cuComplex * beta = in->Assign<cuComplex>();
+    cuComplex * C = in->Get<cuComplex*>();
+    const int ldc = in->Get<int>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCgemmi(handle, m, n, k, nnz, alpha, A, lda, cscValB, cscColPtrB, cscRowIndB, beta, C, ldc);
+        out->AddMarshal<cuComplex*>(C);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCgemmi Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zgemmi){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zgemmi"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const int nnz = in->Get<int>();
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    const cuDoubleComplex * A = in->Get<cuDoubleComplex*>();
+    const int lda = in->Get<int>();
+    const cuDoubleComplex * cscValB = in->Get<cuDoubleComplex*>();
+    const int * cscColPtrB = in->Get<int*>();
+    const int * cscRowIndB = in->Get<int*>();
+    const cuDoubleComplex * beta = in->Assign<cuDoubleComplex>();
+    cuDoubleComplex * C = in->Get<cuDoubleComplex*>();
+    const int ldc = in->Get<int>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZgemmi(handle, m, n, k, nnz, alpha, A, lda, cscValB, cscColPtrB, cscRowIndB, beta, C, ldc);
+        out->AddMarshal<cuDoubleComplex*>(C);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZgemmi Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif
