@@ -3,7 +3,7 @@
 #include<cusparse.h>
 #include <time.h>
 
-#include "utilities.h"
+#include "../level2/utilities.h"
 #include <cuda_runtime_api.h>
 
 int main(int argn, char *argv[])

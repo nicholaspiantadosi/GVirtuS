@@ -110,9 +110,9 @@ int main(int argn, char *argv[])
         }
     }
     if (correct)
-        printf("bsrmm test PASSED\n");
+        printf("csrm2 test PASSED\n");
     else
-        printf("bsrmm test FAILED: wrong result\n");
+        printf("csrm2 test FAILED: wrong result\n");
 
     // destroy
     CHECK_CUSPARSE(cusparseDestroy(handle));
