@@ -56,4 +56,4 @@ gvirtus_add_frontend(cusparse ${CUDA_VERSION}
 		frontend/Cusparse_generic.cpp
 )
 
-#add_subdirectory(demo)
+#add_subdirectory(demo/level3)
