@@ -231,6 +231,16 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgemmi));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgemmi));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgemmi));
+    // EXTRA
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsrgeam2_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsrgeam2_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsrgeam2_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsrgeam2_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsrgeam2Nnz));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsrgeam2));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsrgeam2));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsrgeam2));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsrgeam2));
     // FORMAT CONVERSION REFERENCE
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2bsr));
