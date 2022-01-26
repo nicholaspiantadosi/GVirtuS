@@ -359,6 +359,368 @@ CUSPARSE_ROUTINE_HANDLER(Zcsrgeam2){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(Scsrgemm2_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Scsrgemm2_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const float * alpha = in->Assign<float>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const float * beta = in->Assign<float>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    csrgemm2Info_t info = in->Get<csrgemm2Info_t>();
+    size_t * pBufferSizeInBytes = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseScsrgemm2_bufferSizeExt(handle, m, n, k, alpha, descrA, nnzA, csrRowPtrA, csrColIndA, descrB, nnzB, csrRowPtrB, csrColIndB, beta, descrD, nnzD, csrRowPtrD, csrColIndD, info, pBufferSizeInBytes);
+        out->Add(pBufferSizeInBytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseScsrgemm2_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dcsrgemm2_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dcsrgemm2_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const double * alpha = in->Assign<double>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const double * beta = in->Assign<double>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    csrgemm2Info_t info = in->Get<csrgemm2Info_t>();
+    size_t * pBufferSizeInBytes = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDcsrgemm2_bufferSizeExt(handle, m, n, k, alpha, descrA, nnzA, csrRowPtrA, csrColIndA, descrB, nnzB, csrRowPtrB, csrColIndB, beta, descrD, nnzD, csrRowPtrD, csrColIndD, info, pBufferSizeInBytes);
+        out->Add(pBufferSizeInBytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDcsrgemm2_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Ccsrgemm2_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Ccsrgemm2_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const cuComplex * beta = in->Assign<cuComplex>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    csrgemm2Info_t info = in->Get<csrgemm2Info_t>();
+    size_t * pBufferSizeInBytes = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCcsrgemm2_bufferSizeExt(handle, m, n, k, alpha, descrA, nnzA, csrRowPtrA, csrColIndA, descrB, nnzB, csrRowPtrB, csrColIndB, beta, descrD, nnzD, csrRowPtrD, csrColIndD, info, pBufferSizeInBytes);
+        out->Add(pBufferSizeInBytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCcsrgemm2_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zcsrgemm2_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zcsrgemm2_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const cuDoubleComplex * beta = in->Assign<cuDoubleComplex>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    csrgemm2Info_t info = in->Get<csrgemm2Info_t>();
+    size_t * pBufferSizeInBytes = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZcsrgemm2_bufferSizeExt(handle, m, n, k, alpha, descrA, nnzA, csrRowPtrA, csrColIndA, descrB, nnzB, csrRowPtrB, csrColIndB, beta, descrD, nnzD, csrRowPtrD, csrColIndD, info, pBufferSizeInBytes);
+        out->Add(pBufferSizeInBytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZcsrgemm2_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Xcsrgemm2Nnz){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Xcsrgemm2Nnz"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->Get<int*>();
+    int * nnzTotalDevHostPtr = in->Assign<int>();
+    csrgemm2Info_t info = (csrgemm2Info_t)in->Get<size_t>();
+    void * buffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseXcsrgemm2Nnz(handle, m, n, k, descrA, nnzA, csrRowPtrA, csrColIndA, descrB, nnzB, csrRowPtrB, csrColIndB, descrD, nnzD, csrRowPtrD, csrColIndD, descrC, csrRowPtrC, nnzTotalDevHostPtr, info, buffer);
+        out->Add<int*>(csrRowPtrC);
+        out->Add(nnzTotalDevHostPtr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseXcsrgemm2Nnz Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Scsrgemm2){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Scsrgemm2"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const float * alpha = in->Assign<float>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const float * csrValA = in->Get<float*>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const float * csrValB = in->Get<float*>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const float * beta = in->Assign<float>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const float * csrValD = in->Get<float*>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    float * csrValC = in->Get<float*>();
+    int * csrRowPtrC = in->Get<int*>();
+    int * csrColIndC = in->Get<int*>();
+    csrgemm2Info_t info = in->Get<csrgemm2Info_t>();
+    void * pBuffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseScsrgemm2(handle, m, n, k, alpha, descrA, nnzA, csrValA, csrRowPtrA, csrColIndA, descrB, nnzB, csrValB, csrRowPtrB, csrColIndB, beta, descrD, nnzD, csrValD, csrRowPtrD, csrColIndD, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBuffer);
+        out->Add<float*>(csrValC);
+        out->Add<int*>(csrRowPtrC);
+        out->Add<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseScsrgemm2 Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dcsrgemm2){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dcsrgemm2"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const double * alpha = in->Assign<double>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const double * csrValA = in->Get<double*>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const double * csrValB = in->Get<double*>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const double * beta = in->Assign<double>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const double * csrValD = in->Get<double*>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    double * csrValC = in->Get<double*>();
+    int * csrRowPtrC = in->Get<int*>();
+    int * csrColIndC = in->Get<int*>();
+    csrgemm2Info_t info = in->Get<csrgemm2Info_t>();
+    void * pBuffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDcsrgemm2(handle, m, n, k, alpha, descrA, nnzA, csrValA, csrRowPtrA, csrColIndA, descrB, nnzB, csrValB, csrRowPtrB, csrColIndB, beta, descrD, nnzD, csrValD, csrRowPtrD, csrColIndD, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBuffer);
+        out->Add<double*>(csrValC);
+        out->Add<int*>(csrRowPtrC);
+        out->Add<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDcsrgemm2 Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Ccsrgemm2){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Ccsrgemm2"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const cuComplex * alpha = in->Assign<cuComplex>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const cuComplex * csrValA = in->Get<cuComplex*>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const cuComplex * csrValB = in->Get<cuComplex*>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const cuComplex * beta = in->Assign<cuComplex>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const cuComplex * csrValD = in->Get<cuComplex*>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    cuComplex * csrValC = in->Get<cuComplex*>();
+    int * csrRowPtrC = in->Get<int*>();
+    int * csrColIndC = in->Get<int*>();
+    csrgemm2Info_t info = in->Get<csrgemm2Info_t>();
+    void * pBuffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCcsrgemm2(handle, m, n, k, alpha, descrA, nnzA, csrValA, csrRowPtrA, csrColIndA, descrB, nnzB, csrValB, csrRowPtrB, csrColIndB, beta, descrD, nnzD, csrValD, csrRowPtrD, csrColIndD, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBuffer);
+        out->Add<cuComplex*>(csrValC);
+        out->Add<int*>(csrRowPtrC);
+        out->Add<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCcsrgemm2 Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zcsrgemm2){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zcsrgemm2"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const int m = in->Get<int>();
+    const int n = in->Get<int>();
+    const int k = in->Get<int>();
+    const cuDoubleComplex * alpha = in->Assign<cuDoubleComplex>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    const int nnzA = in->Get<int>();
+    const cuDoubleComplex * csrValA = in->Get<cuDoubleComplex*>();
+    const int * csrRowPtrA = in->Get<int*>();
+    const int * csrColIndA = in->Get<int*>();
+    const cusparseMatDescr_t descrB = in->Get<cusparseMatDescr_t>();
+    const int nnzB = in->Get<int>();
+    const cuDoubleComplex * csrValB = in->Get<cuDoubleComplex*>();
+    const int * csrRowPtrB = in->Get<int*>();
+    const int * csrColIndB = in->Get<int*>();
+    const cuDoubleComplex * beta = in->Assign<cuDoubleComplex>();
+    const cusparseMatDescr_t descrD = in->Get<cusparseMatDescr_t>();
+    const int nnzD = in->Get<int>();
+    const cuDoubleComplex * csrValD = in->Get<cuDoubleComplex*>();
+    const int * csrRowPtrD = in->Get<int*>();
+    const int * csrColIndD = in->Get<int*>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    cuDoubleComplex * csrValC = in->Get<cuDoubleComplex*>();
+    int * csrRowPtrC = in->Get<int*>();
+    int * csrColIndC = in->Get<int*>();
+    csrgemm2Info_t info = in->Get<csrgemm2Info_t>();
+    void * pBuffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZcsrgemm2(handle, m, n, k, alpha, descrA, nnzA, csrValA, csrRowPtrA, csrColIndA, descrB, nnzB, csrValB, csrRowPtrB, csrColIndB, beta, descrD, nnzD, csrValD, csrRowPtrD, csrColIndD, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBuffer);
+        out->Add<cuDoubleComplex*>(csrValC);
+        out->Add<int*>(csrRowPtrC);
+        out->Add<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZcsrgemm2 Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif
