@@ -668,8 +668,8 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseScsrsv2_bufferSize(cusparseHandl
   CusparseFrontend::AddDevicePointerForArguments(pBufferSizeInBytes);
   CusparseFrontend::Execute("cusparseScsrsv2_bufferSize");
   if (CusparseFrontend::Success()) {
-  info = CusparseFrontend::GetOutputVariable<csrsv2Info_t>();
-  pBufferSizeInBytes = (int *)CusparseFrontend::GetOutputDevicePointer();
+      info = CusparseFrontend::GetOutputVariable<csrsv2Info_t>();
+      pBufferSizeInBytes = (int *)CusparseFrontend::GetOutputDevicePointer();
   }
   return CusparseFrontend::GetExitCode();
 }

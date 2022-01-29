@@ -23,7 +23,7 @@ int main(int argn, char *argv[])
     cuDoubleComplex hx[] = {make_cuDoubleComplex(1, 0), make_cuDoubleComplex(2, 0), make_cuDoubleComplex(3, 0), make_cuDoubleComplex(4, 0)};
     cuDoubleComplex hy[4];
 
-    cuDoubleComplex hy_result[] = {make_cuDoubleComplex(1.526316, 0), make_cuDoubleComplex(0.500000, 0), make_cuDoubleComplex(-0.105263, 0), make_cuDoubleComplex(0.000000, 0)};
+    cuDoubleComplex hy_result[] = {make_cuDoubleComplex(0, 0), make_cuDoubleComplex(0.5, 0), make_cuDoubleComplex(0.5, 0), make_cuDoubleComplex(0, 0)};
 
     // Device memory management
     cuDoubleComplex *dCsrValA, *dx, *dy, *dz;
@@ -50,35 +50,39 @@ int main(int argn, char *argv[])
     // Suppose that A is m x m sparse matrix represented by CSR format,
     // Assumption:
     // - handle is already created by cusparseCreate(),
-    // - (d_csrRowPtr, d_csrColInd, d_csrVal) is CSR of A on device memory,
-    // - d_x is right hand side vector on device memory,
-    // - d_y is solution vector on device memory.
-    // - d_z is intermediate result on device memory.
+    // - (dCsrRowPtrA, dCsrColIndA, dCsrValA) is CSR of A on device memory,
+    // - dx is right hand side vector on device memory,
+    // - dy is solution vector on device memory.
+    // - dz is intermediate result on device memory.
 
     cusparseMatDescr_t descr_M = 0;
     cusparseMatDescr_t descr_L = 0;
-    csric02Info_t info_M  = 0;
+    cusparseMatDescr_t descr_U = 0;
+    csrilu02Info_t info_M  = 0;
     csrsv2Info_t  info_L  = 0;
-    csrsv2Info_t  info_Lt = 0;
+    csrsv2Info_t  info_U  = 0;
     int pBufferSize_M;
     int pBufferSize_L;
-    int pBufferSize_Lt;
+    int pBufferSize_U;
     int pBufferSize;
     void *pBuffer = 0;
     int structural_zero;
     int numerical_zero;
     const cuDoubleComplex alpha = make_cuDoubleComplex(1, 0);
-    const cusparseSolvePolicy_t policy_M  = CUSPARSE_SOLVE_POLICY_NO_LEVEL;
-    const cusparseSolvePolicy_t policy_L  = CUSPARSE_SOLVE_POLICY_NO_LEVEL;
-    const cusparseSolvePolicy_t policy_Lt = CUSPARSE_SOLVE_POLICY_USE_LEVEL;
+    const cusparseSolvePolicy_t policy_M = CUSPARSE_SOLVE_POLICY_NO_LEVEL;
+    const cusparseSolvePolicy_t policy_L = CUSPARSE_SOLVE_POLICY_NO_LEVEL;
+    const cusparseSolvePolicy_t policy_U = CUSPARSE_SOLVE_POLICY_USE_LEVEL;
     const cusparseOperation_t trans_L  = CUSPARSE_OPERATION_NON_TRANSPOSE;
-    const cusparseOperation_t trans_Lt = CUSPARSE_OPERATION_TRANSPOSE;
+    const cusparseOperation_t trans_U  = CUSPARSE_OPERATION_NON_TRANSPOSE;
 
     // step 1: create a descriptor which contains
     // - matrix M is base-1
     // - matrix L is base-1
     // - matrix L is lower triangular
-    // - matrix L has non-unit diagonal
+    // - matrix L has unit diagonal
+    // - matrix U is base-1
+    // - matrix U is upper triangular
+    // - matrix U has non-unit diagonal
     cusparseCreateMatDescr(&descr_M);
     cusparseSetMatIndexBase(descr_M, CUSPARSE_INDEX_BASE_ONE);
     cusparseSetMatType(descr_M, CUSPARSE_MATRIX_TYPE_GENERAL);
@@ -87,37 +91,43 @@ int main(int argn, char *argv[])
     cusparseSetMatIndexBase(descr_L, CUSPARSE_INDEX_BASE_ONE);
     cusparseSetMatType(descr_L, CUSPARSE_MATRIX_TYPE_GENERAL);
     cusparseSetMatFillMode(descr_L, CUSPARSE_FILL_MODE_LOWER);
-    cusparseSetMatDiagType(descr_L, CUSPARSE_DIAG_TYPE_NON_UNIT);
+    cusparseSetMatDiagType(descr_L, CUSPARSE_DIAG_TYPE_UNIT);
+
+    cusparseCreateMatDescr(&descr_U);
+    cusparseSetMatIndexBase(descr_U, CUSPARSE_INDEX_BASE_ONE);
+    cusparseSetMatType(descr_U, CUSPARSE_MATRIX_TYPE_GENERAL);
+    cusparseSetMatFillMode(descr_U, CUSPARSE_FILL_MODE_UPPER);
+    cusparseSetMatDiagType(descr_U, CUSPARSE_DIAG_TYPE_NON_UNIT);
 
     // step 2: create a empty info structure
-    // we need one info for csric02 and two info's for csrsv2
-    cusparseCreateCsric02Info(&info_M);
+    // we need one info for csrilu02 and two info's for csrsv2
+    cusparseCreateCsrilu02Info(&info_M);
     cusparseCreateCsrsv2Info(&info_L);
-    cusparseCreateCsrsv2Info(&info_Lt);
+    cusparseCreateCsrsv2Info(&info_U);
 
-    // step 3: query how much memory used in csric02 and csrsv2, and allocate the buffer
-    cusparseZcsric02_bufferSize(handle, m, nnz,
-                                descr_M, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_M, &pBufferSize_M);
+    // step 3: query how much memory used in csrilu02 and csrsv2, and allocate the buffer
+    cusparseZcsrilu02_bufferSize(handle, m, nnz,
+                                 descr_M, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_M, &pBufferSize_M);
     cusparseZcsrsv2_bufferSize(handle, trans_L, m, nnz,
                                descr_L, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_L, &pBufferSize_L);
-    cusparseZcsrsv2_bufferSize(handle, trans_Lt, m, nnz,
-                               descr_L, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_Lt, &pBufferSize_Lt);
+    cusparseZcsrsv2_bufferSize(handle, trans_U, m, nnz,
+                               descr_U, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_U, &pBufferSize_U);
 
-    pBufferSize = max(pBufferSize_M, max(pBufferSize_L, pBufferSize_Lt));
+    pBufferSize = max(pBufferSize_M, max(pBufferSize_L, pBufferSize_U));
 
     // pBuffer returned by cudaMalloc is automatically aligned to 128 bytes.
     cudaMalloc((void**)&pBuffer, pBufferSize);
 
     // step 4: perform analysis of incomplete Cholesky on M
     //         perform analysis of triangular solve on L
-    //         perform analysis of triangular solve on L'
-    // The lower triangular part of M has the same sparsity pattern as L, so
-    // we can do analysis of csric02 and csrsv2 simultaneously.
+    //         perform analysis of triangular solve on U
+    // The lower(upper) triangular part of M has the same sparsity pattern as L(U),
+    // we can do analysis of csrilu0 and csrsv2 simultaneously.
 
-    cusparseZcsric02_analysis(handle, m, nnz, descr_M,
-                              dCsrValA, dCsrRowPtrA, dCsrColIndA, info_M,
-                              policy_M, pBuffer);
-    cusparseStatus_t status = cusparseXcsric02_zeroPivot(handle, info_M, &structural_zero);
+    cusparseZcsrilu02_analysis(handle, m, nnz, descr_M,
+                               dCsrValA, dCsrRowPtrA, dCsrColIndA, info_M,
+                               policy_M, pBuffer);
+    cusparseStatus_t status = cusparseXcsrilu02_zeroPivot(handle, info_M, &structural_zero);
     if (CUSPARSE_STATUS_ZERO_PIVOT == status){
         printf("A(%d,%d) is missing\n", structural_zero, structural_zero);
     }
@@ -126,17 +136,16 @@ int main(int argn, char *argv[])
                              dCsrValA, dCsrRowPtrA, dCsrColIndA,
                              info_L, policy_L, pBuffer);
 
-    cusparseZcsrsv2_analysis(handle, trans_Lt, m, nnz, descr_L,
+    cusparseZcsrsv2_analysis(handle, trans_U, m, nnz, descr_U,
                              dCsrValA, dCsrRowPtrA, dCsrColIndA,
-                             info_Lt, policy_Lt, pBuffer);
+                             info_U, policy_U, pBuffer);
 
-    // step 5: M = L * L'
-    cusparseZcsric02(handle, m, nnz, descr_M,
-                     dCsrValA, dCsrRowPtrA, dCsrColIndA, info_M, policy_M, pBuffer);
-
-    status = cusparseXcsric02_zeroPivot(handle, info_M, &numerical_zero);
+    // step 5: M = L * U
+    cusparseZcsrilu02(handle, m, nnz, descr_M,
+                      dCsrValA, dCsrRowPtrA, dCsrColIndA, info_M, policy_M, pBuffer);
+    status = cusparseXcsrilu02_zeroPivot(handle, info_M, &numerical_zero);
     if (CUSPARSE_STATUS_ZERO_PIVOT == status){
-        printf("L(%d,%d) is zero\n", numerical_zero, numerical_zero);
+        printf("U(%d,%d) is zero\n", numerical_zero, numerical_zero);
     }
 
     // step 6: solve L*z = x
@@ -144,10 +153,10 @@ int main(int argn, char *argv[])
                           dCsrValA, dCsrRowPtrA, dCsrColIndA, info_L,
                           dx, dz, policy_L, pBuffer);
 
-    // step 7: solve L'*y = z
-    cusparseZcsrsv2_solve(handle, trans_Lt, m, nnz, &alpha, descr_L,
-                          dCsrValA, dCsrRowPtrA, dCsrColIndA, info_Lt,
-                          dz, dy, policy_Lt, pBuffer);
+    // step 7: solve U*y = z
+    cusparseZcsrsv2_solve(handle, trans_U, m, nnz, &alpha, descr_U,
+                          dCsrValA, dCsrRowPtrA, dCsrColIndA, info_U,
+                          dz, dy, policy_U, pBuffer);
 
     // device result check
     CHECK_CUDA( cudaMemcpy(hy, dy, m * sizeof(cuDoubleComplex), cudaMemcpyDeviceToHost) );
@@ -160,9 +169,9 @@ int main(int argn, char *argv[])
         }
     }
     if (correct)
-        printf("csric02 test PASSED\n");
+        printf("csrilu02 test PASSED\n");
     else
-        printf("csric02 test FAILED: wrong result\n");
+        printf("csrilu02 test FAILED: wrong result\n");
 
     // step 6: free resources
 
@@ -170,9 +179,9 @@ int main(int argn, char *argv[])
     CHECK_CUDA(cudaFree(pBuffer));
     CHECK_CUSPARSE(cusparseDestroyMatDescr(descr_M));
     CHECK_CUSPARSE(cusparseDestroyMatDescr(descr_L));
-    CHECK_CUSPARSE(cusparseDestroyCsric02Info(info_M));
+    CHECK_CUSPARSE(cusparseDestroyCsrilu02Info(info_M));
     CHECK_CUSPARSE(cusparseDestroyCsrsv2Info(info_L));
-    CHECK_CUSPARSE(cusparseDestroyCsrsv2Info(info_Lt));
+    CHECK_CUSPARSE(cusparseDestroyCsrsv2Info(info_U));
     CHECK_CUDA(cudaFree(dCsrValA) );
     CHECK_CUDA(cudaFree(dCsrRowPtrA) );
     CHECK_CUDA(cudaFree(dCsrColIndA) );
