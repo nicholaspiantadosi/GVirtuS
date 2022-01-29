@@ -1103,3 +1103,283 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseXbsrilu02_zeroPivot(cusparseHand
     }
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgtsv2_bufferSizeExt(cusparseHandle_t handle, int m, int n, const float * dl, const float * d, const float * du, const float * B, int ldb, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::Execute("cusparseSgtsv2_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgtsv2_bufferSizeExt(cusparseHandle_t handle, int m, int n, const double * dl, const double * d, const double * du, const double * B, int ldb, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::Execute("cusparseDgtsv2_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgtsv2_bufferSizeExt(cusparseHandle_t handle, int m, int n, const cuComplex * dl, const cuComplex * d, const cuComplex * du, const cuComplex * B, int ldb, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::Execute("cusparseCgtsv2_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgtsv2_bufferSizeExt(cusparseHandle_t handle, int m, int n, const cuDoubleComplex * dl, const cuDoubleComplex * d, const cuDoubleComplex * du, const cuDoubleComplex * B, int ldb, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::Execute("cusparseZgtsv2_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgtsv2(cusparseHandle_t handle, int m, int n, const float * dl, const float * d, const float * du, float * B, int ldb, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseSgtsv2");
+    if (CusparseFrontend::Success()) {
+        B = (float *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgtsv2(cusparseHandle_t handle, int m, int n, const double * dl, const double * d, const double * du, double * B, int ldb, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseDgtsv2");
+    if (CusparseFrontend::Success()) {
+        B = (double *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgtsv2(cusparseHandle_t handle, int m, int n, const cuComplex * dl, const cuComplex * d, const cuComplex * du, cuComplex * B, int ldb, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseCgtsv2");
+    if (CusparseFrontend::Success()) {
+        B = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgtsv2(cusparseHandle_t handle, int m, int n, const cuDoubleComplex * dl, const cuDoubleComplex * d, const cuDoubleComplex * du, cuDoubleComplex * B, int ldb, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseZgtsv2");
+    if (CusparseFrontend::Success()) {
+        B = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgtsv2_nopivot_bufferSizeExt(cusparseHandle_t handle, int m, int n, const float * dl, const float * d, const float * du, const float * B, int ldb, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::Execute("cusparseSgtsv2_nopivot_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgtsv2_nopivot_bufferSizeExt(cusparseHandle_t handle, int m, int n, const double * dl, const double * d, const double * du, const double * B, int ldb, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::Execute("cusparseDgtsv2_nopivot_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgtsv2_nopivot_bufferSizeExt(cusparseHandle_t handle, int m, int n, const cuComplex * dl, const cuComplex * d, const cuComplex * du, const cuComplex * B, int ldb, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::Execute("cusparseCgtsv2_nopivot_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgtsv2_nopivot_bufferSizeExt(cusparseHandle_t handle, int m, int n, const cuDoubleComplex * dl, const cuDoubleComplex * d, const cuDoubleComplex * du, const cuDoubleComplex * B, int ldb, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::Execute("cusparseZgtsv2_nopivot_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgtsv2_nopivot(cusparseHandle_t handle, int m, int n, const float * dl, const float * d, const float * du, float * B, int ldb, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseSgtsv2_nopivot");
+    if (CusparseFrontend::Success()) {
+        B = (float *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgtsv2_nopivot(cusparseHandle_t handle, int m, int n, const double * dl, const double * d, const double * du, double * B, int ldb, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseDgtsv2_nopivot");
+    if (CusparseFrontend::Success()) {
+        B = (double *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgtsv2_nopivot(cusparseHandle_t handle, int m, int n, const cuComplex * dl, const cuComplex * d, const cuComplex * du, cuComplex * B, int ldb, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseCgtsv2_nopivot");
+    if (CusparseFrontend::Success()) {
+        B = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgtsv2_nopivot(cusparseHandle_t handle, int m, int n, const cuDoubleComplex * dl, const cuDoubleComplex * d, const cuDoubleComplex * du, cuDoubleComplex * B, int ldb, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(B);
+    CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseZgtsv2_nopivot");
+    if (CusparseFrontend::Success()) {
+        B = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
