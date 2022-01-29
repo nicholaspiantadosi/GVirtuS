@@ -41,6 +41,8 @@ gvirtus_add_backend(cusparse ${CUDA_VERSION}
 		backend/CusparseHandler_format_conversion_reference.cpp
 		backend/CusparseHandler_generic.cpp
 		backend/CusparseHandler_extra.cpp
+		backend/CusparseHandler_preconditioners_reference.cpp
+		backend/Utilities.h
 )
 
 target_link_libraries(${PROJECT_NAME} ${CUDA_cusparse_LIBRARY} ${CUDA_CUDART_LIBRARY})
@@ -56,6 +58,7 @@ gvirtus_add_frontend(cusparse ${CUDA_VERSION}
 		frontend/Cusparse_format_conversion_reference.cpp
 		frontend/Cusparse_generic.cpp
 		frontend/Cusparse_extra.cpp
+		frontend/Cusparse_preconditioners_reference.cpp
 )
 
 #add_subdirectory(demo/level3)

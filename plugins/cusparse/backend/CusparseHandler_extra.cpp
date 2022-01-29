@@ -24,7 +24,6 @@
  */
 
 #include "CusparseHandler.h"
-#include "Utilities.h"
 
 using namespace log4cplus;
 
