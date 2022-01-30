@@ -38,3 +38,16 @@ void printArrayD(double* dArray, int size) {
     }
     printf("]\n");
 }
+
+void printArrayC(cuComplex* dArray, int size) {
+    cuComplex hArray[size];
+    cudaMemcpy(hArray, dArray, size * sizeof(cuComplex), cudaMemcpyDeviceToHost);
+    printf("[");
+    for (int i = 0; i < size; i++) {
+        printf("%f", hArray[i].x);
+        if (i < (size - 1)) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}

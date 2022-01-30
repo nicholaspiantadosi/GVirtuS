@@ -1114,9 +1114,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgtsv2_bufferSizeExt(cusparseHan
     CusparseFrontend::AddDevicePointerForArguments(du);
     CusparseFrontend::AddDevicePointerForArguments(B);
     CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
     CusparseFrontend::Execute("cusparseSgtsv2_bufferSizeExt");
     if (CusparseFrontend::Success()) {
-        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -1131,9 +1132,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgtsv2_bufferSizeExt(cusparseHan
     CusparseFrontend::AddDevicePointerForArguments(du);
     CusparseFrontend::AddDevicePointerForArguments(B);
     CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
     CusparseFrontend::Execute("cusparseDgtsv2_bufferSizeExt");
     if (CusparseFrontend::Success()) {
-        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -1148,9 +1150,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgtsv2_bufferSizeExt(cusparseHan
     CusparseFrontend::AddDevicePointerForArguments(du);
     CusparseFrontend::AddDevicePointerForArguments(B);
     CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
     CusparseFrontend::Execute("cusparseCgtsv2_bufferSizeExt");
     if (CusparseFrontend::Success()) {
-        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -1165,9 +1168,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgtsv2_bufferSizeExt(cusparseHan
     CusparseFrontend::AddDevicePointerForArguments(du);
     CusparseFrontend::AddDevicePointerForArguments(B);
     CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
     CusparseFrontend::Execute("cusparseZgtsv2_bufferSizeExt");
     if (CusparseFrontend::Success()) {
-        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -1254,9 +1258,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgtsv2_nopivot_bufferSizeExt(cus
     CusparseFrontend::AddDevicePointerForArguments(du);
     CusparseFrontend::AddDevicePointerForArguments(B);
     CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
     CusparseFrontend::Execute("cusparseSgtsv2_nopivot_bufferSizeExt");
     if (CusparseFrontend::Success()) {
-        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -1271,9 +1276,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgtsv2_nopivot_bufferSizeExt(cus
     CusparseFrontend::AddDevicePointerForArguments(du);
     CusparseFrontend::AddDevicePointerForArguments(B);
     CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
     CusparseFrontend::Execute("cusparseDgtsv2_nopivot_bufferSizeExt");
     if (CusparseFrontend::Success()) {
-        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -1288,9 +1294,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgtsv2_nopivot_bufferSizeExt(cus
     CusparseFrontend::AddDevicePointerForArguments(du);
     CusparseFrontend::AddDevicePointerForArguments(B);
     CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
     CusparseFrontend::Execute("cusparseCgtsv2_nopivot_bufferSizeExt");
     if (CusparseFrontend::Success()) {
-        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -1305,9 +1312,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgtsv2_nopivot_bufferSizeExt(cus
     CusparseFrontend::AddDevicePointerForArguments(du);
     CusparseFrontend::AddDevicePointerForArguments(B);
     CusparseFrontend::AddVariableForArguments<int>(ldb);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
     CusparseFrontend::Execute("cusparseZgtsv2_nopivot_bufferSizeExt");
     if (CusparseFrontend::Success()) {
-        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
     }
     return CusparseFrontend::GetExitCode();
 }

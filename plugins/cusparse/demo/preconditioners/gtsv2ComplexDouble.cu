@@ -16,9 +16,9 @@ int main(int argn, char *argv[])
     const int m = 4;
     const int n = 4;
 
-    cuDoubleComplex hdl[] = {make_cuDoubleComplex(0, 0), make_cuDoubleComplex(0, 0), make_cuDoubleComplex(0, 0)};
+    cuDoubleComplex hdl[] = {make_cuDoubleComplex(0, 0), make_cuDoubleComplex(0, 0), make_cuDoubleComplex(0, 0), make_cuDoubleComplex(0, 0)};
     cuDoubleComplex hd[] = {make_cuDoubleComplex(1, 0), make_cuDoubleComplex(4, 0), make_cuDoubleComplex(6, 0), make_cuDoubleComplex(9, 0)};
-    cuDoubleComplex hdu[] = {make_cuDoubleComplex(0, 0), make_cuDoubleComplex(0, 0), make_cuDoubleComplex(7, 0)};
+    cuDoubleComplex hdu[] = {make_cuDoubleComplex(0, 0), make_cuDoubleComplex(0, 0), make_cuDoubleComplex(7, 0), make_cuDoubleComplex(0, 0)};
 
     int ldb = 4;
     cuDoubleComplex hB[] = {make_cuDoubleComplex(1, 0), make_cuDoubleComplex(2, 0), make_cuDoubleComplex(0, 0), make_cuDoubleComplex(3, 0),
@@ -34,14 +34,14 @@ int main(int argn, char *argv[])
     // Device memory management
     cuDoubleComplex *ddl, *dd, *ddu, *dB;
 
-    CHECK_CUDA( cudaMalloc((void**) &ddl,  (m - 1) * sizeof(cuDoubleComplex)));
+    CHECK_CUDA( cudaMalloc((void**) &ddl,  m * sizeof(cuDoubleComplex)));
     CHECK_CUDA( cudaMalloc((void**) &dd,  m * sizeof(cuDoubleComplex)));
-    CHECK_CUDA( cudaMalloc((void**) &ddu,  (m - 1) * sizeof(cuDoubleComplex)));
+    CHECK_CUDA( cudaMalloc((void**) &ddu,  m * sizeof(cuDoubleComplex)));
     CHECK_CUDA( cudaMalloc((void**) &dB, ldb * n * sizeof(cuDoubleComplex)) );
 
-    CHECK_CUDA( cudaMemcpy(ddl, hdl, (m - 1) * sizeof(cuDoubleComplex), cudaMemcpyHostToDevice) );
+    CHECK_CUDA( cudaMemcpy(ddl, hdl, m * sizeof(cuDoubleComplex), cudaMemcpyHostToDevice) );
     CHECK_CUDA( cudaMemcpy(dd, hd, m * sizeof(cuDoubleComplex), cudaMemcpyHostToDevice) );
-    CHECK_CUDA( cudaMemcpy(ddu, hdu, (m - 1) * sizeof(cuDoubleComplex), cudaMemcpyHostToDevice) );
+    CHECK_CUDA( cudaMemcpy(ddu, hdu, m * sizeof(cuDoubleComplex), cudaMemcpyHostToDevice) );
     CHECK_CUDA( cudaMemcpy(dB, hB, ldb * n * sizeof(cuDoubleComplex), cudaMemcpyHostToDevice) );
 
     // CUSPARSE APIs

@@ -16,9 +16,9 @@ int main(int argn, char *argv[])
     const int m = 4;
     const int n = 4;
 
-    cuComplex hdl[] = {make_cuComplex(0, 0), make_cuComplex(0, 0), make_cuComplex(0, 0)};
+    cuComplex hdl[] = {make_cuComplex(0, 0), make_cuComplex(0, 0), make_cuComplex(0, 0), make_cuComplex(0, 0)};
     cuComplex hd[] = {make_cuComplex(1, 0), make_cuComplex(4, 0), make_cuComplex(6, 0), make_cuComplex(9, 0)};
-    cuComplex hdu[] = {make_cuComplex(0, 0), make_cuComplex(0, 0), make_cuComplex(7, 0)};
+    cuComplex hdu[] = {make_cuComplex(0, 0), make_cuComplex(0, 0), make_cuComplex(7, 0), make_cuComplex(0, 0)};
 
     int ldb = 4;
     cuComplex hB[] = {make_cuComplex(1, 0), make_cuComplex(2, 0), make_cuComplex(0, 0), make_cuComplex(3, 0),
@@ -34,14 +34,14 @@ int main(int argn, char *argv[])
     // Device memory management
     cuComplex *ddl, *dd, *ddu, *dB;
 
-    CHECK_CUDA( cudaMalloc((void**) &ddl,  (m - 1) * sizeof(cuComplex)));
+    CHECK_CUDA( cudaMalloc((void**) &ddl,  m * sizeof(cuComplex)));
     CHECK_CUDA( cudaMalloc((void**) &dd,  m * sizeof(cuComplex)));
-    CHECK_CUDA( cudaMalloc((void**) &ddu,  (m - 1) * sizeof(cuComplex)));
+    CHECK_CUDA( cudaMalloc((void**) &ddu,  m * sizeof(cuComplex)));
     CHECK_CUDA( cudaMalloc((void**) &dB, ldb * n * sizeof(cuComplex)) );
 
-    CHECK_CUDA( cudaMemcpy(ddl, hdl, (m - 1) * sizeof(cuComplex), cudaMemcpyHostToDevice) );
+    CHECK_CUDA( cudaMemcpy(ddl, hdl, m * sizeof(cuComplex), cudaMemcpyHostToDevice) );
     CHECK_CUDA( cudaMemcpy(dd, hd, m * sizeof(cuComplex), cudaMemcpyHostToDevice) );
-    CHECK_CUDA( cudaMemcpy(ddu, hdu, (m - 1) * sizeof(cuComplex), cudaMemcpyHostToDevice) );
+    CHECK_CUDA( cudaMemcpy(ddu, hdu, m * sizeof(cuComplex), cudaMemcpyHostToDevice) );
     CHECK_CUDA( cudaMemcpy(dB, hB, ldb * n * sizeof(cuComplex), cudaMemcpyHostToDevice) );
 
     // CUSPARSE APIs

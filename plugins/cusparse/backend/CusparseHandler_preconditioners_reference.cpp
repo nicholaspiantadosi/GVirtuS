@@ -1574,12 +1574,12 @@ CUSPARSE_ROUTINE_HANDLER(Sgtsv2_bufferSizeExt){
     float * du = in->GetFromMarshal<float*>();
     float * B = in->GetFromMarshal<float*>();
     int ldb = in->Get<int>();
-    size_t * pBufferSize = new size_t;
+    size_t * pBufferSize = (in->Assign<size_t>());
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseSgtsv2_bufferSizeExt(handle, m, n, dl, d, du, B, ldb, pBufferSize);
-        out->AddMarshal<size_t*>(pBufferSize);
+        out->Add(pBufferSize);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -1599,12 +1599,12 @@ CUSPARSE_ROUTINE_HANDLER(Dgtsv2_bufferSizeExt){
     double * du = in->GetFromMarshal<double*>();
     double * B = in->GetFromMarshal<double*>();
     int ldb = in->Get<int>();
-    size_t * pBufferSize = new size_t;
+    size_t * pBufferSize = (in->Assign<size_t>());
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseDgtsv2_bufferSizeExt(handle, m, n, dl, d, du, B, ldb, pBufferSize);
-        out->AddMarshal<size_t*>(pBufferSize);
+        out->Add(pBufferSize);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -1624,12 +1624,12 @@ CUSPARSE_ROUTINE_HANDLER(Cgtsv2_bufferSizeExt){
     cuComplex * du = in->GetFromMarshal<cuComplex*>();
     cuComplex * B = in->GetFromMarshal<cuComplex*>();
     int ldb = in->Get<int>();
-    size_t * pBufferSize = new size_t;
+    size_t * pBufferSize = (in->Assign<size_t>());
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseCgtsv2_bufferSizeExt(handle, m, n, dl, d, du, B, ldb, pBufferSize);
-        out->AddMarshal<size_t*>(pBufferSize);
+        out->Add(pBufferSize);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -1649,12 +1649,12 @@ CUSPARSE_ROUTINE_HANDLER(Zgtsv2_bufferSizeExt){
     cuDoubleComplex * du = in->GetFromMarshal<cuDoubleComplex*>();
     cuDoubleComplex * B = in->GetFromMarshal<cuDoubleComplex*>();
     int ldb = in->Get<int>();
-    size_t * pBufferSize = new size_t;
+    size_t * pBufferSize = (in->Assign<size_t>());
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseZgtsv2_bufferSizeExt(handle, m, n, dl, d, du, B, ldb, pBufferSize);
-        out->AddMarshal<size_t*>(pBufferSize);
+        out->Add(pBufferSize);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -1774,12 +1774,12 @@ CUSPARSE_ROUTINE_HANDLER(Sgtsv2_nopivot_bufferSizeExt){
     float * du = in->GetFromMarshal<float*>();
     float * B = in->GetFromMarshal<float*>();
     int ldb = in->Get<int>();
-    size_t * pBufferSize = new size_t;
+    size_t * pBufferSize = (in->Assign<size_t>());
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseSgtsv2_nopivot_bufferSizeExt(handle, m, n, dl, d, du, B, ldb, pBufferSize);
-        out->AddMarshal<size_t*>(pBufferSize);
+        out->Add(pBufferSize);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -1799,12 +1799,12 @@ CUSPARSE_ROUTINE_HANDLER(Dgtsv2_nopivot_bufferSizeExt){
     double * du = in->GetFromMarshal<double*>();
     double * B = in->GetFromMarshal<double*>();
     int ldb = in->Get<int>();
-    size_t * pBufferSize = new size_t;
+    size_t * pBufferSize = (in->Assign<size_t>());
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseDgtsv2_nopivot_bufferSizeExt(handle, m, n, dl, d, du, B, ldb, pBufferSize);
-        out->AddMarshal<size_t*>(pBufferSize);
+        out->Add(pBufferSize);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -1824,12 +1824,12 @@ CUSPARSE_ROUTINE_HANDLER(Cgtsv2_nopivot_bufferSizeExt){
     cuComplex * du = in->GetFromMarshal<cuComplex*>();
     cuComplex * B = in->GetFromMarshal<cuComplex*>();
     int ldb = in->Get<int>();
-    size_t * pBufferSize = new size_t;
+    size_t * pBufferSize = (in->Assign<size_t>());
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseCgtsv2_nopivot_bufferSizeExt(handle, m, n, dl, d, du, B, ldb, pBufferSize);
-        out->AddMarshal<size_t*>(pBufferSize);
+        out->Add(pBufferSize);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -1849,12 +1849,12 @@ CUSPARSE_ROUTINE_HANDLER(Zgtsv2_nopivot_bufferSizeExt){
     cuDoubleComplex * du = in->GetFromMarshal<cuDoubleComplex*>();
     cuDoubleComplex * B = in->GetFromMarshal<cuDoubleComplex*>();
     int ldb = in->Get<int>();
-    size_t * pBufferSize = new size_t;
+    size_t * pBufferSize = (in->Assign<size_t>());
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseZgtsv2_nopivot_bufferSizeExt(handle, m, n, dl, d, du, B, ldb, pBufferSize);
-        out->AddMarshal<size_t*>(pBufferSize);
+        out->Add(pBufferSize);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);

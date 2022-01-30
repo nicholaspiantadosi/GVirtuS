@@ -16,9 +16,9 @@ int main(int argn, char *argv[])
     const int m = 4;
     const int n = 4;
 
-    double hdl[] = {0, 0, 0};
+    double hdl[] = {0, 0, 0, 0};
     double hd[] = {1, 4, 6, 9};
-    double hdu[] = {0, 0, 7};
+    double hdu[] = {0, 0, 7, 0};
 
     int ldb = 4;
     double hB[] = {1, 2, 0, 3,
@@ -34,14 +34,14 @@ int main(int argn, char *argv[])
     // Device memory management
     double *ddl, *dd, *ddu, *dB;
 
-    CHECK_CUDA( cudaMalloc((void**) &ddl,  (m - 1) * sizeof(double)));
+    CHECK_CUDA( cudaMalloc((void**) &ddl,  m * sizeof(double)));
     CHECK_CUDA( cudaMalloc((void**) &dd,  m * sizeof(double)));
-    CHECK_CUDA( cudaMalloc((void**) &ddu,  (m - 1) * sizeof(double)));
+    CHECK_CUDA( cudaMalloc((void**) &ddu,  m * sizeof(double)));
     CHECK_CUDA( cudaMalloc((void**) &dB, ldb * n * sizeof(double)) );
 
-    CHECK_CUDA( cudaMemcpy(ddl, hdl, (m - 1) * sizeof(double), cudaMemcpyHostToDevice) );
+    CHECK_CUDA( cudaMemcpy(ddl, hdl, m * sizeof(double), cudaMemcpyHostToDevice) );
     CHECK_CUDA( cudaMemcpy(dd, hd, m * sizeof(double), cudaMemcpyHostToDevice) );
-    CHECK_CUDA( cudaMemcpy(ddu, hdu, (m - 1) * sizeof(double), cudaMemcpyHostToDevice) );
+    CHECK_CUDA( cudaMemcpy(ddu, hdu, m * sizeof(double), cudaMemcpyHostToDevice) );
     CHECK_CUDA( cudaMemcpy(dB, hB, ldb * n * sizeof(double), cudaMemcpyHostToDevice) );
 
     // CUSPARSE APIs
