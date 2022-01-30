@@ -317,6 +317,14 @@ CUSPARSE_ROUTINE_HANDLER(SgtsvInterleavedBatch);
 CUSPARSE_ROUTINE_HANDLER(DgtsvInterleavedBatch);
 CUSPARSE_ROUTINE_HANDLER(CgtsvInterleavedBatch);
 CUSPARSE_ROUTINE_HANDLER(ZgtsvInterleavedBatch);
+CUSPARSE_ROUTINE_HANDLER(SgpsvInterleavedBatch_bufferSizeExt);
+CUSPARSE_ROUTINE_HANDLER(DgpsvInterleavedBatch_bufferSizeExt);
+CUSPARSE_ROUTINE_HANDLER(CgpsvInterleavedBatch_bufferSizeExt);
+CUSPARSE_ROUTINE_HANDLER(ZgpsvInterleavedBatch_bufferSizeExt);
+CUSPARSE_ROUTINE_HANDLER(SgpsvInterleavedBatch);
+CUSPARSE_ROUTINE_HANDLER(DgpsvInterleavedBatch);
+CUSPARSE_ROUTINE_HANDLER(CgpsvInterleavedBatch);
+CUSPARSE_ROUTINE_HANDLER(ZgpsvInterleavedBatch);
 // FORMAT CONVERSION REFERENCE
 CUSPARSE_ROUTINE_HANDLER(Xcsr2bsrNnz);
 CUSPARSE_ROUTINE_HANDLER(Scsr2bsr);

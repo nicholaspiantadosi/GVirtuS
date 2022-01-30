@@ -343,6 +343,14 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DgtsvInterleavedBatch));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CgtsvInterleavedBatch));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(ZgtsvInterleavedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SgpsvInterleavedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DgpsvInterleavedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CgpsvInterleavedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(ZgpsvInterleavedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SgpsvInterleavedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DgpsvInterleavedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CgpsvInterleavedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(ZgpsvInterleavedBatch));
     // FORMAT CONVERSION REFERENCE
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2bsr));

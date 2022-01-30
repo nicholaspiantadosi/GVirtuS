@@ -1679,3 +1679,163 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgtsvInterleavedBatch(cusparseHa
     }
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgpsvInterleavedBatch_bufferSizeExt(cusparseHandle_t handle, int algo, int m, const float * ds, const float * dl, const float * d, const float * du, const float * dw, const float * x, int batchCount, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(algo);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(ds);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(dw);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
+    CusparseFrontend::Execute("cusparseSgpsvInterleavedBatch_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgpsvInterleavedBatch_bufferSizeExt(cusparseHandle_t handle, int algo, int m, const double * ds, const double * dl, const double * d, const double * du, const double * dw, const double * x, int batchCount, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(algo);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(ds);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(dw);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
+    CusparseFrontend::Execute("cusparseDgpsvInterleavedBatch_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgpsvInterleavedBatch_bufferSizeExt(cusparseHandle_t handle, int algo, int m, const cuComplex * ds, const cuComplex * dl, const cuComplex * d, const cuComplex * du, const cuComplex * dw, const cuComplex * x, int batchCount, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(algo);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(ds);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(dw);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
+    CusparseFrontend::Execute("cusparseCgpsvInterleavedBatch_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgpsvInterleavedBatch_bufferSizeExt(cusparseHandle_t handle, int algo, int m, const cuDoubleComplex * ds, const cuDoubleComplex * dl, const cuDoubleComplex * d, const cuDoubleComplex * du, const cuDoubleComplex * dw, const cuDoubleComplex * x, int batchCount, size_t * pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(algo);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(ds);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(dw);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddHostPointerForArguments<size_t>(pBufferSize);
+    CusparseFrontend::Execute("cusparseZgpsvInterleavedBatch_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        *pBufferSize = *CusparseFrontend::GetOutputHostPointer<size_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSgpsvInterleavedBatch(cusparseHandle_t handle, int algo, int m, float * ds, float * dl, float * d, float * du, float * dw, float * x, int batchCount, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(algo);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(ds);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(dw);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseSgpsvInterleavedBatch");
+    if (CusparseFrontend::Success()) {
+        x = (float *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDgpsvInterleavedBatch(cusparseHandle_t handle, int algo, int m, double * ds, double * dl, double * d, double * du, double * dw, double * x, int batchCount, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(algo);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(ds);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(dw);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseDgpsvInterleavedBatch");
+    if (CusparseFrontend::Success()) {
+        x = (double *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCgpsvInterleavedBatch(cusparseHandle_t handle, int algo, int m, cuComplex * ds, cuComplex * dl, cuComplex * d, cuComplex * du, cuComplex * dw, cuComplex * x, int batchCount, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(algo);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(ds);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(dw);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseCgpsvInterleavedBatch");
+    if (CusparseFrontend::Success()) {
+        x = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZgpsvInterleavedBatch(cusparseHandle_t handle, int algo, int m, cuDoubleComplex * ds, cuDoubleComplex * dl, cuDoubleComplex * d, cuDoubleComplex * du, cuDoubleComplex * dw, cuDoubleComplex * x, int batchCount, void * pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(algo);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(ds);
+    CusparseFrontend::AddDevicePointerForArguments(dl);
+    CusparseFrontend::AddDevicePointerForArguments(d);
+    CusparseFrontend::AddDevicePointerForArguments(du);
+    CusparseFrontend::AddDevicePointerForArguments(dw);
+    CusparseFrontend::AddDevicePointerForArguments(x);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseZgpsvInterleavedBatch");
+    if (CusparseFrontend::Success()) {
+        x = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
