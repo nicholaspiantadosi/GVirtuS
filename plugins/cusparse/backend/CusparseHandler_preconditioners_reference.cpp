@@ -1963,6 +1963,406 @@ CUSPARSE_ROUTINE_HANDLER(Zgtsv2_nopivot){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(Sgtsv2StridedBatch_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Sgtsv2StridedBatch_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    float * dl = in->GetFromMarshal<float*>();
+    float * d = in->GetFromMarshal<float*>();
+    float * du = in->GetFromMarshal<float*>();
+    float * x = in->GetFromMarshal<float*>();
+    int batchCount = in->Get<int>();
+    int batchStride = in->Get<int>();
+    size_t * pBufferSize = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSgtsv2StridedBatch_bufferSizeExt(handle, m, dl, d, du, x, batchCount, batchStride, pBufferSize);
+        out->Add(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSgtsv2StridedBatch_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dgtsv2StridedBatch_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dgtsv2StridedBatch_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    double * dl = in->GetFromMarshal<double*>();
+    double * d = in->GetFromMarshal<double*>();
+    double * du = in->GetFromMarshal<double*>();
+    double * x = in->GetFromMarshal<double*>();
+    int batchCount = in->Get<int>();
+    int batchStride = in->Get<int>();
+    size_t * pBufferSize = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDgtsv2StridedBatch_bufferSizeExt(handle, m, dl, d, du, x, batchCount, batchStride, pBufferSize);
+        out->Add(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDgtsv2StridedBatch_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Cgtsv2StridedBatch_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Cgtsv2StridedBatch_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    cuComplex * dl = in->GetFromMarshal<cuComplex*>();
+    cuComplex * d = in->GetFromMarshal<cuComplex*>();
+    cuComplex * du = in->GetFromMarshal<cuComplex*>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int batchCount = in->Get<int>();
+    int batchStride = in->Get<int>();
+    size_t * pBufferSize = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCgtsv2StridedBatch_bufferSizeExt(handle, m, dl, d, du, x, batchCount, batchStride, pBufferSize);
+        out->Add(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCgtsv2StridedBatch_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zgtsv2StridedBatch_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zgtsv2StridedBatch_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    cuDoubleComplex * dl = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * d = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * du = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int batchCount = in->Get<int>();
+    int batchStride = in->Get<int>();
+    size_t * pBufferSize = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZgtsv2StridedBatch_bufferSizeExt(handle, m, dl, d, du, x, batchCount, batchStride, pBufferSize);
+        out->Add(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZgtsv2StridedBatch_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Sgtsv2StridedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Sgtsv2StridedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    float * dl = in->GetFromMarshal<float*>();
+    float * d = in->GetFromMarshal<float*>();
+    float * du = in->GetFromMarshal<float*>();
+    float * x = in->GetFromMarshal<float*>();
+    int batchCount = in->Get<int>();
+    int batchStride = in->Get<int>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSgtsv2StridedBatch(handle, m, dl, d, du, x, batchCount, batchStride, pBuffer);
+        out->AddMarshal<float*>(x);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSgtsv2StridedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dgtsv2StridedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dgtsv2StridedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    double * dl = in->GetFromMarshal<double*>();
+    double * d = in->GetFromMarshal<double*>();
+    double * du = in->GetFromMarshal<double*>();
+    double * x = in->GetFromMarshal<double*>();
+    int batchCount = in->Get<int>();
+    int batchStride = in->Get<int>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDgtsv2StridedBatch(handle, m, dl, d, du, x, batchCount, batchStride, pBuffer);
+        out->AddMarshal<double*>(x);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDgtsv2StridedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Cgtsv2StridedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Cgtsv2StridedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    cuComplex * dl = in->GetFromMarshal<cuComplex*>();
+    cuComplex * d = in->GetFromMarshal<cuComplex*>();
+    cuComplex * du = in->GetFromMarshal<cuComplex*>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int batchCount = in->Get<int>();
+    int batchStride = in->Get<int>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCgtsv2StridedBatch(handle, m, dl, d, du, x, batchCount, batchStride, pBuffer);
+        out->AddMarshal<cuComplex*>(x);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCgtsv2StridedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zgtsv2StridedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zgtsv2StridedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    cuDoubleComplex * dl = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * d = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * du = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int batchCount = in->Get<int>();
+    int batchStride = in->Get<int>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZgtsv2StridedBatch(handle, m, dl, d, du, x, batchCount, batchStride, pBuffer);
+        out->AddMarshal<cuDoubleComplex*>(x);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZgtsv2StridedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SgtsvInterleavedBatch_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SgtsvInterleavedBatch_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int algo = in->Get<int>();
+    int m = in->Get<int>();
+    float * dl = in->GetFromMarshal<float*>();
+    float * d = in->GetFromMarshal<float*>();
+    float * du = in->GetFromMarshal<float*>();
+    float * x = in->GetFromMarshal<float*>();
+    int batchCount = in->Get<int>();
+    size_t * pBufferSize = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSgtsvInterleavedBatch_bufferSizeExt(handle, algo, m, dl, d, du, x, batchCount, pBufferSize);
+        out->Add(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSgtsvInterleavedBatch_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DgtsvInterleavedBatch_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DgtsvInterleavedBatch_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int algo = in->Get<int>();
+    int m = in->Get<int>();
+    double * dl = in->GetFromMarshal<double*>();
+    double * d = in->GetFromMarshal<double*>();
+    double * du = in->GetFromMarshal<double*>();
+    double * x = in->GetFromMarshal<double*>();
+    int batchCount = in->Get<int>();
+    size_t * pBufferSize = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDgtsvInterleavedBatch_bufferSizeExt(handle, algo, m, dl, d, du, x, batchCount, pBufferSize);
+        out->Add(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDgtsvInterleavedBatch_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(CgtsvInterleavedBatch_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CgtsvInterleavedBatch_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int algo = in->Get<int>();
+    int m = in->Get<int>();
+    cuComplex * dl = in->GetFromMarshal<cuComplex*>();
+    cuComplex * d = in->GetFromMarshal<cuComplex*>();
+    cuComplex * du = in->GetFromMarshal<cuComplex*>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int batchCount = in->Get<int>();
+    size_t * pBufferSize = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCgtsvInterleavedBatch_bufferSizeExt(handle, algo, m, dl, d, du, x, batchCount, pBufferSize);
+        out->Add(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCgtsvInterleavedBatch_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(ZgtsvInterleavedBatch_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("ZgtsvInterleavedBatch_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int algo = in->Get<int>();
+    int m = in->Get<int>();
+    cuDoubleComplex * dl = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * d = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * du = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int batchCount = in->Get<int>();
+    size_t * pBufferSize = (in->Assign<size_t>());
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZgtsvInterleavedBatch_bufferSizeExt(handle, algo, m, dl, d, du, x, batchCount, pBufferSize);
+        out->Add(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZgtsvInterleavedBatch_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SgtsvInterleavedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SgtsvInterleavedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int algo = in->Get<int>();
+    int m = in->Get<int>();
+    float * dl = in->GetFromMarshal<float*>();
+    float * d = in->GetFromMarshal<float*>();
+    float * du = in->GetFromMarshal<float*>();
+    float * x = in->GetFromMarshal<float*>();
+    int batchCount = in->Get<int>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSgtsvInterleavedBatch(handle, algo, m, dl, d, du, x, batchCount, pBuffer);
+        out->AddMarshal<float*>(x);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSgtsvInterleavedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DgtsvInterleavedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DgtsvInterleavedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int algo = in->Get<int>();
+    int m = in->Get<int>();
+    double * dl = in->GetFromMarshal<double*>();
+    double * d = in->GetFromMarshal<double*>();
+    double * du = in->GetFromMarshal<double*>();
+    double * x = in->GetFromMarshal<double*>();
+    int batchCount = in->Get<int>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDgtsvInterleavedBatch(handle, algo, m, dl, d, du, x, batchCount, pBuffer);
+        out->AddMarshal<double*>(x);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDgtsvInterleavedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(CgtsvInterleavedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CgtsvInterleavedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int algo = in->Get<int>();
+    int m = in->Get<int>();
+    cuComplex * dl = in->GetFromMarshal<cuComplex*>();
+    cuComplex * d = in->GetFromMarshal<cuComplex*>();
+    cuComplex * du = in->GetFromMarshal<cuComplex*>();
+    cuComplex * x = in->GetFromMarshal<cuComplex*>();
+    int batchCount = in->Get<int>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCgtsvInterleavedBatch(handle, algo, m, dl, d, du, x, batchCount, pBuffer);
+        out->AddMarshal<cuComplex*>(x);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCgtsvInterleavedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(ZgtsvInterleavedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("ZgtsvInterleavedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int algo = in->Get<int>();
+    int m = in->Get<int>();
+    cuDoubleComplex * dl = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * d = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * du = in->GetFromMarshal<cuDoubleComplex*>();
+    cuDoubleComplex * x = in->GetFromMarshal<cuDoubleComplex*>();
+    int batchCount = in->Get<int>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZgtsvInterleavedBatch(handle, algo, m, dl, d, du, x, batchCount, pBuffer);
+        out->AddMarshal<cuDoubleComplex*>(x);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZgtsvInterleavedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif

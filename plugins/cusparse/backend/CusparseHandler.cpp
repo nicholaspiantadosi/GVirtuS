@@ -327,6 +327,22 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgtsv2_nopivot));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgtsv2_nopivot));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgtsv2_nopivot));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sgtsv2StridedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgtsv2StridedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgtsv2StridedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgtsv2StridedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sgtsv2StridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgtsv2StridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgtsv2StridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgtsv2StridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SgtsvInterleavedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DgtsvInterleavedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CgtsvInterleavedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(ZgtsvInterleavedBatch_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SgtsvInterleavedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DgtsvInterleavedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CgtsvInterleavedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(ZgtsvInterleavedBatch));
     // FORMAT CONVERSION REFERENCE
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2bsr));
