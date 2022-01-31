@@ -351,6 +351,11 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DgpsvInterleavedBatch));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CgpsvInterleavedBatch));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(ZgpsvInterleavedBatch));
+    //REORDERINGS REFERENCE
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsrcolor));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsrcolor));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsrcolor));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsrcolor));
     // FORMAT CONVERSION REFERENCE
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2bsr));

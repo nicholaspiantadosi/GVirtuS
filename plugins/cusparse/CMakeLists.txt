@@ -42,6 +42,7 @@ gvirtus_add_backend(cusparse ${CUDA_VERSION}
 		backend/CusparseHandler_generic.cpp
 		backend/CusparseHandler_extra.cpp
 		backend/CusparseHandler_preconditioners_reference.cpp
+		backend/CusparseHandler_reorderings.cpp
 		backend/Utilities.h
 )
 
@@ -59,6 +60,7 @@ gvirtus_add_frontend(cusparse ${CUDA_VERSION}
 		frontend/Cusparse_generic.cpp
 		frontend/Cusparse_extra.cpp
 		frontend/Cusparse_preconditioners_reference.cpp
+		frontend/Cusparse_reorderings.cpp
 )
 
 #add_subdirectory(demo/level3)
