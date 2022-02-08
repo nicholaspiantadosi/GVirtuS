@@ -357,6 +357,10 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsrcolor));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsrcolor));
     // FORMAT CONVERSION REFERENCE
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sbsr2csr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dbsr2csr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cbsr2csr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zbsr2csr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2bsr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsr2bsr));
