@@ -361,6 +361,14 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dbsr2csr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cbsr2csr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zbsr2csr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sgebsr2gebsc_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgebsr2gebsc_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgebsr2gebsc_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgebsr2gebsc_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sgebsr2gebsc));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dgebsr2gebsc));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cgebsr2gebsc));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zgebsr2gebsc));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2bsrNnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2bsr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsr2bsr));

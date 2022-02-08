@@ -154,6 +154,242 @@ CUSPARSE_ROUTINE_HANDLER(Zbsr2csr){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(Sgebsr2gebsc_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Sgebsr2gebsc_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int mb = in->Get<int>();
+    int nb = in->Get<int>();
+    int nnzb = in->Get<int>();
+    const float * bsrValA = in->GetFromMarshal<float*>();
+    const int * bsrRowPtrA = in->GetFromMarshal<int*>();
+    const int * bsrColIndA = in->GetFromMarshal<int*>();
+    int rowBlockDim = in->Get<int>();
+    int colBlockDim = in->Get<int>();
+    int * pBufferSize = new int;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSgebsr2gebsc_bufferSize(handle, mb, nb, nnzb, bsrValA, bsrRowPtrA, bsrColIndA, rowBlockDim, colBlockDim, pBufferSize);
+        out->AddMarshal<int*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSgebsr2gebsc_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dgebsr2gebsc_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dgebsr2gebsc_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int mb = in->Get<int>();
+    int nb = in->Get<int>();
+    int nnzb = in->Get<int>();
+    const double * bsrValA = in->GetFromMarshal<double*>();
+    const int * bsrRowPtrA = in->GetFromMarshal<int*>();
+    const int * bsrColIndA = in->GetFromMarshal<int*>();
+    int rowBlockDim = in->Get<int>();
+    int colBlockDim = in->Get<int>();
+    int * pBufferSize = new int;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDgebsr2gebsc_bufferSize(handle, mb, nb, nnzb, bsrValA, bsrRowPtrA, bsrColIndA, rowBlockDim, colBlockDim, pBufferSize);
+        out->AddMarshal<int*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDgebsr2gebsc_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Cgebsr2gebsc_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Cgebsr2gebsc_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int mb = in->Get<int>();
+    int nb = in->Get<int>();
+    int nnzb = in->Get<int>();
+    const cuComplex * bsrValA = in->GetFromMarshal<cuComplex*>();
+    const int * bsrRowPtrA = in->GetFromMarshal<int*>();
+    const int * bsrColIndA = in->GetFromMarshal<int*>();
+    int rowBlockDim = in->Get<int>();
+    int colBlockDim = in->Get<int>();
+    int * pBufferSize = new int;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCgebsr2gebsc_bufferSize(handle, mb, nb, nnzb, bsrValA, bsrRowPtrA, bsrColIndA, rowBlockDim, colBlockDim, pBufferSize);
+        out->AddMarshal<int*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCgebsr2gebsc_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zgebsr2gebsc_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zgebsr2gebsc_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int mb = in->Get<int>();
+    int nb = in->Get<int>();
+    int nnzb = in->Get<int>();
+    const cuDoubleComplex * bsrValA = in->GetFromMarshal<cuDoubleComplex*>();
+    const int * bsrRowPtrA = in->GetFromMarshal<int*>();
+    const int * bsrColIndA = in->GetFromMarshal<int*>();
+    int rowBlockDim = in->Get<int>();
+    int colBlockDim = in->Get<int>();
+    int * pBufferSize = new int;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZgebsr2gebsc_bufferSize(handle, mb, nb, nnzb, bsrValA, bsrRowPtrA, bsrColIndA, rowBlockDim, colBlockDim, pBufferSize);
+        out->AddMarshal<int*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZgebsr2gebsc_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Sgebsr2gebsc){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Sgebsr2gebsc"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int mb = in->Get<int>();
+    int nb = in->Get<int>();
+    int nnzb = in->Get<int>();
+    const float * bsrValA = in->GetFromMarshal<float*>();
+    const int * bsrRowPtrA = in->GetFromMarshal<int*>();
+    const int * bsrColIndA = in->GetFromMarshal<int*>();
+    int rowBlockDim = in->Get<int>();
+    int colBlockDim = in->Get<int>();
+    float* bscVal = in->GetFromMarshal<float*>();
+    int* bscRowInd = in->GetFromMarshal<int*>();
+    int* bscColPtr = in->GetFromMarshal<int*>();
+    cusparseAction_t copyValues = in->Get<cusparseAction_t>();
+    cusparseIndexBase_t baseIdx = in->Get<cusparseIndexBase_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSgebsr2gebsc(handle, mb, nb, nnzb, bsrValA, bsrRowPtrA, bsrColIndA, rowBlockDim, colBlockDim, bscVal, bscRowInd, bscColPtr, copyValues, baseIdx, pBuffer);
+        out->AddMarshal<float*>(bscVal);
+        out->AddMarshal<int*>(bscRowInd);
+        out->AddMarshal<int*>(bscColPtr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSgebsr2gebsc Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dgebsr2gebsc){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dgebsr2gebsc"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int mb = in->Get<int>();
+    int nb = in->Get<int>();
+    int nnzb = in->Get<int>();
+    const double * bsrValA = in->GetFromMarshal<double*>();
+    const int * bsrRowPtrA = in->GetFromMarshal<int*>();
+    const int * bsrColIndA = in->GetFromMarshal<int*>();
+    int rowBlockDim = in->Get<int>();
+    int colBlockDim = in->Get<int>();
+    double* bscVal = in->GetFromMarshal<double*>();
+    int* bscRowInd = in->GetFromMarshal<int*>();
+    int* bscColPtr = in->GetFromMarshal<int*>();
+    cusparseAction_t copyValues = in->Get<cusparseAction_t>();
+    cusparseIndexBase_t baseIdx = in->Get<cusparseIndexBase_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDgebsr2gebsc(handle, mb, nb, nnzb, bsrValA, bsrRowPtrA, bsrColIndA, rowBlockDim, colBlockDim, bscVal, bscRowInd, bscColPtr, copyValues, baseIdx, pBuffer);
+        out->AddMarshal<double*>(bscVal);
+        out->AddMarshal<int*>(bscRowInd);
+        out->AddMarshal<int*>(bscColPtr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDgebsr2gebsc Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Cgebsr2gebsc){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Cgebsr2gebsc"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int mb = in->Get<int>();
+    int nb = in->Get<int>();
+    int nnzb = in->Get<int>();
+    const cuComplex * bsrValA = in->GetFromMarshal<cuComplex*>();
+    const int * bsrRowPtrA = in->GetFromMarshal<int*>();
+    const int * bsrColIndA = in->GetFromMarshal<int*>();
+    int rowBlockDim = in->Get<int>();
+    int colBlockDim = in->Get<int>();
+    cuComplex* bscVal = in->GetFromMarshal<cuComplex*>();
+    int* bscRowInd = in->GetFromMarshal<int*>();
+    int* bscColPtr = in->GetFromMarshal<int*>();
+    cusparseAction_t copyValues = in->Get<cusparseAction_t>();
+    cusparseIndexBase_t baseIdx = in->Get<cusparseIndexBase_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCgebsr2gebsc(handle, mb, nb, nnzb, bsrValA, bsrRowPtrA, bsrColIndA, rowBlockDim, colBlockDim, bscVal, bscRowInd, bscColPtr, copyValues, baseIdx, pBuffer);
+        out->AddMarshal<cuComplex*>(bscVal);
+        out->AddMarshal<int*>(bscRowInd);
+        out->AddMarshal<int*>(bscColPtr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCgebsr2gebsc Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zgebsr2gebsc){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zgebsr2gebsc"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
+    int mb = in->Get<int>();
+    int nb = in->Get<int>();
+    int nnzb = in->Get<int>();
+    const cuDoubleComplex * bsrValA = in->GetFromMarshal<cuDoubleComplex*>();
+    const int * bsrRowPtrA = in->GetFromMarshal<int*>();
+    const int * bsrColIndA = in->GetFromMarshal<int*>();
+    int rowBlockDim = in->Get<int>();
+    int colBlockDim = in->Get<int>();
+    cuDoubleComplex* bscVal = in->GetFromMarshal<cuDoubleComplex*>();
+    int* bscRowInd = in->GetFromMarshal<int*>();
+    int* bscColPtr = in->GetFromMarshal<int*>();
+    cusparseAction_t copyValues = in->Get<cusparseAction_t>();
+    cusparseIndexBase_t baseIdx = in->Get<cusparseIndexBase_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseZgebsr2gebsc(handle, mb, nb, nnzb, bsrValA, bsrRowPtrA, bsrColIndA, rowBlockDim, colBlockDim, bscVal, bscRowInd, bscColPtr, copyValues, baseIdx, pBuffer);
+        out->AddMarshal<cuDoubleComplex*>(bscVal);
+        out->AddMarshal<int*>(bscRowInd);
+        out->AddMarshal<int*>(bscColPtr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseZgebsr2gebsc Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 CUSPARSE_ROUTINE_HANDLER(Xcsr2bsrNnz){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Xcsr2bsrNnz"));
     CusparseHandler::setLogLevel(&logger);
