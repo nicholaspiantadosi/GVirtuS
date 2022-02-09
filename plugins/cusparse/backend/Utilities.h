@@ -1,6 +1,6 @@
 #include <cuda_runtime.h>
 
-void printArray(const int* dArray, int size) {
+void printArray(int* dArray, int size) {
     int hArray[size];
     cudaMemcpy(hArray, dArray, size * sizeof(int), cudaMemcpyDeviceToHost);
     printf("[");
