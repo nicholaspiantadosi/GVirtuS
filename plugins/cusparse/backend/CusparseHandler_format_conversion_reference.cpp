@@ -24,6 +24,7 @@
  */
 
 #include "CusparseHandler.h"
+#include "Utilities.h"
 
 using namespace log4cplus;
 
@@ -1372,6 +1373,144 @@ CUSPARSE_ROUTINE_HANDLER(Zcsr2bsr){
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
     }
     LOG4CPLUS_DEBUG(logger,"cusparseZcsr2bsr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Xcsr2coo) {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Xcsr2coo"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t) in->Get<size_t>();
+    const int *csrRowPtr = in->GetFromMarshal<int *>();
+    int nnz = in->Get<int>();
+    int m = in->Get<int>();
+    int* cooRowInd = in->GetFromMarshal<int *>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        cs = cusparseXcsr2coo(handle, csrRowPtr, nnz, m, cooRowInd, idxBase);
+        out->AddMarshal<int*>(cooRowInd);
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger, e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger, "cusparseXcsr2coo Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Csr2cscEx2_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Csr2cscEx2_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnz = in->Get<int>();
+    const int * csrRowPtr = in->GetFromMarshal<int*>();
+    const int * csrColInd = in->GetFromMarshal<int*>();
+    int * cscColPtr = in->GetFromMarshal<int*>();
+    int * cscRowInd = in->GetFromMarshal<int*>();
+    cudaDataType valType = in->GetFromMarshal<cudaDataType>();
+    cusparseAction_t copyValues = in->GetFromMarshal<cusparseAction_t>();
+    cusparseIndexBase_t idxBase = in->GetFromMarshal<cusparseIndexBase_t>();
+    cusparseCsr2CscAlg_t alg = in->GetFromMarshal<cusparseCsr2CscAlg_t>();
+    size_t * bufferSize = new size_t;
+    void * csrVal;
+    void * cscVal;
+    if (valType == CUDA_R_32F) {
+        // float
+        csrVal = in->GetFromMarshal<float*>();
+        cscVal = in->GetFromMarshal<float*>();
+    } else if (valType == CUDA_R_64F) {
+        // double
+        csrVal = in->GetFromMarshal<double*>();
+        cscVal = in->GetFromMarshal<double*>();
+    } else if (valType == CUDA_C_32F) {
+        // cuComplex
+        csrVal = in->GetFromMarshal<cuComplex*>();
+        cscVal = in->GetFromMarshal<cuComplex*>();
+    } else if (valType == CUDA_C_64F) {
+        // cuDoubleComplex
+        csrVal = in->GetFromMarshal<cuDoubleComplex*>();
+        cscVal = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCsr2cscEx2_bufferSize(handle, m, n, nnz, csrVal, csrRowPtr, csrColInd, cscVal, cscColPtr, cscRowInd, valType, copyValues, idxBase, alg, bufferSize);
+        out->AddMarshal<size_t*>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCsr2cscEx2_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Csr2cscEx2){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Csr2cscEx2"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnz = in->Get<int>();
+    const int * csrRowPtr = in->GetFromMarshal<int*>();
+    const int * csrColInd = in->GetFromMarshal<int*>();
+    int * cscColPtr = in->GetFromMarshal<int*>();
+    int * cscRowInd = in->GetFromMarshal<int*>();
+    cudaDataType valType = in->GetFromMarshal<cudaDataType>();
+    cusparseAction_t copyValues = in->GetFromMarshal<cusparseAction_t>();
+    cusparseIndexBase_t idxBase = in->GetFromMarshal<cusparseIndexBase_t>();
+    cusparseCsr2CscAlg_t alg = in->GetFromMarshal<cusparseCsr2CscAlg_t>();
+    void* buffer = in->GetFromMarshal<void*>();
+    void * csrVal;
+    void * cscVal;
+    if (valType == CUDA_R_32F) {
+        // float
+        csrVal = in->GetFromMarshal<float*>();
+        cscVal = in->GetFromMarshal<float*>();
+    } else if (valType == CUDA_R_64F) {
+        // double
+        csrVal = in->GetFromMarshal<double*>();
+        cscVal = in->GetFromMarshal<double*>();
+    } else if (valType == CUDA_C_32F) {
+        // cuComplex
+        csrVal = in->GetFromMarshal<cuComplex*>();
+        cscVal = in->GetFromMarshal<cuComplex*>();
+    } else if (valType == CUDA_C_64F) {
+        // cuDoubleComplex
+        csrVal = in->GetFromMarshal<cuDoubleComplex*>();
+        cscVal = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCsr2cscEx2(handle, m, n, nnz, csrVal, csrRowPtr, csrColInd, cscVal, cscColPtr, cscRowInd, valType, copyValues, idxBase, alg, buffer);
+        if (valType == CUDA_R_32F) {
+            // float
+            out->AddMarshal<float*>((float*)cscVal);
+        } else if (valType == CUDA_R_64F) {
+            // double
+            out->AddMarshal<double*>((double*)cscVal);
+        } else if (valType == CUDA_C_32F) {
+            // cuComplex
+            out->AddMarshal<cuComplex*>((cuComplex*)cscVal);
+        } else if (valType == CUDA_C_64F) {
+            // cuDoubleComplex
+            out->AddMarshal<cuDoubleComplex*>((cuDoubleComplex*)cscVal);
+        } else {
+            throw "Type not supported by GVirtus!";
+        }
+        out->AddMarshal<int*>(cscColPtr);
+        out->AddMarshal<int*>(cscRowInd);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCsr2cscEx2 Executed");
     return std::make_shared<Result>(cs,out);
 }
 

@@ -1039,6 +1039,133 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZcsr2bsr(cusparseHandle_t handle
     return CusparseFrontend::GetExitCode();
 }
 
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseXcsr2coo(cusparseHandle_t handle, const int* csrRowPtr, int nnz, int m, int* cooRowInd, cusparseIndexBase_t idxBase) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtr);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddDevicePointerForArguments(cooRowInd);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::Execute("cusparseXcsr2coo");
+    if (CusparseFrontend::Success()) {
+        cooRowInd = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCsr2cscEx2_bufferSize(cusparseHandle_t handle, int m, int n, int nnz, const void* csrVal, const int* csrRowPtr, const int* csrColInd, void* cscVal, int* cscColPtr, int* cscRowInd, cudaDataType valType, cusparseAction_t copyValues, cusparseIndexBase_t idxBase, cusparseCsr2CscAlg_t alg, size_t* bufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtr);
+    CusparseFrontend::AddDevicePointerForArguments(csrColInd);
+    CusparseFrontend::AddDevicePointerForArguments(cscColPtr);
+    CusparseFrontend::AddDevicePointerForArguments(cscRowInd);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(valType);
+    CusparseFrontend::AddVariableForArguments<cusparseAction_t>(copyValues);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::AddVariableForArguments<cusparseCsr2CscAlg_t>(alg);
+    switch(valType){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddDevicePointerForArguments((float *)csrVal);
+            CusparseFrontend::AddDevicePointerForArguments((float *)cscVal);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddDevicePointerForArguments((double *)csrVal);
+            CusparseFrontend::AddDevicePointerForArguments((double *)cscVal);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddDevicePointerForArguments((cuComplex *)csrVal);
+            CusparseFrontend::AddDevicePointerForArguments((cuComplex *)cscVal);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddDevicePointerForArguments((cuDoubleComplex *)csrVal);
+            CusparseFrontend::AddDevicePointerForArguments((cuDoubleComplex *)cscVal);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::Execute("cusparseCsr2cscEx2_bufferSize");
+    if (CusparseFrontend::Success()) {
+        bufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCsr2cscEx2(cusparseHandle_t handle, int m, int n, int nnz, const void* csrVal, const int* csrRowPtr, const int* csrColInd, void* cscVal, int* cscColPtr, int* cscRowInd, cudaDataType valType, cusparseAction_t copyValues, cusparseIndexBase_t idxBase, cusparseCsr2CscAlg_t alg, void* buffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtr);
+    CusparseFrontend::AddDevicePointerForArguments(csrColInd);
+    CusparseFrontend::AddDevicePointerForArguments(cscColPtr);
+    CusparseFrontend::AddDevicePointerForArguments(cscRowInd);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(valType);
+    CusparseFrontend::AddVariableForArguments<cusparseAction_t>(copyValues);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::AddVariableForArguments<cusparseCsr2CscAlg_t>(alg);
+    CusparseFrontend::AddDevicePointerForArguments(buffer);
+    switch(valType){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddDevicePointerForArguments((float *)csrVal);
+            CusparseFrontend::AddDevicePointerForArguments((float *)cscVal);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddDevicePointerForArguments((double *)csrVal);
+            CusparseFrontend::AddDevicePointerForArguments((double *)cscVal);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddDevicePointerForArguments((cuComplex *)csrVal);
+            CusparseFrontend::AddDevicePointerForArguments((cuComplex *)cscVal);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddDevicePointerForArguments((cuDoubleComplex *)csrVal);
+            CusparseFrontend::AddDevicePointerForArguments((cuDoubleComplex *)cscVal);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::Execute("cusparseCsr2cscEx2");
+    if (CusparseFrontend::Success()) {
+        switch(valType){
+            case CUDA_R_32F:
+                //float
+                cscVal = (float *)CusparseFrontend::GetOutputDevicePointer();
+                break;
+            case CUDA_R_64F:
+                //double
+                cscVal = (double *)CusparseFrontend::GetOutputDevicePointer();
+                break;
+            case CUDA_C_32F:
+                //cuComplex
+                cscVal = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+                break;
+            case CUDA_C_64F:
+                //cuDoubleComplex
+                cscVal = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+                break;
+            default:
+                throw "Type not supported by GVirtus!";
+        }
+        cscColPtr = (int *)CusparseFrontend::GetOutputDevicePointer();
+        cscRowInd = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSdense2csr(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const float* A, int lda, const int* nnzPerRow, float* csrValA, int* csrRowPtrA, int* csrColIndA) {
     CusparseFrontend::Prepare();
     CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
