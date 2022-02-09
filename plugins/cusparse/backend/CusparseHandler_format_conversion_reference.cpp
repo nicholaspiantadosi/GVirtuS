@@ -1101,6 +1101,128 @@ CUSPARSE_ROUTINE_HANDLER(Zcsr2gebsr) {
     return std::make_shared<Result>(cs, out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(Xcoo2csr) {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Xcoo2csr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t) in->Get<size_t>();
+    const int* cooRowInd = in->GetFromMarshal<int *>();
+    int nnz = in->Get<int>();
+    int m = in->Get<int>();
+    int *csrRowPtr = in->GetFromMarshal<int *>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        cs = cusparseXcoo2csr(handle, cooRowInd, nnz, m, csrRowPtr, idxBase);
+        out->AddMarshal<int*>(csrRowPtr);
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger, e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger, "cusparseXcoo2csr Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Scsc2dense) {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Scsc2dense"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t) in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    float *cscValA = in->GetFromMarshal<float *>();
+    int *cscRowIndA = in->GetFromMarshal<int *>();
+    int *cscColPtrA = in->GetFromMarshal<int *>();
+    float* A = in->GetFromMarshal<float *>();
+    int lda = in->Get<int>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        cs = cusparseScsc2dense(handle, m, n, descrA, cscValA, cscRowIndA, cscColPtrA, A, lda);
+        out->AddMarshal<float*>(A);
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger, e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger, "cusparseScsc2dense Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Dcsc2dense) {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Dcsc2dense"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t) in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    double *cscValA = in->GetFromMarshal<double *>();
+    int *cscRowIndA = in->GetFromMarshal<int *>();
+    int *cscColPtrA = in->GetFromMarshal<int *>();
+    double* A = in->GetFromMarshal<double *>();
+    int lda = in->Get<int>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        cs = cusparseDcsc2dense(handle, m, n, descrA, cscValA, cscRowIndA, cscColPtrA, A, lda);
+        out->AddMarshal<double*>(A);
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger, e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger, "cusparseDcsc2dense Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Ccsc2dense) {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Ccsc2dense"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t) in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    cuComplex *cscValA = in->GetFromMarshal<cuComplex *>();
+    int *cscRowIndA = in->GetFromMarshal<int *>();
+    int *cscColPtrA = in->GetFromMarshal<int *>();
+    cuComplex* A = in->GetFromMarshal<cuComplex *>();
+    int lda = in->Get<int>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        cs = cusparseCcsc2dense(handle, m, n, descrA, cscValA, cscRowIndA, cscColPtrA, A, lda);
+        out->AddMarshal<cuComplex*>(A);
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger, e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger, "cusparseCcsc2dense Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Zcsc2dense) {
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Zcsc2dense"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t) in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    cuDoubleComplex *cscValA = in->GetFromMarshal<cuDoubleComplex *>();
+    int *cscRowIndA = in->GetFromMarshal<int *>();
+    int *cscColPtrA = in->GetFromMarshal<int *>();
+    cuDoubleComplex* A = in->GetFromMarshal<cuDoubleComplex *>();
+    int lda = in->Get<int>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        cs = cusparseZcsc2dense(handle, m, n, descrA, cscValA, cscRowIndA, cscColPtrA, A, lda);
+        out->AddMarshal<cuDoubleComplex*>(A);
+    } catch (string e) {
+        LOG4CPLUS_DEBUG(logger, e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger, "cusparseZcsc2dense Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
 CUSPARSE_ROUTINE_HANDLER(Xcsr2bsrNnz){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Xcsr2bsrNnz"));
     CusparseHandler::setLogLevel(&logger);
