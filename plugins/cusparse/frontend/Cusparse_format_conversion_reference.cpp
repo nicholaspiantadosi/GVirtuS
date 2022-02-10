@@ -1166,6 +1166,174 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseCsr2cscEx2(cusparseHandle_t hand
     return CusparseFrontend::GetExitCode();
 }
 
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseScsr2dense(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const float* csrValA, const int* csrRowPtrA, const int* csrColIndA, float* A, int lda) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(A);
+    CusparseFrontend::AddVariableForArguments<int>(lda);
+    CusparseFrontend::Execute("cusparseScsr2dense");
+    if (CusparseFrontend::Success()) {
+        A = (float *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDcsr2dense(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const double* csrValA, const int* csrRowPtrA, const int* csrColIndA, double* A, int lda) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(A);
+    CusparseFrontend::AddVariableForArguments<int>(lda);
+    CusparseFrontend::Execute("cusparseDcsr2dense");
+    if (CusparseFrontend::Success()) {
+        A = (double *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCcsr2dense(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const cuComplex* csrValA, const int* csrRowPtrA, const int* csrColIndA, cuComplex* A, int lda) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(A);
+    CusparseFrontend::AddVariableForArguments<int>(lda);
+    CusparseFrontend::Execute("cusparseCcsr2dense");
+    if (CusparseFrontend::Success()) {
+        A = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZcsr2dense(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const cuDoubleComplex* csrValA, const int* csrRowPtrA, const int* csrColIndA, cuDoubleComplex* A, int lda) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(A);
+    CusparseFrontend::AddVariableForArguments<int>(lda);
+    CusparseFrontend::Execute("cusparseZcsr2dense");
+    if (CusparseFrontend::Success()) {
+        A = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseScsr2csr_compress(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const float* csrValA, const int* csrColIndA, const int* csrRowPtrA, int nnzA, const int* nnzPerRow, float* csrValC, int* csrColIndC, int* csrRowPtrC, float tol) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddDevicePointerForArguments(nnzPerRow);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddVariableForArguments<float>(tol);
+    CusparseFrontend::Execute("cusparseScsr2csr_compress");
+    if (CusparseFrontend::Success()) {
+        csrValC = (float *)CusparseFrontend::GetOutputDevicePointer();
+        csrColIndC = (int *)CusparseFrontend::GetOutputDevicePointer();
+        csrRowPtrC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDcsr2csr_compress(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const double* csrValA, const int* csrColIndA, const int* csrRowPtrA, int nnzA, const int* nnzPerRow, double* csrValC, int* csrColIndC, int* csrRowPtrC, double tol) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddDevicePointerForArguments(nnzPerRow);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddVariableForArguments<double>(tol);
+    CusparseFrontend::Execute("cusparseDcsr2csr_compress");
+    if (CusparseFrontend::Success()) {
+        csrValC = (double *)CusparseFrontend::GetOutputDevicePointer();
+        csrColIndC = (int *)CusparseFrontend::GetOutputDevicePointer();
+        csrRowPtrC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCcsr2csr_compress(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const cuComplex* csrValA, const int* csrColIndA, const int* csrRowPtrA, int nnzA, const int* nnzPerRow, cuComplex* csrValC, int* csrColIndC, int* csrRowPtrC, cuComplex tol) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddDevicePointerForArguments(nnzPerRow);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddVariableForArguments<cuComplex>(tol);
+    CusparseFrontend::Execute("cusparseCcsr2csr_compress");
+    if (CusparseFrontend::Success()) {
+        csrValC = (cuComplex *)CusparseFrontend::GetOutputDevicePointer();
+        csrColIndC = (int *)CusparseFrontend::GetOutputDevicePointer();
+        csrRowPtrC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZcsr2csr_compress(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const cuDoubleComplex* csrValA, const int* csrColIndA, const int* csrRowPtrA, int nnzA, const int* nnzPerRow, cuDoubleComplex* csrValC, int* csrColIndC, int* csrRowPtrC, cuDoubleComplex tol) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddDevicePointerForArguments(nnzPerRow);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddVariableForArguments<cuDoubleComplex>(tol);
+    CusparseFrontend::Execute("cusparseZcsr2csr_compress");
+    if (CusparseFrontend::Success()) {
+        csrValC = (cuDoubleComplex *)CusparseFrontend::GetOutputDevicePointer();
+        csrColIndC = (int *)CusparseFrontend::GetOutputDevicePointer();
+        csrRowPtrC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSdense2csr(cusparseHandle_t handle, int m, int n, const cusparseMatDescr_t descrA, const float* A, int lda, const int* nnzPerRow, float* csrValA, int* csrRowPtrA, int* csrColIndA) {
     CusparseFrontend::Prepare();
     CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
@@ -1322,6 +1490,78 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseZnnz(cusparseHandle_t handle, cu
     if (CusparseFrontend::Success()) {
         nnzPerRowColumn = (int *)CusparseFrontend::GetOutputDevicePointer();
         *nnzTotalDevHostPtr = (int) CusparseFrontend::GetOutputVariable<int>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSnnz_compress(cusparseHandle_t handle, int m, const cusparseMatDescr_t descr, const float* csrValA, const int* csrRowPtrA, int* nnzPerRow, int* nnzC, float tol) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descr);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(nnzPerRow);
+    //CusparseFrontend::AddDevicePointerForArguments(nnzC);
+    CusparseFrontend::AddVariableForArguments<float>(tol);
+    CusparseFrontend::Execute("cusparseSnnz_compress");
+    if (CusparseFrontend::Success()) {
+        nnzPerRow = (int *)CusparseFrontend::GetOutputDevicePointer();
+        *nnzC = (int) CusparseFrontend::GetOutputVariable<int>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnnz_compress(cusparseHandle_t handle, int m, const cusparseMatDescr_t descr, const double* csrValA, const int* csrRowPtrA, int* nnzPerRow, int* nnzC, double tol) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descr);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(nnzPerRow);
+    //CusparseFrontend::AddDevicePointerForArguments(nnzC);
+    CusparseFrontend::AddVariableForArguments<double>(tol);
+    CusparseFrontend::Execute("cusparseDnnz_compress");
+    if (CusparseFrontend::Success()) {
+        nnzPerRow = (int *)CusparseFrontend::GetOutputDevicePointer();
+        *nnzC = (int) CusparseFrontend::GetOutputVariable<int>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCnnz_compress(cusparseHandle_t handle, int m, const cusparseMatDescr_t descr, const cuComplex* csrValA, const int* csrRowPtrA, int* nnzPerRow, int* nnzC, cuComplex tol) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descr);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(nnzPerRow);
+    //CusparseFrontend::AddDevicePointerForArguments(nnzC);
+    CusparseFrontend::AddVariableForArguments<cuComplex>(tol);
+    CusparseFrontend::Execute("cusparseCnnz_compress");
+    if (CusparseFrontend::Success()) {
+        nnzPerRow = (int *)CusparseFrontend::GetOutputDevicePointer();
+        *nnzC = (int) CusparseFrontend::GetOutputVariable<int>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseZnnz_compress(cusparseHandle_t handle, int m, const cusparseMatDescr_t descr, const cuDoubleComplex* csrValA, const int* csrRowPtrA, int* nnzPerRow, int* nnzC, cuDoubleComplex tol) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descr);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(nnzPerRow);
+    //CusparseFrontend::AddDevicePointerForArguments(nnzC);
+    CusparseFrontend::AddVariableForArguments<cuDoubleComplex>(tol);
+    CusparseFrontend::Execute("cusparseZnnz_compress");
+    if (CusparseFrontend::Success()) {
+        nnzPerRow = (int *)CusparseFrontend::GetOutputDevicePointer();
+        *nnzC = (int) CusparseFrontend::GetOutputVariable<int>();
     }
     return CusparseFrontend::GetExitCode();
 }

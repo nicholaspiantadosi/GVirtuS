@@ -404,6 +404,14 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcsr2coo));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Csr2cscEx2_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Csr2cscEx2));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2dense));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsr2dense));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsr2dense));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsr2dense));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scsr2csr_compress));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsr2csr_compress));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsr2csr_compress));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsr2csr_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sdense2csr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ddense2csr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cdense2csr));
@@ -412,6 +420,10 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dnnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cnnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Znnz));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Snnz_compress));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dnnz_compress));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cnnz_compress));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Znnz_compress));
     // GENERIC API REFERENCE - SPARSE MATRIX API
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroySpMat));
