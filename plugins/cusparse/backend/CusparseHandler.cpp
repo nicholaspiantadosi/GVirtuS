@@ -412,6 +412,10 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dcsr2csr_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ccsr2csr_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zcsr2csr_compress));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sdense2csc));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ddense2csc));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cdense2csc));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Zdense2csc));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Sdense2csr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Ddense2csr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cdense2csr));
@@ -420,6 +424,10 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dnnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cnnz));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Znnz));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateIdentityPermutation));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Xcoosort_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(XcoosortByRow));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(XcoosortByColumn));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Snnz_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dnnz_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cnnz_compress));
