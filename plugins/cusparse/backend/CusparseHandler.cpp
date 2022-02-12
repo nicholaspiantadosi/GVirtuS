@@ -473,6 +473,15 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(HpruneDense2csrByPercentage));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpruneDense2csrByPercentage));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DpruneDense2csrByPercentage));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(HpruneCsr2csrByPercentage_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpruneCsr2csrByPercentage_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DpruneCsr2csrByPercentage_bufferSizeExt));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(HpruneCsr2csrNnzByPercentage));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpruneCsr2csrNnzByPercentage));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DpruneCsr2csrNnzByPercentage));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(HpruneCsr2csrByPercentage));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpruneCsr2csrByPercentage));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DpruneCsr2csrByPercentage));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Snnz_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dnnz_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cnnz_compress));

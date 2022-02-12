@@ -2526,6 +2526,219 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDpruneDense2csrByPercentage(cusp
     return CusparseFrontend::GetExitCode();
 }
 
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseHpruneCsr2csrByPercentage_bufferSizeExt(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const __half* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage,  const cusparseMatDescr_t descrC, const __half* csrValC, const int* csrRowPtrC, const int* csrColIndC, pruneInfo_t info, size_t* pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::Execute("cusparseHpruneCsr2csrByPercentage_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpruneCsr2csrByPercentage_bufferSizeExt(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const float* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage,  const cusparseMatDescr_t descrC, const float* csrValC, const int* csrRowPtrC, const int* csrColIndC, pruneInfo_t info, size_t* pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::Execute("cusparseSpruneCsr2csrByPercentage_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDpruneCsr2csrByPercentage_bufferSizeExt(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const double* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage,  const cusparseMatDescr_t descrC, const double* csrValC, const int* csrRowPtrC, const int* csrColIndC, pruneInfo_t info, size_t* pBufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::Execute("cusparseDpruneCsr2csrByPercentage_bufferSizeExt");
+    if (CusparseFrontend::Success()) {
+        pBufferSize = (size_t *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseHpruneCsr2csrNnzByPercentage(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const __half* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage, const cusparseMatDescr_t descrC, int* csrRowPtrC, int* nnzTotalDevHostPtr, pruneInfo_t info, void* pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseHpruneCsr2csrNnzByPercentage");
+    if (CusparseFrontend::Success()) {
+        *nnzTotalDevHostPtr = (int) CusparseFrontend::GetOutputVariable<int>();
+        csrRowPtrC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpruneCsr2csrNnzByPercentage(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const float* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage, const cusparseMatDescr_t descrC, int* csrRowPtrC, int* nnzTotalDevHostPtr, pruneInfo_t info, void* pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseSpruneCsr2csrNnzByPercentage");
+    if (CusparseFrontend::Success()) {
+        *nnzTotalDevHostPtr = (int) CusparseFrontend::GetOutputVariable<int>();
+        csrRowPtrC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDpruneCsr2csrNnzByPercentage(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const double* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage, const cusparseMatDescr_t descrC, int* csrRowPtrC, int* nnzTotalDevHostPtr, pruneInfo_t info, void* pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseDpruneCsr2csrNnzByPercentage");
+    if (CusparseFrontend::Success()) {
+        *nnzTotalDevHostPtr = (int) CusparseFrontend::GetOutputVariable<int>();
+        csrRowPtrC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseHpruneCsr2csrByPercentage(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const __half* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage, const cusparseMatDescr_t descrC, __half* csrValC, const int* csrRowPtrC, int* csrColIndC, pruneInfo_t info, void* pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseHpruneCsr2csrByPercentage");
+    if (CusparseFrontend::Success()) {
+        csrValC = (__half *)CusparseFrontend::GetOutputDevicePointer();
+        csrColIndC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpruneCsr2csrByPercentage(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const float* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage, const cusparseMatDescr_t descrC, float* csrValC, const int* csrRowPtrC, int* csrColIndC, pruneInfo_t info, void* pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseSpruneCsr2csrByPercentage");
+    if (CusparseFrontend::Success()) {
+        csrValC = (float *)CusparseFrontend::GetOutputDevicePointer();
+        csrColIndC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDpruneCsr2csrByPercentage(cusparseHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const double* csrValA, const int* csrRowPtrA, const int* csrColIndA, float percentage, const cusparseMatDescr_t descrC, double* csrValC, const int* csrRowPtrC, int* csrColIndC, pruneInfo_t info, void* pBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<int>(m);
+    CusparseFrontend::AddVariableForArguments<int>(n);
+    CusparseFrontend::AddVariableForArguments<int>(nnzA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrValA);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusparseFrontend::AddVariableForArguments<float>(percentage);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)descrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrValC);
+    CusparseFrontend::AddDevicePointerForArguments(csrRowPtrC);
+    CusparseFrontend::AddDevicePointerForArguments(csrColIndC);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusparseFrontend::AddDevicePointerForArguments(pBuffer);
+    CusparseFrontend::Execute("cusparseDpruneCsr2csrByPercentage");
+    if (CusparseFrontend::Success()) {
+        csrValC = (double *)CusparseFrontend::GetOutputDevicePointer();
+        csrColIndC = (int *)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSnnz_compress(cusparseHandle_t handle, int m, const cusparseMatDescr_t descr, const float* csrValA, const int* csrRowPtrA, int* nnzPerRow, int* nnzC, float tol) {
     CusparseFrontend::Prepare();
     CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
