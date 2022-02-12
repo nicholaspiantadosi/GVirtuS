@@ -2601,6 +2601,780 @@ CUSPARSE_ROUTINE_HANDLER(Zcsr2csru){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(HpruneDense2csr_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneDense2csr_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const __half * A = in->GetFromMarshal<__half*>();
+    int lda = in->Get<int>();
+    const __half threshold = in->Get<__half>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    __half * csrValC = in->GetFromMarshal<__half*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneDense2csr_bufferSizeExt(handle, m, n, A, lda, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneDense2csr_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneDense2csr_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneDense2csr_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const float * A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    const float threshold = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    float * csrValC = in->GetFromMarshal<float*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneDense2csr_bufferSizeExt(handle, m, n, A, lda, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneDense2csr_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneDense2csr_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneDense2csr_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const double * A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    const double threshold = in->Get<double>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    double * csrValC = in->GetFromMarshal<double*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneDense2csr_bufferSizeExt(handle, m, n, A, lda, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneDense2csr_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(HpruneDense2csrNnz){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneDense2csrNnz"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const __half * A = in->GetFromMarshal<__half*>();
+    int lda = in->Get<int>();
+    const __half threshold = in->Get<__half>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneDense2csrNnz(handle, m, n, A, lda, &threshold, descrC, csrRowPtrC, &nnzTotalDevHostPtr, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneDense2csrNnz Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneDense2csrNnz){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneDense2csrNnz"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const float * A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    const float threshold = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneDense2csrNnz(handle, m, n, A, lda, &threshold, descrC, csrRowPtrC, &nnzTotalDevHostPtr, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneDense2csrNnz Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneDense2csrNnz){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneDense2csrNnz"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const double * A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    const double threshold = in->Get<double>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneDense2csrNnz(handle, m, n, A, lda, &threshold, descrC, csrRowPtrC, &nnzTotalDevHostPtr, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneDense2csrNnz Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(HpruneDense2csr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneDense2csr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const __half * A = in->GetFromMarshal<__half*>();
+    int lda = in->Get<int>();
+    const __half threshold = in->Get<__half>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    __half * csrValC = in->GetFromMarshal<__half*>();
+    const int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneDense2csr(handle, m, n, A, lda, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBuffer);
+        out->AddMarshal<__half*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneDense2csr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneDense2csr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneDense2csr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const float * A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    const float threshold = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    float * csrValC = in->GetFromMarshal<float*>();
+    const int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneDense2csr(handle, m, n, A, lda, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBuffer);
+        out->AddMarshal<float*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneDense2csr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneDense2csr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneDense2csr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const double * A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    const double threshold = in->Get<double>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    double * csrValC = in->GetFromMarshal<double*>();
+    const int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneDense2csr(handle, m, n, A, lda, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBuffer);
+        out->AddMarshal<double*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneDense2csr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(HpruneCsr2csr_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneCsr2csr_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    __half * csrValA = in->GetFromMarshal<__half*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const __half threshold = in->Get<__half>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    __half * csrValC = in->GetFromMarshal<__half*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneCsr2csr_bufferSizeExt(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneCsr2csr_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneCsr2csr_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneCsr2csr_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    float * csrValA = in->GetFromMarshal<float*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const float threshold = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    float * csrValC = in->GetFromMarshal<float*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneCsr2csr_bufferSizeExt(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneCsr2csr_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneCsr2csr_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneCsr2csr_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    double * csrValA = in->GetFromMarshal<double*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const double threshold = in->Get<double>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    double * csrValC = in->GetFromMarshal<double*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneCsr2csr_bufferSizeExt(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneCsr2csr_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(HpruneCsr2csrNnz){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneCsr2csrNnz"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    __half * csrValA = in->GetFromMarshal<__half*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const __half threshold = in->Get<__half>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->Get<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneCsr2csrNnz(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrRowPtrC, &nnzTotalDevHostPtr, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneCsr2csrNnz Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneCsr2csrNnz){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneCsr2csrNnz"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    float * csrValA = in->GetFromMarshal<float*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const float threshold = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->Get<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneCsr2csrNnz(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrRowPtrC, &nnzTotalDevHostPtr, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneCsr2csrNnz Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneCsr2csrNnz){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneCsr2csrNnz"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    double * csrValA = in->GetFromMarshal<double*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const double threshold = in->Get<double>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->Get<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneCsr2csrNnz(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrRowPtrC, &nnzTotalDevHostPtr, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneCsr2csrNnz Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(HpruneCsr2csr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneCsr2csr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    __half * csrValA = in->GetFromMarshal<__half*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const __half threshold = in->Get<__half>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    __half * csrValC = in->GetFromMarshal<__half*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneCsr2csr(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBuffer);
+        out->AddMarshal<__half*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneCsr2csr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneCsr2csr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneCsr2csr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    float * csrValA = in->GetFromMarshal<float*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const float threshold = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    float * csrValC = in->GetFromMarshal<float*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneCsr2csr(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBuffer);
+        out->AddMarshal<float*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneCsr2csr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneCsr2csr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneCsr2csr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    const cusparseMatDescr_t descrA = in->Get<cusparseMatDescr_t>();
+    double * csrValA = in->GetFromMarshal<double*>();
+    int * csrRowPtrA = in->GetFromMarshal<int*>();
+    int * csrColIndA = in->GetFromMarshal<int*>();
+    const double threshold = in->Get<double>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    double * csrValC = in->GetFromMarshal<double*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    void * pBuffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneCsr2csr(handle, m, n, nnzA, descrA, csrValA, csrRowPtrA, csrColIndA, &threshold, descrC, csrValC, csrRowPtrC, csrColIndC, pBuffer);
+        out->AddMarshal<double*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneCsr2csr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(HpruneDense2csrByPercentage_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneDense2csrByPercentage_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const __half * A = in->GetFromMarshal<__half*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    __half * csrValC = in->GetFromMarshal<__half*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneDense2csrByPercentage_bufferSizeExt(handle, m, n, A, lda, percentage, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneDense2csrByPercentage_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneDense2csrByPercentage_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneDense2csrByPercentage_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const float * A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    float * csrValC = in->GetFromMarshal<float*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneDense2csrByPercentage_bufferSizeExt(handle, m, n, A, lda, percentage, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneDense2csrByPercentage_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneDense2csrByPercentage_bufferSizeExt){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneDense2csrByPercentage_bufferSizeExt"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const double * A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    double * csrValC = in->GetFromMarshal<double*>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    size_t * pBufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneDense2csrByPercentage_bufferSizeExt(handle, m, n, A, lda, percentage, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBufferSize);
+        out->AddMarshal<size_t*>(pBufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneDense2csrByPercentage_bufferSizeExt Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(HpruneDense2csrNnzByPercentage){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneDense2csrNnzByPercentage"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const __half * A = in->GetFromMarshal<__half*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneDense2csrNnzByPercentage(handle, m, n, A, lda, percentage, descrC, csrRowPtrC, &nnzTotalDevHostPtr, info, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneDense2csrNnzByPercentage Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneDense2csrNnzByPercentage){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneDense2csrNnzByPercentage"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const float * A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneDense2csrNnzByPercentage(handle, m, n, A, lda, percentage, descrC, csrRowPtrC, &nnzTotalDevHostPtr, info, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneDense2csrNnzByPercentage Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneDense2csrNnzByPercentage){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneDense2csrNnzByPercentage"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const double * A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    int * csrRowPtrC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    int nnzTotalDevHostPtr = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneDense2csrNnzByPercentage(handle, m, n, A, lda, percentage, descrC, csrRowPtrC, &nnzTotalDevHostPtr, info, pBuffer);
+        out->AddMarshal<int>(nnzTotalDevHostPtr);
+        out->AddMarshal<int*>(csrRowPtrC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneDense2csrNnzByPercentage Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(HpruneDense2csrByPercentage){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("HpruneDense2csrByPercentage"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const __half * A = in->GetFromMarshal<__half*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    __half * csrValC = in->GetFromMarshal<__half*>();
+    const int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseHpruneDense2csrByPercentage(handle, m, n, A, lda, percentage, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBuffer);
+        out->AddMarshal<__half*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseHpruneDense2csrByPercentage Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpruneDense2csrByPercentage){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpruneDense2csrByPercentage"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const float * A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    float * csrValC = in->GetFromMarshal<float*>();
+    const int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpruneDense2csrByPercentage(handle, m, n, A, lda, percentage, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBuffer);
+        out->AddMarshal<float*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpruneDense2csrByPercentage Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DpruneDense2csrByPercentage){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DpruneDense2csrByPercentage"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    const double * A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    const float percentage = in->Get<float>();
+    const cusparseMatDescr_t descrC = in->Get<cusparseMatDescr_t>();
+    double * csrValC = in->GetFromMarshal<double*>();
+    const int * csrRowPtrC = in->GetFromMarshal<int*>();
+    int * csrColIndC = in->GetFromMarshal<int*>();
+    pruneInfo_t info = in->Get<pruneInfo_t>();
+    void * pBuffer = in->GetFromMarshal<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDpruneDense2csrByPercentage(handle, m, n, A, lda, percentage, descrC, csrValC, csrRowPtrC, csrColIndC, info, pBuffer);
+        out->AddMarshal<double*>(csrValC);
+        out->AddMarshal<int*>(csrColIndC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDpruneDense2csrByPercentage Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 CUSPARSE_ROUTINE_HANDLER(Snnz_compress){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Snnz_compress"));
     CusparseHandler::setLogLevel(&logger);
