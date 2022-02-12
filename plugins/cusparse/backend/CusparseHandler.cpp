@@ -486,6 +486,13 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Dnnz_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Cnnz_compress));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Znnz_compress));
+    // GENERIC API REFERENCE - SPARSE VECTOR API
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateSpVec));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroySpVec));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVecGet));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVecGetIndexBase));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVecGetValues));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVecSetValues));
     // GENERIC API REFERENCE - SPARSE MATRIX API
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsr));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroySpMat));

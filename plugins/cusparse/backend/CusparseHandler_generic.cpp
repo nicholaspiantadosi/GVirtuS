@@ -31,6 +31,129 @@ using namespace log4cplus;
 using gvirtus::communicators::Buffer;
 using gvirtus::communicators::Result;
 
+CUSPARSE_ROUTINE_HANDLER(CreateSpVec){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateSpVec"));
+    CusparseHandler::setLogLevel(&logger);
+    int64_t size = in->Get<int64_t>();
+    int64_t nnz = in->Get<int64_t>();
+    void* indices = in->Get<void*>();
+    void* values = in->Get<void*>();
+    cusparseIndexType_t idxType = in->Get<cusparseIndexType_t>();
+    cusparseIndexBase_t idxBase = in->Get<cusparseIndexBase_t>();
+    cudaDataType valueType = in->Get<cudaDataType>();
+    cusparseSpVecDescr_t * spVecDescr = new cusparseSpVecDescr_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCreateSpVec(spVecDescr, size, nnz, indices, values, idxType, idxBase, valueType);
+        out->Add<cusparseSpVecDescr_t>(spVecDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCreateSpVec Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DestroySpVec){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DestroySpVec"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpVecDescr_t spVecDescr = (cusparseSpVecDescr_t)in->Get<size_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDestroySpVec(spVecDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDestroySpVec Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpVecGet){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpVecGet"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpVecDescr_t spVecDescr = in->Get<cusparseSpVecDescr_t>();
+    int64_t size = 0;
+    int64_t nnz = 0;
+    void* indices;
+    void* values;
+    cusparseIndexType_t idxType;
+    cusparseIndexBase_t idxBase;
+    cudaDataType valueType;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpVecGet(spVecDescr, &size, &nnz, &indices, &values, &idxType, &idxBase, &valueType);
+        out->Add<int64_t>(size);
+        out->Add<int64_t>(nnz);
+        out->Add<void*>(&indices);
+        out->Add<void*>(&values);
+        out->Add<cusparseIndexType_t>(idxType);
+        out->Add<cusparseIndexBase_t>(idxBase);
+        out->Add<cudaDataType>(valueType);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpVecGet Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpVecGetIndexBase){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpVecGetIndexBase"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpVecDescr_t spVecDescr = in->Get<cusparseSpVecDescr_t>();
+    cusparseIndexBase_t idxBase;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpVecGetIndexBase(spVecDescr, &idxBase);
+        out->Add<cusparseIndexBase_t*>(&idxBase);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpVecGetIndexBase Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpVecGetValues){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpVecGetValues"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpVecDescr_t spVecDescr = in->Get<cusparseSpVecDescr_t>();
+    void* values;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpVecGetValues(spVecDescr, &values);
+        out->Add<void**>(&values);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpVecGetValues Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpVecSetValues){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpVecSetValues"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpVecDescr_t spVecDescr = in->Get<cusparseSpVecDescr_t>();
+    void* values = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpVecSetValues(spVecDescr, values);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpVecSetValues Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 CUSPARSE_ROUTINE_HANDLER(CreateCsr){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateCsr"));
     CusparseHandler::setLogLevel(&logger);

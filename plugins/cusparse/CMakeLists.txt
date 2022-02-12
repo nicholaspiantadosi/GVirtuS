@@ -61,6 +61,7 @@ gvirtus_add_frontend(cusparse ${CUDA_VERSION}
 		frontend/Cusparse_extra.cpp
 		frontend/Cusparse_preconditioners_reference.cpp
 		frontend/Cusparse_reorderings.cpp
+		frontend/Utilities.h
 )
 
 #add_subdirectory(demo/level3)

@@ -24,8 +24,78 @@
  */
 
 #include "Cusparse.h"
+#include "Utilities.h"
 
 using namespace std;
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateSpVec(cusparseSpVecDescr_t* spVecDescr, int64_t size, int64_t nnz, void* indices, void* values, cusparseIndexType_t idxType, cusparseIndexBase_t idxBase, cudaDataType valueType) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<int64_t>(size);
+    CusparseFrontend::AddVariableForArguments<int64_t>(nnz);
+    CusparseFrontend::AddDevicePointerForArguments(indices);
+    CusparseFrontend::AddDevicePointerForArguments(values);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexType_t>(idxType);
+    CusparseFrontend::AddVariableForArguments<cusparseIndexBase_t>(idxBase);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(valueType);
+    CusparseFrontend::Execute("cusparseCreateSpVec");
+    if (CusparseFrontend::Success()) {
+        *spVecDescr = *(CusparseFrontend::GetOutputHostPointer<cusparseSpVecDescr_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroySpVec(cusparseSpVecDescr_t spVecDescr) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) spVecDescr);
+    CusparseFrontend::Execute("cusparseDestroySpVec");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVecGet(cusparseSpVecDescr_t spVecDescr, int64_t* size, int64_t* nnz, void** indices, void** values, cusparseIndexType_t* idxType, cusparseIndexBase_t* idxBase, cudaDataType* valueType) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)spVecDescr);
+    CusparseFrontend::Execute("cusparseSpVecGet");
+    if (CusparseFrontend::Success()) {
+        *size = (int64_t) CusparseFrontend::GetOutputVariable<size_t>();
+        *nnz = (int64_t) CusparseFrontend::GetOutputVariable<size_t>();
+        *indices = (void *) CusparseFrontend::GetOutputDevicePointer();
+        //printArray((int*) *indices, 5);
+        *values = (void *) CusparseFrontend::GetOutputDevicePointer();
+        //printArrayF((float*) *indices, 5);
+        *idxType = (cusparseIndexType_t) CusparseFrontend::GetOutputVariable<size_t>();
+        *idxBase = (cusparseIndexBase_t) CusparseFrontend::GetOutputVariable<size_t>();
+        *valueType = (cudaDataType) CusparseFrontend::GetOutputVariable<size_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVecGetIndexBase(cusparseSpVecDescr_t spVecDescr, cusparseIndexBase_t* idxBase) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)spVecDescr);
+    CusparseFrontend::Execute("cusparseSpVecGetIndexBase");
+    if (CusparseFrontend::Success()) {
+        idxBase = CusparseFrontend::GetOutputHostPointer<cusparseIndexBase_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVecGetValues(cusparseSpVecDescr_t spVecDescr, void** values) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)spVecDescr);
+    CusparseFrontend::Execute("cusparseSpVecGetValues");
+    if (CusparseFrontend::Success()) {
+        values = (void**)CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVecSetValues(cusparseSpVecDescr_t spVecDescr, void* values) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)spVecDescr);
+    CusparseFrontend::AddDevicePointerForArguments(values);
+    CusparseFrontend::Execute("cusparseSpVecSetValues");
+    return CusparseFrontend::GetExitCode();
+}
 
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateCsr(cusparseSpMatDescr_t* spMatDescr, int64_t rows, int64_t cols, int64_t nnz, void* csrRowOffsets, void* csrColInd, void* csrValues, cusparseIndexType_t csrRowOffsetsType, cusparseIndexType_t csrColIndType, cusparseIndexBase_t idxBase, cudaDataType valueType) {
     CusparseFrontend::Prepare();
