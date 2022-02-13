@@ -533,6 +533,11 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnMatGetStridedBatch));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnMatSetStridedBatch));
     // GENERIC API REFERENCE - GENERIC API FUNCTIONS
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SparseToDense_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SparseToDense));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DenseToSparse_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DenseToSparse_analysis));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DenseToSparse_convert));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV));
 }

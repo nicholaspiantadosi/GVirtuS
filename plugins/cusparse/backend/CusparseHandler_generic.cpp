@@ -962,6 +962,111 @@ CUSPARSE_ROUTINE_HANDLER(DnMatSetStridedBatch){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(SparseToDense_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SparseToDense_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matA = in->Get<cusparseSpMatDescr_t>();
+    cusparseDnMatDescr_t matB = in->Get<cusparseDnMatDescr_t>();
+    cusparseSparseToDenseAlg_t alg = in->Get<cusparseSparseToDenseAlg_t>();
+    size_t * bufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSparseToDense_bufferSize(handle, matA, matB, alg, bufferSize);
+        out->Add<size_t>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSparseToDense_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SparseToDense){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SparseToDense"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matA = in->Get<cusparseSpMatDescr_t>();
+    cusparseDnMatDescr_t matB = in->Get<cusparseDnMatDescr_t>();
+    cusparseSparseToDenseAlg_t alg = in->Get<cusparseSparseToDenseAlg_t>();
+    void * buffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSparseToDense(handle, matA, matB, alg, buffer);
+        out->Add<cusparseDnMatDescr_t>(matB);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSparseToDense Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DenseToSparse_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DenseToSparse_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matA = in->Get<cusparseDnMatDescr_t>();
+    cusparseSpMatDescr_t matB = in->Get<cusparseSpMatDescr_t>();
+    cusparseDenseToSparseAlg_t alg = in->Get<cusparseDenseToSparseAlg_t>();
+    size_t * bufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDenseToSparse_bufferSize(handle, matA, matB, alg, bufferSize);
+        out->Add<size_t>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDenseToSparse_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DenseToSparse_analysis){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DenseToSparse_analysis"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matA = in->Get<cusparseDnMatDescr_t>();
+    cusparseSpMatDescr_t matB = in->Get<cusparseSpMatDescr_t>();
+    cusparseDenseToSparseAlg_t alg = in->Get<cusparseDenseToSparseAlg_t>();
+    void * buffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDenseToSparse_analysis(handle, matA, matB, alg, buffer);
+        out->Add<cusparseSpMatDescr_t>(matB);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDenseToSparse_analysis Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DenseToSparse_convert){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DenseToSparse_convert"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matA = in->Get<cusparseDnMatDescr_t>();
+    cusparseSpMatDescr_t matB = in->Get<cusparseSpMatDescr_t>();
+    cusparseDenseToSparseAlg_t alg = in->Get<cusparseDenseToSparseAlg_t>();
+    void * buffer = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDenseToSparse_convert(handle, matA, matB, alg, buffer);
+        out->Add<cusparseSpMatDescr_t>(matB);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDenseToSparse_convert Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 CUSPARSE_ROUTINE_HANDLER(SpMV_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMV_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
@@ -1010,7 +1115,6 @@ CUSPARSE_ROUTINE_HANDLER(SpMV_bufferSize){
         cs = cusparseSpMV_bufferSize(handle, opA, alpha, matA, vecX, beta, vecY, computeType, alg, bufferSize);
         out->Add<size_t>(bufferSize);
     } catch (string e){
-        printf("\nexception\n");
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
     }

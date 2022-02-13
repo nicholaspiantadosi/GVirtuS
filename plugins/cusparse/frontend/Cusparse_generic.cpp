@@ -542,6 +542,74 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnMatSetStridedBatch(cusparseDnM
     return CusparseFrontend::GetExitCode();
 }
 
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSparseToDense_bufferSize(cusparseHandle_t handle, cusparseSpMatDescr_t matA, cusparseDnMatDescr_t matB, cusparseSparseToDenseAlg_t alg, size_t* bufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matB);
+    CusparseFrontend::AddVariableForArguments<cusparseSparseToDenseAlg_t>(alg);
+    CusparseFrontend::Execute("cusparseSparseToDense_bufferSize");
+    if (CusparseFrontend::Success()) {
+        *bufferSize = *(CusparseFrontend::GetOutputHostPointer<size_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSparseToDense(cusparseHandle_t handle, cusparseSpMatDescr_t matA, cusparseDnMatDescr_t matB, cusparseSparseToDenseAlg_t alg, void* buffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matB);
+    CusparseFrontend::AddVariableForArguments<cusparseSparseToDenseAlg_t>(alg);
+    CusparseFrontend::AddDevicePointerForArguments(buffer);
+    CusparseFrontend::Execute("cusparseSparseToDense");
+    if (CusparseFrontend::Success()) {
+        matB = CusparseFrontend::GetOutputVariable<cusparseDnMatDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDenseToSparse_bufferSize(cusparseHandle_t handle, cusparseDnMatDescr_t matA, cusparseSpMatDescr_t matB, cusparseDenseToSparseAlg_t alg, size_t* bufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matB);
+    CusparseFrontend::AddVariableForArguments<cusparseDenseToSparseAlg_t>(alg);
+    CusparseFrontend::Execute("cusparseDenseToSparse_bufferSize");
+    if (CusparseFrontend::Success()) {
+        *bufferSize = *(CusparseFrontend::GetOutputHostPointer<size_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDenseToSparse_analysis(cusparseHandle_t handle, cusparseDnMatDescr_t matA, cusparseSpMatDescr_t matB, cusparseDenseToSparseAlg_t alg, void* buffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matB);
+    CusparseFrontend::AddVariableForArguments<cusparseDenseToSparseAlg_t>(alg);
+    CusparseFrontend::AddDevicePointerForArguments(buffer);
+    CusparseFrontend::Execute("cusparseDenseToSparse_analysis");
+    if (CusparseFrontend::Success()) {
+        matB = CusparseFrontend::GetOutputVariable<cusparseSpMatDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDenseToSparse_convert(cusparseHandle_t handle, cusparseDnMatDescr_t matA, cusparseSpMatDescr_t matB, cusparseDenseToSparseAlg_t alg, void* buffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matB);
+    CusparseFrontend::AddVariableForArguments<cusparseDenseToSparseAlg_t>(alg);
+    CusparseFrontend::AddDevicePointerForArguments(buffer);
+    CusparseFrontend::Execute("cusparseDenseToSparse_convert");
+    if (CusparseFrontend::Success()) {
+        matB = CusparseFrontend::GetOutputVariable<cusparseSpMatDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA,
                                                                 cusparseDnVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpMVAlg_t alg, size_t* bufferSize) {
     CusparseFrontend::Prepare();
