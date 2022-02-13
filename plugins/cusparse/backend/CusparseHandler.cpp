@@ -494,8 +494,30 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVecGetValues));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVecSetValues));
     // GENERIC API REFERENCE - SPARSE MATRIX API
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCoo));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCooAoS));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateCsc));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateBlockedEll));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroySpMat));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CooGet));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CooAoSGet));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CsrGet));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CsrSetPointers));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CscSetPointers));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CooSetPointers));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(BlockedEllGet));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatGetSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatGetFormat));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatGetIndexBase));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatGetValues));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatSetValues));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatGetStridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatSetStridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CooSetStridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CsrSetStridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatGetAttribute));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMatSetAttribute));
     // GENERIC API REFERENCE - DENSE VECTOR API
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateDnVec));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyDnVec));
