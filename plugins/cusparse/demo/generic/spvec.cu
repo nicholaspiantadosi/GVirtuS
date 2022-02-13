@@ -43,15 +43,8 @@ int main(void)
 
     CHECK_CUSPARSE(cusparseSpVecGet(spVecDescr, &size_toverify, &nnz_toverify, (void**)&dIndices_toverify, (void**)&dValues_toverify, &idxType_toverify, &idxBase_toverify, &valueType_toverify));
 
-    printf("size: %d\n", size_toverify);
-    printf("nnz: %d\n", nnz_toverify);
-
     CHECK_CUDA(cudaMemcpy(hIndices_toverify, dIndices_toverify, nnz * sizeof(int), cudaMemcpyDeviceToHost) );
     CHECK_CUDA(cudaMemcpy(hValues_toverify, dValues_toverify, nnz * sizeof(float), cudaMemcpyDeviceToHost) );
-
-    for (int i = 0; i < nnz; i++) {
-        printf("%d \t %f\n", hIndices_toverify[i], hValues_toverify[i]);
-    }
 
     int correct = 1;
     if (size_toverify != size) {

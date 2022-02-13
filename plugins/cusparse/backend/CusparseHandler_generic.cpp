@@ -25,6 +25,7 @@
 
 #include "CusparseHandler.h"
 #include <cuda_runtime.h>
+#include "Utilities.h"
 
 using namespace log4cplus;
 
@@ -88,8 +89,8 @@ CUSPARSE_ROUTINE_HANDLER(SpVecGet){
         cs = cusparseSpVecGet(spVecDescr, &size, &nnz, &indices, &values, &idxType, &idxBase, &valueType);
         out->Add<int64_t>(size);
         out->Add<int64_t>(nnz);
-        out->Add<void*>(&indices);
-        out->Add<void*>(&values);
+        out->Add<void*>(indices);
+        out->Add<void*>(values);
         out->Add<cusparseIndexType_t>(idxType);
         out->Add<cusparseIndexBase_t>(idxBase);
         out->Add<cudaDataType>(valueType);
@@ -110,7 +111,7 @@ CUSPARSE_ROUTINE_HANDLER(SpVecGetIndexBase){
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseSpVecGetIndexBase(spVecDescr, &idxBase);
-        out->Add<cusparseIndexBase_t*>(&idxBase);
+        out->Add<cusparseIndexBase_t>(idxBase);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -128,7 +129,7 @@ CUSPARSE_ROUTINE_HANDLER(SpVecGetValues){
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseSpVecGetValues(spVecDescr, &values);
-        out->Add<void**>(&values);
+        out->Add<void*>(values);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);

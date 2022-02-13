@@ -59,12 +59,10 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVecGet(cusparseSpVecDescr_t sp
         *size = (int64_t) CusparseFrontend::GetOutputVariable<size_t>();
         *nnz = (int64_t) CusparseFrontend::GetOutputVariable<size_t>();
         *indices = (void *) CusparseFrontend::GetOutputDevicePointer();
-        //printArray((int*) *indices, 5);
         *values = (void *) CusparseFrontend::GetOutputDevicePointer();
-        //printArrayF((float*) *indices, 5);
-        *idxType = (cusparseIndexType_t) CusparseFrontend::GetOutputVariable<size_t>();
-        *idxBase = (cusparseIndexBase_t) CusparseFrontend::GetOutputVariable<size_t>();
-        *valueType = (cudaDataType) CusparseFrontend::GetOutputVariable<size_t>();
+        *idxType = CusparseFrontend::GetOutputVariable<cusparseIndexType_t>();
+        *idxBase = CusparseFrontend::GetOutputVariable<cusparseIndexBase_t>();
+        *valueType = CusparseFrontend::GetOutputVariable<cudaDataType>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -74,7 +72,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVecGetIndexBase(cusparseSpVecD
     CusparseFrontend::AddVariableForArguments<size_t>((size_t)spVecDescr);
     CusparseFrontend::Execute("cusparseSpVecGetIndexBase");
     if (CusparseFrontend::Success()) {
-        idxBase = CusparseFrontend::GetOutputHostPointer<cusparseIndexBase_t>();
+        *idxBase = CusparseFrontend::GetOutputVariable<cusparseIndexBase_t>();
     }
     return CusparseFrontend::GetExitCode();
 }
@@ -84,7 +82,7 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVecGetValues(cusparseSpVecDesc
     CusparseFrontend::AddVariableForArguments<size_t>((size_t)spVecDescr);
     CusparseFrontend::Execute("cusparseSpVecGetValues");
     if (CusparseFrontend::Success()) {
-        values = (void**)CusparseFrontend::GetOutputDevicePointer();
+        *values = (void *) CusparseFrontend::GetOutputDevicePointer();
     }
     return CusparseFrontend::GetExitCode();
 }
