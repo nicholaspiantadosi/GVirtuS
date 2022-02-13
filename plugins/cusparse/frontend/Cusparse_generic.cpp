@@ -436,6 +436,36 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyDnVec(cusparseDnVecDescr_
     return CusparseFrontend::GetExitCode();
 }
 
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnVecGet(cusparseDnVecDescr_t dnVecDescr, int64_t* size, void** values, cudaDataType* valueType) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)dnVecDescr);
+    CusparseFrontend::Execute("cusparseDnVecGet");
+    if (CusparseFrontend::Success()) {
+        *size = (int64_t) CusparseFrontend::GetOutputVariable<size_t>();
+        *values = (void *) CusparseFrontend::GetOutputDevicePointer();
+        *valueType = CusparseFrontend::GetOutputVariable<cudaDataType>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnVecGetValues(cusparseDnVecDescr_t dnVecDescr, void** values) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)dnVecDescr);
+    CusparseFrontend::Execute("cusparseDnVecGetValues");
+    if (CusparseFrontend::Success()) {
+        *values = (void *) CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnVecSetValues(cusparseDnVecDescr_t dnVecDescr, void* values) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)dnVecDescr);
+    CusparseFrontend::AddDevicePointerForArguments(values);
+    CusparseFrontend::Execute("cusparseDnVecSetValues");
+    return CusparseFrontend::GetExitCode();
+}
+
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA,
                                                                 cusparseDnVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpMVAlg_t alg, size_t* bufferSize) {
     CusparseFrontend::Prepare();

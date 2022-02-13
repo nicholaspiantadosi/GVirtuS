@@ -521,6 +521,9 @@ void CusparseHandler::Initialize(){
     // GENERIC API REFERENCE - DENSE VECTOR API
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateDnVec));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyDnVec));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnVecGet));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnVecGetValues));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnVecSetValues));
     // GENERIC API REFERENCE - GENERIC API FUNCTIONS
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV));

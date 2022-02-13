@@ -765,6 +765,63 @@ CUSPARSE_ROUTINE_HANDLER(DestroyDnVec){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(DnVecGet){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnVecGet"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnVecDescr_t dnVecDescr = in->Get<cusparseDnVecDescr_t>();
+    int64_t size = 0;
+    void* values;
+    cudaDataType valueType;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDnVecGet(dnVecDescr, &size, &values, &valueType);
+        out->Add<int64_t>(size);
+        out->Add<void*>(values);
+        out->Add<cudaDataType>(valueType);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDnVecGet Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DnVecGetValues){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnVecGetValues"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnVecDescr_t dnVecDescr = in->Get<cusparseDnVecDescr_t>();
+    void* values;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDnVecGetValues(dnVecDescr, &values);
+        out->Add<void*>(values);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDnVecGetValues Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DnVecSetValues){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnVecSetValues"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnVecDescr_t dnVecDescr = in->Get<cusparseDnVecDescr_t>();
+    void* values = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDnVecSetValues(dnVecDescr, values);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDnVecSetValues Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 CUSPARSE_ROUTINE_HANDLER(SpMV_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMV_bufferSize"));
     CusparseHandler::setLogLevel(&logger);
