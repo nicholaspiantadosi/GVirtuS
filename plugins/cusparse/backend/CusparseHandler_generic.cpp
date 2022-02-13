@@ -822,6 +822,146 @@ CUSPARSE_ROUTINE_HANDLER(DnVecSetValues){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(CreateDnMat){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("CreateDnMat"));
+    CusparseHandler::setLogLevel(&logger);
+    int64_t rows = in->Get<int64_t>();
+    int64_t cols = in->Get<int64_t>();
+    int64_t ld = in->Get<int64_t>();
+    void *values = in->Get<void*>();
+    cudaDataType valueType = in->Get<cudaDataType>();
+    cusparseOrder_t order = in->Get<cusparseOrder_t>();
+    cusparseDnMatDescr_t * dnMatDescr = new cusparseDnMatDescr_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseCreateDnMat(dnMatDescr, rows, cols, ld, values, valueType, order);
+        out->Add<cusparseDnMatDescr_t>(dnMatDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseCreateDnMat Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DestroyDnMat){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DestroyDnMat"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnMatDescr_t dnMatDescr = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDestroyDnMat(dnMatDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDestroyDnMat Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DnMatGet){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnMatGet"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnMatDescr_t dnMatDescr = in->Get<cusparseDnMatDescr_t>();
+    int64_t rows = 0;
+    int64_t cols = 0;
+    int64_t ld = 0;
+    void* values;
+    cudaDataType type;
+    cusparseOrder_t order;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDnMatGet(dnMatDescr, &rows, &cols, &ld, &values, &type, &order);
+        out->Add<int64_t>(rows);
+        out->Add<int64_t>(cols);
+        out->Add<int64_t>(ld);
+        out->Add<void*>(values);
+        out->Add<cudaDataType>(type);
+        out->Add<cusparseOrder_t>(order);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDnMatGet Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DnMatGetValues){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnMatGetValues"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnMatDescr_t dnMatDescr = in->Get<cusparseDnMatDescr_t>();
+    void* values;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDnMatGetValues(dnMatDescr, &values);
+        out->Add<void*>(values);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDnMatGetValues Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DnMatSetValues){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnMatSetValues"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnMatDescr_t dnMatDescr = in->Get<cusparseDnMatDescr_t>();
+    void* values = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDnMatSetValues(dnMatDescr, values);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDnMatSetValues Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DnMatGetStridedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnMatGetStridedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnMatDescr_t dnMatDescr = in->Get<cusparseDnMatDescr_t>();
+    int batchCount = 0;
+    int64_t batchStride = 0;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDnMatGetStridedBatch(dnMatDescr, &batchCount, &batchStride);
+        out->Add<int>(batchCount);
+        out->Add<int64_t>(batchStride);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDnMatGetStridedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(DnMatSetStridedBatch){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnMatSetStridedBatch"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseDnMatDescr_t dnMatDescr = in->Get<cusparseDnMatDescr_t>();
+    int batchCount = in->Get<int>();
+    int64_t batchStride = in->Get<int64_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseDnMatSetStridedBatch(dnMatDescr, batchCount, batchStride);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseDnMatSetStridedBatch Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 CUSPARSE_ROUTINE_HANDLER(SpMV_bufferSize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMV_bufferSize"));
     CusparseHandler::setLogLevel(&logger);

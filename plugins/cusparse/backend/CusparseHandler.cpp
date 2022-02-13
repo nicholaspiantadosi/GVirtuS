@@ -524,6 +524,14 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnVecGet));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnVecGetValues));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnVecSetValues));
+    // GENERIC API REFERENCE - DENSE MATRIX API
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(CreateDnMat));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DestroyDnMat));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnMatGet));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnMatGetValues));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnMatSetValues));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnMatGetStridedBatch));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DnMatSetStridedBatch));
     // GENERIC API REFERENCE - GENERIC API FUNCTIONS
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV));

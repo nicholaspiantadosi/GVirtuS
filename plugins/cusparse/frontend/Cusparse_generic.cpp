@@ -466,6 +466,82 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnVecSetValues(cusparseDnVecDesc
     return CusparseFrontend::GetExitCode();
 }
 
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseCreateDnMat(cusparseDnMatDescr_t* dnMatDescr, int64_t rows, int64_t cols, int64_t ld, void* values, cudaDataType valueType, cusparseOrder_t order) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<int64_t>(rows);
+    CusparseFrontend::AddVariableForArguments<int64_t>(cols);
+    CusparseFrontend::AddVariableForArguments<int64_t>(ld);
+    CusparseFrontend::AddDevicePointerForArguments(values);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(valueType);
+    CusparseFrontend::AddVariableForArguments<cusparseOrder_t>(order);
+    CusparseFrontend::AddHostPointerForArguments(dnMatDescr);
+    CusparseFrontend::Execute("cusparseCreateDnMat");
+    if (CusparseFrontend::Success()) {
+        *dnMatDescr = *(CusparseFrontend::GetOutputHostPointer<cusparseDnMatDescr_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDestroyDnMat(cusparseDnMatDescr_t dnMatDescr) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) dnMatDescr);
+    CusparseFrontend::Execute("cusparseDestroyDnMat");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnMatGet(cusparseDnMatDescr_t dnMatDescr, int64_t* rows, int64_t* cols, int64_t* ld, void** values, cudaDataType* type, cusparseOrder_t* order) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)dnMatDescr);
+    CusparseFrontend::Execute("cusparseDnMatGet");
+    if (CusparseFrontend::Success()) {
+        *rows = (int64_t) CusparseFrontend::GetOutputVariable<size_t>();
+        *cols = (int64_t) CusparseFrontend::GetOutputVariable<size_t>();
+        *ld = (int64_t) CusparseFrontend::GetOutputVariable<size_t>();
+        *values = (void *) CusparseFrontend::GetOutputDevicePointer();
+        *type = CusparseFrontend::GetOutputVariable<cudaDataType>();
+        *order = CusparseFrontend::GetOutputVariable<cusparseOrder_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnMatGetValues(cusparseDnMatDescr_t dnMatDescr, void** values) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)dnMatDescr);
+    CusparseFrontend::Execute("cusparseDnMatGetValues");
+    if (CusparseFrontend::Success()) {
+        *values = (void *) CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnMatSetValues(cusparseDnMatDescr_t dnMatDescr, void* values) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)dnMatDescr);
+    CusparseFrontend::AddDevicePointerForArguments(values);
+    CusparseFrontend::Execute("cusparseDnMatSetValues");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnMatGetStridedBatch(cusparseDnMatDescr_t dnMatDescr, int* batchCount, int64_t* batchStride) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)dnMatDescr);
+    CusparseFrontend::Execute("cusparseDnMatGetStridedBatch");
+    if (CusparseFrontend::Success()) {
+        *batchCount = CusparseFrontend::GetOutputVariable<int>();
+        *batchStride = CusparseFrontend::GetOutputVariable<int64_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseDnMatSetStridedBatch(cusparseDnMatDescr_t dnMatDescr, int batchCount, int64_t batchStride) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)dnMatDescr);
+    CusparseFrontend::AddVariableForArguments<int>(batchCount);
+    CusparseFrontend::AddVariableForArguments<int64_t>(batchStride);
+    CusparseFrontend::Execute("cusparseDnMatSetStridedBatch");
+    return CusparseFrontend::GetExitCode();
+}
+
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA,
                                                                 cusparseDnVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpMVAlg_t alg, size_t* bufferSize) {
     CusparseFrontend::Prepare();
