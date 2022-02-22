@@ -25,7 +25,6 @@
 
 #include "CusparseHandler.h"
 #include <cuda_runtime.h>
-#include "Utilities.h"
 
 using namespace log4cplus;
 
@@ -1064,6 +1063,133 @@ CUSPARSE_ROUTINE_HANDLER(DenseToSparse_convert){
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
     }
     LOG4CPLUS_DEBUG(logger,"cusparseDenseToSparse_convert Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Axpby){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Axpby"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const float * alpha = in->Assign<float>();
+    cusparseSpVecDescr_t vecX = in->Get<cusparseSpVecDescr_t>();
+    const void* beta = in->Assign<float>();
+    cusparseDnVecDescr_t vecY = in->Get<cusparseDnVecDescr_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseAxpby(handle, alpha, vecX, beta, vecY);
+        out->Add<cusparseDnVecDescr_t>(vecY);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseAxpby Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Gather){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Gather"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseDnVecDescr_t vecY = in->Get<cusparseDnVecDescr_t>();
+    cusparseSpVecDescr_t vecX = in->Get<cusparseSpVecDescr_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseGather(handle, vecY, vecX);
+        out->Add<cusparseSpVecDescr_t>(vecX);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseGather Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Scatter){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Scatter"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseSpVecDescr_t vecX = in->Get<cusparseSpVecDescr_t>();
+    cusparseDnVecDescr_t vecY = in->Get<cusparseDnVecDescr_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseScatter(handle, vecX, vecY);
+        out->Add<cusparseDnVecDescr_t>(vecY);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseScatter Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(Rot){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Rot"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    const float * c_coeff = in->Assign<float>();
+    const float * s_coeff = in->Assign<float>();
+    cusparseSpVecDescr_t vecX = in->Get<cusparseSpVecDescr_t>();
+    cusparseDnVecDescr_t vecY = in->Get<cusparseDnVecDescr_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseRot(handle, c_coeff, s_coeff, vecX, vecY);
+        out->Add<cusparseSpVecDescr_t>(vecX);
+        out->Add<cusparseDnVecDescr_t>(vecY);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseRot Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpVV_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpVV_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opX = in->Get<cusparseOperation_t>();
+    cusparseSpVecDescr_t vecX = (cusparseSpVecDescr_t)in->Get<size_t>();
+    cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
+    void* result = in->Get<void*>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    size_t * bufferSize = new size_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpVV_bufferSize(handle, opX, vecX, vecY, result, computeType, bufferSize);
+        out->Add<size_t>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpVV_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpVV){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpVV"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opX = in->Get<cusparseOperation_t>();
+    cusparseSpVecDescr_t vecX = (cusparseSpVecDescr_t)in->Get<size_t>();
+    cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    void* buffer = in->Get<void*>();
+    void* result = new float;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpVV(handle, opX, vecX, vecY, result, computeType, buffer);
+        out->Add<void*>(result);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpVV Executed");
     return std::make_shared<Result>(cs,out);
 }
 

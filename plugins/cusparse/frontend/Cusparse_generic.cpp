@@ -610,6 +610,89 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseDenseToSparse_convert(cusparseHa
     return CusparseFrontend::GetExitCode();
 }
 
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseAxpby(cusparseHandle_t handle, const void* alpha, cusparseSpVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<float *>((float *)alpha));
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<float *>((float *)beta));
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    CusparseFrontend::Execute("cusparseAxpby");
+    if (CusparseFrontend::Success()) {
+        vecY = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseGather(cusparseHandle_t handle, cusparseDnVecDescr_t vecY, cusparseSpVecDescr_t vecX) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    CusparseFrontend::Execute("cusparseGather");
+    if (CusparseFrontend::Success()) {
+        vecX = CusparseFrontend::GetOutputVariable<cusparseSpVecDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseScatter(cusparseHandle_t handle, cusparseSpVecDescr_t vecX, cusparseDnVecDescr_t vecY) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    CusparseFrontend::Execute("cusparseScatter");
+    if (CusparseFrontend::Success()) {
+        vecY = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseRot(cusparseHandle_t handle, const void* c_coeff, const void* s_coeff, cusparseSpVecDescr_t vecX, cusparseDnVecDescr_t vecY) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddHostPointerForArguments(const_cast<float *>((float *)c_coeff));
+    CusparseFrontend::AddHostPointerForArguments(const_cast<float *>((float *)s_coeff));
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    CusparseFrontend::Execute("cusparseRot");
+    if (CusparseFrontend::Success()) {
+        vecX = CusparseFrontend::GetOutputVariable<cusparseSpVecDescr_t>();
+        vecY = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opX, cusparseSpVecDescr_t vecX, cusparseDnVecDescr_t vecY, const void* result, cudaDataType computeType, size_t* bufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    CusparseFrontend::AddDevicePointerForArguments(result);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
+    CusparseFrontend::Execute("cusparseSpVV_bufferSize");
+    if (CusparseFrontend::Success()) {
+        *bufferSize = *(CusparseFrontend::GetOutputHostPointer<size_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVV(cusparseHandle_t handle, cusparseOperation_t opX, cusparseSpVecDescr_t vecX, cusparseDnVecDescr_t vecY, void* result, cudaDataType computeType, void* buffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
+    CusparseFrontend::AddDevicePointerForArguments(buffer);
+    CusparseFrontend::Execute("cusparseSpVV");
+    if (CusparseFrontend::Success()) {
+        result = (void *) CusparseFrontend::GetOutputDevicePointer();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
 extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA,
                                                                 cusparseDnVecDescr_t vecX, const void* beta, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpMVAlg_t alg, size_t* bufferSize) {
     CusparseFrontend::Prepare();

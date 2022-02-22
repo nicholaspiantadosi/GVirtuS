@@ -538,6 +538,12 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DenseToSparse_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DenseToSparse_analysis));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(DenseToSparse_convert));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Axpby));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Gather));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Scatter));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(Rot));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVV_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVV));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV));
 }
