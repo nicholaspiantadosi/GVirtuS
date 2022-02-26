@@ -1862,6 +1862,611 @@ CUSPARSE_ROUTINE_HANDLER(SpSM_solve){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(ConstrainedGeMM){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("ConstrainedGeMM"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseDnMatDescr_t matA = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    void * externalBuffer = in->Get<void*>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseConstrainedGeMM(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, externalBuffer);
+        out->Add<cusparseSpMatDescr_t>(matC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseConstrainedGeMM Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(ConstrainedGeMM_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("ConstrainedGeMM_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseDnMatDescr_t matA = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    size_t* bufferSize = new size_t;
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseConstrainedGeMM_bufferSize(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, bufferSize);
+        out->Add<size_t>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseConstrainedGeMM_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SDDMM_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SDDMM_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseDnMatDescr_t matA = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSDDMMAlg_t alg = in->Get<cusparseSDDMMAlg_t>();
+    size_t * bufferSize = new size_t;
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSDDMM_bufferSize(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, bufferSize);
+        out->Add<size_t>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSDDMM_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SDDMM_preprocess){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SDDMM_preprocess"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseDnMatDescr_t matA = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSDDMMAlg_t alg = in->Get<cusparseSDDMMAlg_t>();
+    void * externalBuffer = in->Get<void*>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSDDMM_preprocess(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, externalBuffer);
+        out->Add<cusparseSpMatDescr_t>(matC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSDDMM_preprocess Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SDDMM){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SDDMM"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseDnMatDescr_t matA = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSDDMMAlg_t alg = in->Get<cusparseSDDMMAlg_t>();
+    void * externalBuffer = in->Get<void*>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSDDMM(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, externalBuffer);
+        out->Add<cusparseSpMatDescr_t>(matC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSDDMM Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMM_createDescr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMM_createDescr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpGEMMDescr_t * descr = new cusparseSpGEMMDescr_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMM_createDescr(descr);
+        out->Add<cusparseSpGEMMDescr_t>(descr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMM_createDescr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMM_destroyDescr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMM_destroyDescr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpGEMMDescr_t descr = (cusparseSpGEMMDescr_t)in->Get<size_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMM_destroyDescr(descr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMM_destroyDescr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMM_workEstimation){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMM_workEstimation"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matB = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpGEMMAlg_t alg = in->Get<cusparseSpGEMMAlg_t>();
+    cusparseSpGEMMDescr_t spgemmDescr = (cusparseSpGEMMDescr_t)in->Get<size_t>();
+    size_t * bufferSize1 = new size_t;
+    void * externalBuffer1 = in->Get<void*>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMM_workEstimation(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, spgemmDescr, bufferSize1, externalBuffer1);
+        out->Add<size_t>(bufferSize1);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMM_workEstimation Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMM_compute){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMM_compute"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matB = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpGEMMAlg_t alg = in->Get<cusparseSpGEMMAlg_t>();
+    cusparseSpGEMMDescr_t spgemmDescr = (cusparseSpGEMMDescr_t)in->Get<size_t>();
+    size_t * bufferSize2 = new size_t;
+    void * externalBuffer2 = in->Get<void*>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMM_compute(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, spgemmDescr, bufferSize2, externalBuffer2);
+        out->Add<size_t>(bufferSize2);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMM_compute Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMM_copy){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMM_copy"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matB = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpGEMMAlg_t alg = in->Get<cusparseSpGEMMAlg_t>();
+    cusparseSpGEMMDescr_t spgemmDescr = (cusparseSpGEMMDescr_t)in->Get<size_t>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMM_copy(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, spgemmDescr);
+        out->Add<cusparseSpMatDescr_t>(matC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMM_copy Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMMreuse_workEstimation){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMMreuse_workEstimation"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matB = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpGEMMAlg_t alg = in->Get<cusparseSpGEMMAlg_t>();
+    cusparseSpGEMMDescr_t spgemmDescr = (cusparseSpGEMMDescr_t)in->Get<size_t>();
+    size_t * bufferSize1 = new size_t;
+    void * externalBuffer1 = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMMreuse_workEstimation(handle, opA, opB, matA, matB, matC, alg, spgemmDescr, bufferSize1, externalBuffer1);
+        out->Add<size_t>(bufferSize1);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMMreuse_workEstimation Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMMreuse_nnz){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMMreuse_nnz"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matB = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpGEMMAlg_t alg = in->Get<cusparseSpGEMMAlg_t>();
+    cusparseSpGEMMDescr_t spgemmDescr = (cusparseSpGEMMDescr_t)in->Get<size_t>();
+    size_t * bufferSize2 = new size_t;
+    void * externalBuffer2 = in->Get<void*>();
+    size_t * bufferSize3 = new size_t;
+    void * externalBuffer3 = in->Get<void*>();
+    size_t * bufferSize4 = new size_t;
+    void * externalBuffer4 = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMMreuse_nnz(handle, opA, opB, matA, matB, matC, alg, spgemmDescr, bufferSize2, externalBuffer2, bufferSize3, externalBuffer3, bufferSize4, externalBuffer4);
+        out->Add<size_t>(bufferSize2);
+        out->Add<size_t>(bufferSize3);
+        out->Add<size_t>(bufferSize4);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMMreuse_nnz Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMMreuse_copy){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMMreuse_copy"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matB = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpGEMMAlg_t alg = in->Get<cusparseSpGEMMAlg_t>();
+    cusparseSpGEMMDescr_t spgemmDescr = (cusparseSpGEMMDescr_t)in->Get<size_t>();
+    size_t * bufferSize5 = new size_t;
+    void * externalBuffer5 = in->Get<void*>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMMreuse_copy(handle, opA, opB, matA, matB, matC, alg, spgemmDescr, bufferSize5, externalBuffer5);
+        out->Add<size_t>(bufferSize5);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMMreuse_copy Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpGEMMreuse_compute){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpGEMMreuse_compute"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matB = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseSpMatDescr_t matC = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpGEMMAlg_t alg = in->Get<cusparseSpGEMMAlg_t>();
+    cusparseSpGEMMDescr_t spgemmDescr = (cusparseSpGEMMDescr_t)in->Get<size_t>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpGEMMreuse_compute(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, spgemmDescr);
+        out->Add<cusparseSpMatDescr_t>(matC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpGEMMreuse_compute Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif

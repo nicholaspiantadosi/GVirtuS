@@ -559,4 +559,20 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSM_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSM_analysis));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSM_solve));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(ConstrainedGeMM));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(ConstrainedGeMM_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SDDMM_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SDDMM_preprocess));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SDDMM));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMM_createDescr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMM_destroyDescr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMM_workEstimation));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMM_compute));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMM_copy));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMM_createDescr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMM_destroyDescr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMMreuse_workEstimation));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMMreuse_nnz));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMMreuse_copy));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpGEMMreuse_compute));
 }
