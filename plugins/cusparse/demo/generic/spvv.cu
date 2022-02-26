@@ -121,6 +121,9 @@ int main(void) {
     CHECK_CUSPARSE( cusparseSpVV(handle, CUSPARSE_OPERATION_NON_TRANSPOSE,
                                  vecX, vecY, &tmp_result, CUDA_R_32F, dBuffer) )
 
+    //printf("result: %f\n", tmp_result);
+    //printf("result: %p\n", &tmp_result);
+
     // destroy matrix/vector descriptors
     CHECK_CUSPARSE( cusparseDestroySpVec(vecX) )
     CHECK_CUSPARSE( cusparseDestroyDnVec(vecY) )

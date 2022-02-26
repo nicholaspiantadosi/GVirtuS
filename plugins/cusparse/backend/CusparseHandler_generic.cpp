@@ -1179,12 +1179,60 @@ CUSPARSE_ROUTINE_HANDLER(SpVV){
     cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
     cudaDataType computeType = in->Get<cudaDataType>();
     void* buffer = in->Get<void*>();
-    void* result = new float;
+    //void* result = in->Get<void*>();
+
+    //float* result = in->Get<float*>();
+
+    //float * result = in->Assign<float>();
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusparseSpVV(handle, opX, vecX, vecY, result, computeType, buffer);
-        out->Add<void*>(result);
+        if (computeType == CUDA_R_32F) {
+            // float
+
+            //printf("%p\n", result);
+
+            //printf("%f\n", *((float*)result));
+
+            //printf("%f\n", *result);
+
+            //cs = cusparseSpVV(handle, opX, vecX, vecY, result, computeType, buffer);
+
+            //printf("EXECUTED\n");
+
+            //out->Add<float>(result);
+            //printf("%f\n", *((float*)result));
+
+            //printf("%p\n", result);
+            //printf("%f\n", *result);
+
+            float result;
+            cs = cusparseSpVV(handle, opX, vecX, vecY, &result, computeType, buffer);
+            //printf("%p\n", result);
+            //printf("%f\n", result);
+            out->Add<float>(result);
+
+            //out->Add<void*>(result);
+            //out->AddMarshal<float*>(result);
+            //out->Add<float*>(result);
+        } else if (computeType == CUDA_R_64F) {
+            // double
+            double result;
+            cs = cusparseSpVV(handle, opX, vecX, vecY, &result, computeType, buffer);
+            out->Add<double>(result);
+        } else if (computeType == CUDA_C_32F) {
+            // cuComplex
+            cuComplex result;
+            cs = cusparseSpVV(handle, opX, vecX, vecY, &result, computeType, buffer);
+            out->Add<cuComplex>(result);
+        } else if (computeType == CUDA_C_64F) {
+            // cuDoubleComplex
+            cuDoubleComplex result;
+            cs = cusparseSpVV(handle, opX, vecX, vecY, &result, computeType, buffer);
+            out->Add<cuDoubleComplex>(result);
+        } else {
+            throw "Type not supported by GVirtus!";
+        }
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);

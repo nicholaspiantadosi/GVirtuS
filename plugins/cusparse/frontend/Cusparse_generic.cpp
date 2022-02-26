@@ -686,9 +686,42 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpVV(cusparseHandle_t handle, cu
     CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
     CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
     CusparseFrontend::AddDevicePointerForArguments(buffer);
+    //printf("%p\n", result);
+    //printf("%f\n", *((float*)result));
+    //CusparseFrontend::AddDevicePointerForArguments((float*)result);
+    //CusparseFrontend::AddHostPointerForArguments((float*)result);
     CusparseFrontend::Execute("cusparseSpVV");
     if (CusparseFrontend::Success()) {
-        result = (void *) CusparseFrontend::GetOutputDevicePointer();
+        if (computeType == CUDA_R_32F) {
+            //float
+
+            //result = (float*) CusparseFrontend::GetOutputDevicePointer();
+
+            //float* res = (float*) CusparseFrontend::GetOutputDevicePointer();
+            //printf("%p\n", res);
+            //printf("%f\n", *res);
+            //result = (void*)res;
+
+            float resF = CusparseFrontend::GetOutputVariable<float>();
+            result = &resF;
+
+            //printf("%p\n", result);
+            //printf("%f\n", *((float*)result));
+        } else if (computeType == CUDA_R_64F) {
+            //double
+            double resD = CusparseFrontend::GetOutputVariable<double>();
+            result = &resD;
+        } else if (computeType == CUDA_C_32F) {
+            //cuComplex
+            cuComplex resC = CusparseFrontend::GetOutputVariable<cuComplex>();
+            result = &resC;
+        } else if (computeType == CUDA_C_64F) {
+            //cuDoubleComplex
+            cuDoubleComplex resZ = CusparseFrontend::GetOutputVariable<cuDoubleComplex>();
+            result = &resZ;
+        } else {
+            throw "Type not supported by GVirtus!";
+        }
     }
     return CusparseFrontend::GetExitCode();
 }
