@@ -551,4 +551,7 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSV_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSV_analysis));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSV_solve));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMM_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMM_preprocess));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMM));
 }

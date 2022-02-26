@@ -1528,6 +1528,168 @@ CUSPARSE_ROUTINE_HANDLER(SpSV_solve){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(SpMM_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMM_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matC = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpMMAlg_t alg = in->Get<cusparseSpMMAlg_t>();
+    size_t * bufferSize = new size_t;
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpMM_bufferSize(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, bufferSize);
+        out->Add<size_t>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpMM_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpMM_preprocess){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMM_preprocess"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matC = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpMMAlg_t alg = in->Get<cusparseSpMMAlg_t>();
+    void * externalBuffer = in->Get<void*>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpMM_preprocess(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, externalBuffer);
+        out->Add<cusparseDnMatDescr_t>(matC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpMM_preprocess Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpMM){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMM"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matC = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpMMAlg_t alg = in->Get<cusparseSpMMAlg_t>();
+    void * externalBuffer = in->Get<void*>();
+    void* alpha;
+    void* beta;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        float betaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+        beta = &betaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        double betaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+        beta = &betaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        cuComplex betaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+        beta = &betaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        cuDoubleComplex betaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+        beta = &betaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpMM(handle, opA, opB, alpha, matA, matB, beta, matC, computeType, alg, externalBuffer);
+        out->Add<cusparseDnMatDescr_t>(matC);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpMM Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif
