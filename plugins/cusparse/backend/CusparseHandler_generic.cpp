@@ -1690,6 +1690,178 @@ CUSPARSE_ROUTINE_HANDLER(SpMM){
     return std::make_shared<Result>(cs,out);
 }
 
+CUSPARSE_ROUTINE_HANDLER(SpSM_createDescr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSM_createDescr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpSMDescr_t * spsmDescr = new cusparseSpSMDescr_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSM_createDescr(spsmDescr);
+        out->Add<cusparseSpSMDescr_t>(spsmDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSM_createDescr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSM_destroyDescr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSM_destroyDescr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpSMDescr_t spsmDescr = (cusparseSpSMDescr_t)in->Get<size_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSM_destroyDescr(spsmDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSM_destroyDescr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSM_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSM_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matC = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpSMAlg_t alg = in->Get<cusparseSpSMAlg_t>();
+    cusparseSpSMDescr_t spsmDescr = in->Get<cusparseSpSMDescr_t>();
+    size_t * bufferSize = new size_t;
+    void* alpha;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSM_bufferSize(handle, opA, opB, alpha, matA, matB, matC, computeType, alg, spsmDescr, bufferSize);
+        out->Add<size_t>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSM_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSM_analysis){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSM_analysis"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matC = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpSMAlg_t alg = in->Get<cusparseSpSMAlg_t>();
+    cusparseSpSMDescr_t spsmDescr = in->Get<cusparseSpSMDescr_t>();
+    void * externalBuffer = in->Get<void*>();
+    void* alpha;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSM_analysis(handle, opA, opB, alpha, matA, matB, matC, computeType, alg, spsmDescr, externalBuffer);
+        out->Add<cusparseDnMatDescr_t>(matC);
+        out->Add<cusparseSpSMDescr_t>(spsmDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSM_analysis Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSM_solve){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSM_solve"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseOperation_t opB = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matB = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cusparseDnMatDescr_t matC = (cusparseDnMatDescr_t)in->Get<size_t>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpSMAlg_t alg = in->Get<cusparseSpSMAlg_t>();
+    cusparseSpSMDescr_t spsmDescr = in->Get<cusparseSpSMDescr_t>();
+    void* alpha;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSM_solve(handle, opA, opB, alpha, matA, matB, matC, computeType, alg, spsmDescr);
+        out->Add<cusparseDnMatDescr_t>(matC);
+        out->Add<cusparseSpSMDescr_t>(spsmDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSM_solve Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
 #ifndef CUSPARSE_VERSION
 #error CUSPARSE_VERSION not defined
 #endif

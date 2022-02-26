@@ -1184,3 +1184,141 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMM(cusparseHandle_t handle, cu
     }
     return CusparseFrontend::GetExitCode();
 }
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSM_createDescr(cusparseSpSMDescr_t* spsmDescr) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::Execute("cusparseSpSM_createDescr");
+    if (CusparseFrontend::Success()) {
+        *spsmDescr = *(CusparseFrontend::GetOutputHostPointer<cusparseSpSMDescr_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSM_destroyDescr(cusparseSpSMDescr_t spsmDescr) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) spsmDescr);
+    CusparseFrontend::Execute("cusparseSpSM_destroyDescr");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSM_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, cusparseOperation_t opB, const void* alpha, cusparseSpMatDescr_t matA,
+                                                                cusparseDnMatDescr_t matB, cusparseDnMatDescr_t matC, cudaDataType computeType, cusparseSpSMAlg_t alg, cusparseSpSMDescr_t spsmDescr,
+                                                                size_t* bufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opB);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matB);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matC);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
+    CusparseFrontend::AddVariableForArguments<cusparseSpSMAlg_t>(alg);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) spsmDescr);
+    switch(computeType){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)alpha);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)alpha);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)alpha);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)alpha);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::Execute("cusparseSpSM_bufferSize");
+    if (CusparseFrontend::Success()) {
+        *bufferSize = *(CusparseFrontend::GetOutputHostPointer<size_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSM_analysis(cusparseHandle_t handle, cusparseOperation_t opA, cusparseOperation_t opB, const void* alpha, cusparseSpMatDescr_t matA,
+                                                                cusparseDnMatDescr_t matB, cusparseDnMatDescr_t matC, cudaDataType computeType, cusparseSpSMAlg_t alg, cusparseSpSMDescr_t spsmDescr,
+                                                                void* externalBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opB);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matB);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matC);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
+    CusparseFrontend::AddVariableForArguments<cusparseSpSMAlg_t>(alg);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) spsmDescr);
+    CusparseFrontend::AddDevicePointerForArguments(externalBuffer);
+    switch(computeType){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)alpha);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)alpha);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)alpha);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)alpha);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::Execute("cusparseSpSM_analysis");
+    if (CusparseFrontend::Success()) {
+        matC = CusparseFrontend::GetOutputVariable<cusparseDnMatDescr_t>();
+        spsmDescr = CusparseFrontend::GetOutputVariable<cusparseSpSMDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSM_solve(cusparseHandle_t handle, cusparseOperation_t opA, cusparseOperation_t opB, const void* alpha, cusparseSpMatDescr_t matA,
+                                                              cusparseDnMatDescr_t matB, cusparseDnMatDescr_t matC, cudaDataType computeType, cusparseSpSMAlg_t alg, cusparseSpSMDescr_t spsmDescr) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opB);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matB);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matC);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
+    CusparseFrontend::AddVariableForArguments<cusparseSpSMAlg_t>(alg);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) spsmDescr);
+    switch(computeType){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)alpha);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)alpha);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)alpha);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)alpha);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::Execute("cusparseSpSM_solve");
+    if (CusparseFrontend::Success()) {
+        matC = CusparseFrontend::GetOutputVariable<cusparseDnMatDescr_t>();
+        spsmDescr = CusparseFrontend::GetOutputVariable<cusparseSpSMDescr_t>();
+    }
+    return CusparseFrontend::GetExitCode();
+}
