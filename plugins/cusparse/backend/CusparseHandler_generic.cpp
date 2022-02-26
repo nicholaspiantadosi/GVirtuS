@@ -682,15 +682,14 @@ CUSPARSE_ROUTINE_HANDLER(SpMatGetAttribute){
 CUSPARSE_ROUTINE_HANDLER(SpMatSetAttribute){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpMatSetAttribute"));
     CusparseHandler::setLogLevel(&logger);
+    cusparseSpMatDescr_t spMatDescr = in->Get<cusparseSpMatDescr_t>();
     cusparseSpMatAttribute_t attribute = in->Get<cusparseSpMatAttribute_t>();
     size_t dataSize = in->Get<size_t>();
     void* data = in->Get<void*>();
-    cusparseSpMatDescr_t spMatDescr;
     cusparseStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
         cs = cusparseSpMatSetAttribute(spMatDescr, attribute, data, dataSize);
-        out->Add<cusparseSpMatDescr_t>(spMatDescr);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
@@ -1351,6 +1350,181 @@ CUSPARSE_ROUTINE_HANDLER(SpMV){
         return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
     }
     LOG4CPLUS_DEBUG(logger,"cusparseSpMV Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSV_createDescr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSV_createDescr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpSVDescr_t * spsvDescr = new cusparseSpSVDescr_t;
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSV_createDescr(spsvDescr);
+        out->Add<cusparseSpSVDescr_t>(spsvDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSV_createDescr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSV_destroyDescr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSV_destroyDescr"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseSpSVDescr_t spsvDescr = (cusparseSpSVDescr_t)in->Get<size_t>();
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSV_destroyDescr(spsvDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSV_destroyDescr Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSV_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSV_bufferSize"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnVecDescr_t vecX = (cusparseDnVecDescr_t)in->Get<size_t>();
+    //printf("\n\tBE - SpSV_bufferSize - vecX pointer: %p\n", vecX);
+    cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
+    //printf("\n\tBE - SpSV_bufferSize - vecY pointer: %p\n", vecY);
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpSVAlg_t alg = in->Get<cusparseSpSVAlg_t>();
+    cusparseSpSVDescr_t spsvDescr = in->Get<cusparseSpSVDescr_t>();
+    size_t * bufferSize = new size_t;
+    void* alpha;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSV_bufferSize(handle, opA, alpha, matA, vecX, vecY, computeType, alg, spsvDescr, bufferSize);
+        out->Add<size_t>(bufferSize);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSV_bufferSize Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSV_analysis){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSV_analysis"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnVecDescr_t vecX = (cusparseDnVecDescr_t)in->Get<size_t>();
+    //printf("\n\tBE - SpSV_analysis - vecX pointer: %p\n", vecX);
+    cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
+    //printf("\n\tBE - SpSV_analysis - vecY pointer: %p\n", vecY);
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpSVAlg_t alg = in->Get<cusparseSpSVAlg_t>();
+    cusparseSpSVDescr_t spsvDescr = in->Get<cusparseSpSVDescr_t>();
+    void * externalBuffer = in->Get<void*>();
+    void* alpha;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSV_analysis(handle, opA, alpha, matA, vecX, vecY, computeType, alg, spsvDescr, externalBuffer);
+        out->Add<size_t>((size_t)vecY);
+        out->Add<cusparseSpSVDescr_t>(spsvDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSV_analysis Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSPARSE_ROUTINE_HANDLER(SpSV_solve){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpSV_solve"));
+    CusparseHandler::setLogLevel(&logger);
+    cusparseHandle_t handle = (cusparseHandle_t)in->Get<size_t>();
+    cusparseOperation_t opA = in->Get<cusparseOperation_t>();
+    cusparseSpMatDescr_t matA = (cusparseSpMatDescr_t)in->Get<size_t>();
+    cusparseDnVecDescr_t vecX = (cusparseDnVecDescr_t)in->Get<size_t>();
+    //printf("\n\tBE - SpSV_solve - vecX pointer: %p\n", vecX);
+    cusparseDnVecDescr_t vecY = (cusparseDnVecDescr_t)in->Get<size_t>();
+    //printf("\n\tBE - SpSV_solve - vecY pointer: %p\n", vecY);
+    cudaDataType computeType = in->Get<cudaDataType>();
+    cusparseSpSVAlg_t alg = in->Get<cusparseSpSVAlg_t>();
+    cusparseSpSVDescr_t spsvDescr = in->Get<cusparseSpSVDescr_t>();
+    void* alpha;
+    if (computeType == CUDA_R_32F) {
+        // float
+        float alphaFloat = in->Get<float>();
+        alpha = &alphaFloat;
+    } else if (computeType == CUDA_R_64F) {
+        // double
+        double alphaDouble = in->Get<double>();
+        alpha = &alphaDouble;
+    } else if (computeType == CUDA_C_32F) {
+        // cuComplex
+        cuComplex alphaCuComplex = in->Get<cuComplex>();
+        alpha = &alphaCuComplex;
+    } else if (computeType == CUDA_C_64F) {
+        // cuDoubleComplex
+        cuDoubleComplex alphaCuDoubleComplex = in->Get<cuDoubleComplex>();
+        alpha = &alphaCuDoubleComplex;
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusparseStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusparseSpSV_solve(handle, opA, alpha, matA, vecX, vecY, computeType, alg, spsvDescr);
+        out->Add<size_t>((size_t)vecY);
+        out->Add<cusparseSpSVDescr_t>(spsvDescr);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSPARSE_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusparseSpSV_solve Executed");
     return std::make_shared<Result>(cs,out);
 }
 

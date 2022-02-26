@@ -546,4 +546,9 @@ void CusparseHandler::Initialize(){
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpVV));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV_bufferSize));
     mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpMV));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSV_createDescr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSV_destroyDescr));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSV_bufferSize));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSV_analysis));
+    mspHandlers->insert(CUSPARSE_ROUTINE_HANDLER_PAIR(SpSV_solve));
 }

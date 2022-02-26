@@ -399,15 +399,14 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMatGetAttribute(cusparseSpMatD
     return CusparseFrontend::GetExitCode();
 }
 
-extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMatSetAttribute(cusparseSpMatDescr_t spMatDescr, cusparseSpMatAttribute_t attribute, void* data, size_t dataSize) {
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMatSetAttribute(cusparseSpMatDescr_t spMatDescr, cusparseSpMatAttribute_t attribute, void *data, size_t dataSize) {
     CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)spMatDescr);
     CusparseFrontend::AddVariableForArguments<cusparseSpMatAttribute_t>(attribute);
-    CusparseFrontend::AddDevicePointerForArguments(data);
     CusparseFrontend::AddVariableForArguments<size_t>(dataSize);
+    //CusparseFrontend::AddDevicePointerForArguments(data);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)data);
     CusparseFrontend::Execute("cusparseSpMatSetAttribute");
-    if (CusparseFrontend::Success()) {
-        spMatDescr = (cusparseSpMatDescr_t) CusparseFrontend::GetOutputHostPointer<size_t>();
-    }
     return CusparseFrontend::GetExitCode();
 }
 
@@ -831,6 +830,217 @@ extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpMV(cusparseHandle_t handle, cu
     CusparseFrontend::Execute("cusparseSpMV");
     if (CusparseFrontend::Success()) {
         vecY = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
+        /*
+        cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+        printf("\tSpMV - AFTER - vecY: [");
+        for (int i = 0; i < 4; i++) {
+            printf("%f", hY[i]);
+            if (i < 3) {
+                printf(", ");
+            }
+        }
+        printf("]\n");
+        */
+        //printf("\nvecY address: %d\n", vecY);
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSV_createDescr(cusparseSpSVDescr_t* spsvDescr) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::Execute("cusparseSpSV_createDescr");
+    if (CusparseFrontend::Success()) {
+        *spsvDescr = *(CusparseFrontend::GetOutputHostPointer<cusparseSpSVDescr_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSV_destroyDescr(cusparseSpSVDescr_t spsvDescr) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) spsvDescr);
+    CusparseFrontend::Execute("cusparseSpSV_destroyDescr");
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSV_bufferSize(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA,
+                                                                cusparseDnVecDescr_t vecX, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpSVAlg_t alg,
+                                                                cusparseSpSVDescr_t  spsvDescr, size_t* bufferSize) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    //printf("\n\tFE - SpMV_bufferSize - vecX pointer: %p\n", vecX);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    //printf("\n\tFE - SpMV_bufferSize - vecY pointer: %p\n", vecY);
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
+    CusparseFrontend::AddVariableForArguments<cusparseSpSVAlg_t>(alg);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)spsvDescr);
+    //CusparseFrontend::AddHostPointerForArguments(bufferSize);
+    switch(computeType){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)alpha);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)alpha);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)alpha);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)alpha);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::Execute("cusparseSpSV_bufferSize");
+    if (CusparseFrontend::Success()) {
+        *bufferSize = *(CusparseFrontend::GetOutputHostPointer<size_t>());
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSV_analysis(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA,
+                                                              cusparseDnVecDescr_t vecX, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpSVAlg_t alg,
+                                                              cusparseSpSVDescr_t  spsvDescr, void* externalBuffer) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    /*
+    float hX[4];
+    cudaMemcpy(hX, vecX, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+    printf("\tSpMV - vecX: [");
+    for (int i = 0; i < 4; i++) {
+        printf("%f", hX[i]);
+        if (i < 3) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+    */
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    /*
+    float hY[4];
+    cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+    printf("\tSpMV - BEFORE - vecY: [");
+    for (int i = 0; i < 4; i++) {
+        printf("%f", hY[i]);
+        if (i < 3) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+    */
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
+    CusparseFrontend::AddVariableForArguments<cusparseSpSVAlg_t>(alg);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)spsvDescr);
+    CusparseFrontend::AddDevicePointerForArguments(externalBuffer);
+    switch(computeType){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)alpha);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)alpha);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)alpha);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)alpha);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::Execute("cusparseSpSV_analysis");
+    if (CusparseFrontend::Success()) {
+        vecY = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
+        spsvDescr = CusparseFrontend::GetOutputVariable<cusparseSpSVDescr_t>();
+        /*
+        cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+        printf("\tSpMV - AFTER - vecY: [");
+        for (int i = 0; i < 4; i++) {
+            printf("%f", hY[i]);
+            if (i < 3) {
+                printf(", ");
+            }
+        }
+        printf("]\n");
+        */
+        //printf("\nvecY address: %d\n", vecY);
+    }
+    return CusparseFrontend::GetExitCode();
+}
+
+extern "C" cusparseStatus_t CUSPARSEAPI cusparseSpSV_solve(cusparseHandle_t handle, cusparseOperation_t opA, const void* alpha, cusparseSpMatDescr_t matA,
+                                                              cusparseDnVecDescr_t vecX, cusparseDnVecDescr_t vecY, cudaDataType computeType, cusparseSpSVAlg_t alg,
+                                                              cusparseSpSVDescr_t  spsvDescr) {
+    CusparseFrontend::Prepare();
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)handle);
+    CusparseFrontend::AddVariableForArguments<cusparseOperation_t>(opA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) matA);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecX);
+    /*
+    float hX[4];
+    cudaMemcpy(hX, vecX, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+    printf("\tSpMV - vecX: [");
+    for (int i = 0; i < 4; i++) {
+        printf("%f", hX[i]);
+        if (i < 3) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+    */
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t) vecY);
+    /*
+    float hY[4];
+    cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
+    printf("\tSpMV - BEFORE - vecY: [");
+    for (int i = 0; i < 4; i++) {
+        printf("%f", hY[i]);
+        if (i < 3) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+    */
+    CusparseFrontend::AddVariableForArguments<cudaDataType>(computeType);
+    CusparseFrontend::AddVariableForArguments<cusparseSpSVAlg_t>(alg);
+    CusparseFrontend::AddVariableForArguments<size_t>((size_t)spsvDescr);
+    switch(computeType){
+        case CUDA_R_32F:
+            //float
+            CusparseFrontend::AddVariableForArguments(*(float *)alpha);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusparseFrontend::AddVariableForArguments(*(double *)alpha);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusparseFrontend::AddVariableForArguments(*(cuComplex *)alpha);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusparseFrontend::AddVariableForArguments(*(cuDoubleComplex *)alpha);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusparseFrontend::Execute("cusparseSpSV_solve");
+    if (CusparseFrontend::Success()) {
+        vecY = CusparseFrontend::GetOutputVariable<cusparseDnVecDescr_t>();
+        spsvDescr = CusparseFrontend::GetOutputVariable<cusparseSpSVDescr_t>();
         /*
         cudaMemcpy(hY, vecY, 4 * sizeof(float), cudaMemcpyDeviceToHost);
         printf("\tSpMV - AFTER - vecY: [");
