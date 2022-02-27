@@ -21,6 +21,7 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *                    
  *  Written by: Antonio Pilato <antonio.pilato001@studenti.uniparthenope.it>,
+ *              Nicholas Piantadosi <nicholas.piantadosi@studenti.uniparthenope.it>,
  *  Department of Science and Technologies
  */
 
@@ -31,6 +32,7 @@
 #include <gvirtus/communicators/Result.h>
 
 #include <cusolverDn.h>
+#include <cusolver_common.h>
 
 using gvirtus::common::pointer_t;
 using gvirtus::communicators::Buffer;
@@ -53,23 +55,29 @@ public:
     CusolverHandler();
     virtual ~CusolverHandler();
     bool CanExecute(std::string routine);
-    std::shared_ptr<gvirtus::communicators::Result> Execute(std::string routine, std::shared_ptr<gvirtus::communicators::Buffer> input_buffer);
+    std::shared_ptr<Result> Execute(std::string routine, std::shared_ptr<Buffer> input_buffer);
     static void setLogLevel(Logger *logger);
 private:
     log4cplus::Logger logger;
     void Initialize();
-    typedef std::shared_ptr<gvirtus::communicators::Result> (*CusolverRoutineHandler)(CusolverHandler *, std::shared_ptr<gvirtus::communicators::Result>);
+    typedef std::shared_ptr<Result> (*CusolverRoutineHandler)(CusolverHandler *, std::shared_ptr<Buffer>);
     static std::map<std::string, CusolverRoutineHandler> * mspHandlers;
 };
 
 #define CUSOLVER_ROUTINE_HANDLER(name) std::shared_ptr<Result> handle##name(CusolverHandler * pThis, std::shared_ptr<Buffer> in)
 #define CUSOLVER_ROUTINE_HANDLER_PAIR(name) make_pair("cusolver" #name, handle##name)
 
-CUSOLVER_ROUTINE_HANDLER(GetVersion);
-CUSOLVER_ROUTINE_HANDLER(GetErrorString);
-CUSOLVER_ROUTINE_HANDLER(Create);
-CUSOLVER_ROUTINE_HANDLER(Destroy);
-CUSOLVER_ROUTINE_HANDLER(SetStream);
-CUSOLVER_ROUTINE_HANDLER(GetStream);
+// DENSE LAPACK - HELPER FUNCTION
+CUSOLVER_ROUTINE_HANDLER(DnCreate);
+CUSOLVER_ROUTINE_HANDLER(DnDestroy);
+CUSOLVER_ROUTINE_HANDLER(DnSetStream);
+CUSOLVER_ROUTINE_HANDLER(DnGetStream);
+// DENSE LAPACK - DENSE LINEAR SOLVER - LEGACY
+// DENSE LAPACK - DENSE EIGENVALUES SOLVER
+// DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT
+// SPARSE LAPACK - HELPER FUNCTION
+// SPARSE LAPACK - HIGH LEVEL FUNCTION
+// SPARSE LAPACK - LOW LEVEL FUNCTION
+// REFACTORIZATION
 
 #endif  /* CUSOLVERHANDLER_H */

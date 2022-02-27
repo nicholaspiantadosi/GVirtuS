@@ -19,6 +19,7 @@
  *   along with gVirtuS; if not, write to the Free Software
  *   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *  Written by: Antonio Pilato <antonio.pilato001@studenti.uniparthenope.it>,
+ *              Nicholas Piantadosi <nicholas.piantadosi@studenti.uniparthenope.it>,
  *              Department of Science and Technologies
  *
  */
@@ -31,6 +32,9 @@
 
 using namespace std;
 using namespace log4cplus;
+
+using gvirtus::communicators::Buffer;
+using gvirtus::communicators::Result;
 
 std::map<string, CusolverHandler::CusolverRoutineHandler> * CusolverHandler::mspHandlers = NULL;
 
@@ -65,10 +69,9 @@ void CusolverHandler::setLogLevel(Logger *logger) {
 
 bool CusolverHandler::CanExecute(std::string routine) {
     return mspHandlers->find(routine) != mspHandlers->end();
-
 }
 
-std::shared_ptr<gvirtus::communicators::Result> CusolverHandler::Execute(std::string routine, std::shared_ptr<gvirtus::communicators::Buffer> input_buffer) {
+std::shared_ptr<Result> CusolverHandler::Execute(std::string routine, std::shared_ptr<Buffer> input_buffer) {
     LOG4CPLUS_DEBUG(logger,"Called " << routine);
     map<string, CusolverHandler::CusolverRoutineHandler>::iterator it;
     it = mspHandlers->find(routine);
@@ -86,87 +89,17 @@ std::shared_ptr<gvirtus::communicators::Result> CusolverHandler::Execute(std::st
 void CusolverHandler::Initialize(){
    if (mspHandlers != NULL)
         return;
-    mspHandlers = new map<string, CusolverHandler::CudnnRoutineHandler> ();
-    
-    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnGetVersion));
-    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnGetErrorString)); 
+    mspHandlers = new map<string, CusolverHandler::CusolverRoutineHandler> ();
+    // DENSE LAPACK - HELPER FUNCTION
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCreate));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDestroy));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSetStream));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnGetStream));
+    // DENSE LAPACK - DENSE LINEAR SOLVER - LEGACY
+    // DENSE LAPACK - DENSE EIGENVALUES SOLVER
+    // DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT
+    // SPARSE LAPACK - HELPER FUNCTION
+    // SPARSE LAPACK - HIGH LEVEL FUNCTION
+    // SPARSE LAPACK - LOW LEVEL FUNCTION
+    // REFACTORIZATION
 }
-
-CUSOLVER_ROUTINE_HANDLER(DnGetVersion){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnGetVersion"));
-
-    size_t version = cusolverDnGetVersion();
-    LOG4CPLUS_DEBUG(logger,"cusolverDnGetVersion Executed");
-    return std::make_shared<Result>(version);
-}
-
-CUSOLVER_ROUTINE_HANDLER(DnGetErrorString){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnGetErrorString"));
-    cusolverDnStatus_t cs = in->Get<cusolverDnStatus_t>();
-    const char * s = cusolverDnGetErrorString(cs);
-    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
-    try{
-        out->Add((char *)s);
-    } catch (string e){
-        LOG4CPLUS_DEBUG(logger,e);
-        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
-    }
-    LOG4CPLUS_DEBUG(logger,"cusolverDnGetErrorString Executed");
-    return std::make_shared<Result>(CUDNN_STATUS_SUCCESS,out);
-}
-
-CUSOLVER_ROUTINE_HANDLER(DnCreate){
-
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCreate"));
-    cusolverDnHandle_t handle;
-    cusolverDnStatus_t cs = cusolverDnCreate(&handle);
-    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
-    try{
-        out->Add<cusolverDnHandle_t>(handle);
-    } catch (string e){
-        LOG4CPLUS_DEBUG(logger,e);
-        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
-    }
-    LOG4CPLUS_DEBUG(logger,"cusolverDnCreate Executed");
-    return std::make_shared<Result>(cs,out);
-}
-
-CUSOLVER_ROUTINE_HANDLER(DnDestroy){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDestroy"));
- 
-    cusolverDnHandle_t handle = (cuSolverDnHandle_t)in->Get<long long int>();
-    cusolverDnStatus_t cs = cusolverDnDestroy(handle);
-    LOG4CPLUS_DEBUG(logger,"cusolverDnDestroy Executed");
-    return std::make_shared<Result>(cs);
-}
- 
-CUSOLVER_ROUTINE_HANDLER(DnSetStream){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSetStream"));
-    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<long long int>();
-    cudaStream_t streamId = (cudaStream_t) in->Get<long long int>();
-
-    cusolverDnStatus_t cs = cuSolverDnSetStream(handle,streamId);
-    LOG4CPLUS_DEBUG(logger,"cusolverDnSetStream Executed");
-    return std::make_shared<Result>(cs);
-}
-
-CUSOLVER_ROUTINE_HANDLER(DnGetStream){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnGetStream"));
-    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<long long int>();
-    cudaStream_t *streamId;
-    cusolverDnStatus_t cs = cusolverDnGetStream(handle,streamId);
-    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
-    try {
-         out->Add<long long int>((long long int)*streamId);
-    } catch (string e){
-         LOG4CPLUS_DEBUG(logger,e);
-         return std::make_shared<Result>(cs);
-    }
-    LOG4CPLUS_DEBUG(logger,"cusolverDnGetStream Executed");
-    return std::make_shared<Result>(cs,out);
-}
-

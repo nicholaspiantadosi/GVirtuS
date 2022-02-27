@@ -32,11 +32,14 @@ message(STATUS "Found cuSolver: ${CUSOLVER_VERSION} (${CUSOLVER_INCLUDE_DIRECTOR
 
 gvirtus_add_backend(cusolver ${CUDA_VERSION}
         backend/CusolverHandler.cpp
+        backend/CusolverHandler_dense_helper.cpp
+        backend/Utilities.h
 )
 target_link_libraries(${PROJECT_NAME} ${CUDA_cusolver_LIBRARY} ${CUDA_CUDART_LIBRARY})
 
 gvirtus_add_frontend(cusolver ${CUDA_VERSION}
         frontend/Cusolver.cpp
         frontend/CusolverFrontend.cpp
-        frontend/Cusolver_helper.cpp
+        frontend/Cusolver_dense_helper.cpp
+        frontend/Utilities.h
 )

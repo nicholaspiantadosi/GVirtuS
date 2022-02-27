@@ -20,6 +20,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * Written by: Antonio Pilato <antonio.pilato001@studenti.uniparthenope.it>,
+ *             Nicholas Piantadosi <nicholas.piantadosi@studenti.uniparthenope.it>,
  *              Department of Science andTechnology
  */
 
@@ -33,29 +34,32 @@ using namespace std;
 
 extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCreate(cusolverDnHandle_t *handle) {
     CusolverFrontend::Prepare();
-    //CusolverFrontend::AddHostPointerForArguments<cusolverDnHandle_t>(handle);
+    CusolverFrontend::AddHostPointerForArguments<cusolverDnHandle_t>(handle);
     CusolverFrontend::Execute("cusolverDnCreate");
     if(CusolverFrontend::Success())
-    	*handle = *(CusolverFrontend::GetOutputHostPointer<cusolverDnHandle_t>());
+    	*handle = CusolverFrontend::GetOutputVariable<cusolverDnHandle_t>();
     return CusolverFrontend::GetExitCode();
 }
     
-extern "C" cusolverStatus_t CUSOLVERAPI cuSolverDnDestroy(cusolverDnHandle_t handle) {
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDestroy(cusolverDnHandle_t handle) {
     CusolverFrontend::Prepare();
-    CusolverFrontend::AddVariableForArguments(handle);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
     CusolverFrontend::Execute("cusolverDnDestroy");
     return CusolverFrontend::GetExitCode();
 }
+
 extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSetStream(cusolverDnHandle_t handle, cudaStream_t streamId) {
     CusolverFrontend::Prepare();
-    CusolverFrontend::AddVariableForArguments(handle);
-    CusolverFrontend::AddVariableForArguments(streamId);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) streamId);
     CusolverFrontend::Execute("cusolverDnSetStream");
     return CusolverFrontend::GetExitCode();
 }
 extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnGetStream(cusolverDnHandle_t handle, cudaStream_t *streamId) {
     CusolverFrontend::Prepare();
-    CusolverFrontend::AddVariableForArguments(handle);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
     CusolverFrontend::Execute("cusolverDnGetStream");
+    if(CusolverFrontend::Success())
+        *streamId = (cudaStream_t) CusolverFrontend::GetOutputVariable<size_t>();
     return CusolverFrontend::GetExitCode();
-}   
+}
