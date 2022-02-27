@@ -164,3 +164,88 @@ CUSOLVER_ROUTINE_HANDLER(DnXsyevjGetSweeps){
     LOG4CPLUS_DEBUG(logger,"cusolverDnXsyevjGetSweeps Executed");
     return std::make_shared<Result>(cs,out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(DnCreateGesvdjInfo){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCreateGesvdjInfo"));
+    CusolverHandler::setLogLevel(&logger);
+    gesvdjInfo_t info;
+    cusolverStatus_t cs = cusolverDnCreateGesvdjInfo(&info);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        out->Add<gesvdjInfo_t>(info);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCreateGesvdjInfo Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDestroyGesvdjInfo){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDestroyGesvdjInfo"));
+    gesvdjInfo_t info = (gesvdjInfo_t)in->Get<size_t>();
+    cusolverStatus_t cs = cusolverDnDestroyGesvdjInfo(info);
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDestroyGesvdjInfo Executed");
+    return std::make_shared<Result>(cs);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnXgesvdjSetTolerance){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnXgesvdjSetTolerance"));
+    gesvdjInfo_t info = (gesvdjInfo_t)in->Get<size_t>();
+    double tolerance = in->Get<double>();
+    cusolverStatus_t cs = cusolverDnXgesvdjSetTolerance(info, tolerance);
+    LOG4CPLUS_DEBUG(logger,"cusolverDnXgesvdjSetTolerance Executed");
+    return std::make_shared<Result>(cs);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnXgesvdjSetMaxSweeps){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnXgesvdjSetMaxSweeps"));
+    gesvdjInfo_t info = (gesvdjInfo_t)in->Get<size_t>();
+    int max_sweeps = in->Get<int>();
+    cusolverStatus_t cs = cusolverDnXgesvdjSetMaxSweeps(info, max_sweeps);
+    LOG4CPLUS_DEBUG(logger,"cusolverDnXgesvdjSetMaxSweeps Executed");
+    return std::make_shared<Result>(cs);
+}
+
+    CUSOLVER_ROUTINE_HANDLER(DnXgesvdjSetSortEig){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnXgesvdjSetSortEig"));
+    gesvdjInfo_t info = (gesvdjInfo_t)in->Get<size_t>();
+    int sort_eig = in->Get<int>();
+    cusolverStatus_t cs = cusolverDnXgesvdjSetSortEig(info, sort_eig);
+    LOG4CPLUS_DEBUG(logger,"cusolverDnXgesvdjSetSortEig Executed");
+    return std::make_shared<Result>(cs);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnXgesvdjGetResidual){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnXgesvdjGetResidual"));
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    gesvdjInfo_t info = (gesvdjInfo_t)in->Get<size_t>();
+    double residual;
+    cusolverStatus_t cs = cusolverDnXgesvdjGetResidual(handle, info, &residual);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        out->Add<double>(residual);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(cs);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnXgesvdjGetResidual Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnXgesvdjGetSweeps){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnXgesvdjGetSweeps"));
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    gesvdjInfo_t info = (gesvdjInfo_t)in->Get<size_t>();
+    int executed_sweeps;
+    cusolverStatus_t cs = cusolverDnXgesvdjGetSweeps(handle, info, &executed_sweeps);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try {
+        out->Add<int>(executed_sweeps);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(cs);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnXgesvdjGetSweeps Executed");
+    return std::make_shared<Result>(cs,out);
+}
