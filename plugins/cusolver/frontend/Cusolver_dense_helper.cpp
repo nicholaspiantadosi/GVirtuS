@@ -55,11 +55,72 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSetStream(cusolverDnHandle_t h
     CusolverFrontend::Execute("cusolverDnSetStream");
     return CusolverFrontend::GetExitCode();
 }
+
 extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnGetStream(cusolverDnHandle_t handle, cudaStream_t *streamId) {
     CusolverFrontend::Prepare();
     CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
     CusolverFrontend::Execute("cusolverDnGetStream");
     if(CusolverFrontend::Success())
         *streamId = (cudaStream_t) CusolverFrontend::GetOutputVariable<size_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCreateSyevjInfo(syevjInfo_t *info) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddHostPointerForArguments<syevjInfo_t>(info);
+    CusolverFrontend::Execute("cusolverDnCreateSyevjInfo");
+    if(CusolverFrontend::Success())
+        *info = CusolverFrontend::GetOutputVariable<syevjInfo_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDestroySyevjInfo(syevjInfo_t info) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::Execute("cusolverDnDestroySyevjInfo");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnXsyevjSetTolerance(syevjInfo_t info, double tolerance) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::AddVariableForArguments<double>(tolerance);
+    CusolverFrontend::Execute("cusolverDnXsyevjSetTolerance");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnXsyevjSetMaxSweeps(syevjInfo_t info, int max_sweeps) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::AddVariableForArguments<int>(max_sweeps);
+    CusolverFrontend::Execute("cusolverDnXsyevjSetMaxSweeps");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnXsyevjSetSortEig(syevjInfo_t info, int sort_eig) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::AddVariableForArguments<int>(sort_eig);
+    CusolverFrontend::Execute("cusolverDnXsyevjSetSortEig");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnXsyevjGetResidual(cusolverDnHandle_t handle, syevjInfo_t info, double *residual) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::Execute("cusolverDnXsyevjGetResidual");
+    if(CusolverFrontend::Success())
+        *residual = CusolverFrontend::GetOutputVariable<double>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnXsyevjGetSweeps(cusolverDnHandle_t handle, syevjInfo_t info, int *executed_sweeps) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::Execute("cusolverDnXsyevjGetSweeps");
+    if(CusolverFrontend::Success())
+        *executed_sweeps = CusolverFrontend::GetOutputVariable<int>();
     return CusolverFrontend::GetExitCode();
 }

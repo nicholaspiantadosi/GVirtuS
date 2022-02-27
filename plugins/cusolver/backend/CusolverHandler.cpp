@@ -95,6 +95,22 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDestroy));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSetStream));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnGetStream));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCreateSyevjInfo));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDestroySyevjInfo));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXsyevjSetTolerance));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXsyevjSetMaxSweeps));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXsyevjSetSortEig));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXsyevjGetResidual));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXsyevjGetSweeps));
+    /*
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCreateGesvdjInfo));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDestroyGesvdjInfo));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgesvdjSetTolerance));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgesvdjSetMaxSweeps));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgesvdjSetSortEig));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgesvdjGetResidual));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgesvdjGetSweeps));
+     */
     // DENSE LAPACK - DENSE LINEAR SOLVER - LEGACY
     // DENSE LAPACK - DENSE EIGENVALUES SOLVER
     // DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT
