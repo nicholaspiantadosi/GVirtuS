@@ -109,6 +109,29 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgesvdjSetSortEig));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgesvdjGetResidual));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgesvdjGetSweeps));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsCreate));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsDestroy));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsSetSolverPrecisions));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsSetSolverMainPrecision));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsSetSolverLowestPrecision));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsSetRefinementSolver));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsSetTol));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsSetTolInner));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsSetMaxIters));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsSetMaxItersInner));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsEnableFallback));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsDisableFallback));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSParamsGetMaxIters));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSInfosCreate));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSInfosDestroy));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSInfosGetMaxIters));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSInfosGetNiters));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSInfosGetOuterNiters));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSInfosRequestResidual));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnIRSInfosGetResidualHistory));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCreateParams));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDestroyParams));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSetAdvOptions));
     // DENSE LAPACK - DENSE LINEAR SOLVER - LEGACY
     // DENSE LAPACK - DENSE EIGENVALUES SOLVER
     // DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT

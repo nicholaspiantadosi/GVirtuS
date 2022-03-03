@@ -184,3 +184,191 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnXgesvdjGetSweeps(cusolverDnHan
         *executed_sweeps = CusolverFrontend::GetOutputVariable<int>();
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsCreate(cusolverDnIRSParams_t *params) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddHostPointerForArguments<cusolverDnIRSParams_t>(params);
+    CusolverFrontend::Execute("cusolverDnIRSParamsCreate");
+    if(CusolverFrontend::Success())
+        *params = CusolverFrontend::GetOutputVariable<cusolverDnIRSParams_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsDestroy(cusolverDnIRSParams_t params) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::Execute("cusolverDnIRSParamsDestroy");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsSetSolverPrecisions(cusolverDnIRSParams_t params, cusolverPrecType_t solver_main_precision, cusolverPrecType_t solver_lowest_precision) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<cusolverPrecType_t>(solver_main_precision);
+    CusolverFrontend::AddVariableForArguments<cusolverPrecType_t>(solver_lowest_precision);
+    CusolverFrontend::Execute("cusolverDnIRSParamsSetSolverPrecisions");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsSetSolverMainPrecision(cusolverDnIRSParams_t params, cusolverPrecType_t solver_main_precision) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<cusolverPrecType_t>(solver_main_precision);
+    CusolverFrontend::Execute("cusolverDnIRSParamsSetSolverMainPrecision");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsSetSolverLowestPrecision(cusolverDnIRSParams_t params, cusolverPrecType_t lowest_precision_type) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<cusolverPrecType_t>(lowest_precision_type);
+    CusolverFrontend::Execute("cusolverDnIRSParamsSetSolverLowestPrecision");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsSetRefinementSolver(cusolverDnIRSParams_t params, cusolverIRSRefinement_t solver) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<cusolverIRSRefinement_t>(solver);
+    CusolverFrontend::Execute("cusolverDnIRSParamsSetRefinementSolver");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsSetTol(cusolverDnIRSParams_t params, double val) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<double>(val);
+    CusolverFrontend::Execute("cusolverDnIRSParamsSetTol");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsSetTolInner(cusolverDnIRSParams_t params, double val) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<double>(val);
+    CusolverFrontend::Execute("cusolverDnIRSParamsSetTolInner");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsSetMaxIters(cusolverDnIRSParams_t params, int max_iters) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<int>(max_iters);
+    CusolverFrontend::Execute("cusolverDnIRSParamsSetMaxIters");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsSetMaxItersInner(cusolverDnIRSParams_t params, cusolver_int_t maxiters_inner) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<cusolver_int_t>(maxiters_inner);
+    CusolverFrontend::Execute("cusolverDnIRSParamsSetMaxItersInner");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsEnableFallback(cusolverDnIRSParams_t params) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::Execute("cusolverDnIRSParamsEnableFallback");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsDisableFallback(cusolverDnIRSParams_t params) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::Execute("cusolverDnIRSParamsDisableFallback");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSParamsGetMaxIters(cusolverDnIRSParams_t params, cusolver_int_t *maxiters) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::Execute("cusolverDnIRSParamsGetMaxIters");
+    if(CusolverFrontend::Success())
+        *maxiters = CusolverFrontend::GetOutputVariable<cusolver_int_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSInfosCreate(cusolverDnIRSInfos_t *infos) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddHostPointerForArguments<cusolverDnIRSInfos_t>(infos);
+    CusolverFrontend::Execute("cusolverDnIRSInfosCreate");
+    if(CusolverFrontend::Success())
+        *infos = CusolverFrontend::GetOutputVariable<cusolverDnIRSInfos_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSInfosDestroy(cusolverDnIRSInfos_t infos) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) infos);
+    CusolverFrontend::Execute("cusolverDnIRSInfosDestroy");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSInfosGetMaxIters(cusolverDnIRSInfos_t infos, cusolver_int_t *maxiters) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) infos);
+    CusolverFrontend::Execute("cusolverDnIRSInfosGetMaxIters");
+    if(CusolverFrontend::Success())
+        *maxiters = CusolverFrontend::GetOutputVariable<cusolver_int_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSInfosGetNiters(cusolverDnIRSInfos_t infos, cusolver_int_t *niters) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) infos);
+    CusolverFrontend::Execute("cusolverDnIRSInfosGetNiters");
+    if(CusolverFrontend::Success())
+        *niters = CusolverFrontend::GetOutputVariable<cusolver_int_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSInfosGetOuterNiters(cusolverDnIRSInfos_t infos, cusolver_int_t *outer_niters) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) infos);
+    CusolverFrontend::Execute("cusolverDnIRSInfosGetOuterNiters");
+    if(CusolverFrontend::Success())
+        *outer_niters = CusolverFrontend::GetOutputVariable<cusolver_int_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSInfosRequestResidual(cusolverDnIRSInfos_t infos) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) infos);
+    CusolverFrontend::Execute("cusolverDnIRSInfosRequestResidual");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnIRSInfosGetResidualHistory(cusolverDnIRSInfos_t infos, void **residual_history) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) infos);
+    CusolverFrontend::Execute("cusolverDnIRSInfosGetResidualHistory");
+    if(CusolverFrontend::Success())
+        *residual_history = (void *) CusolverFrontend::GetOutputDevicePointer();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCreateParams(cusolverDnParams_t *params) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddHostPointerForArguments<cusolverDnParams_t>(params);
+    CusolverFrontend::Execute("cusolverDnCreateParams");
+    if(CusolverFrontend::Success())
+        *params = CusolverFrontend::GetOutputVariable<cusolverDnParams_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDestroyParams(cusolverDnParams_t params) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::Execute("cusolverDnDestroyParams");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSetAdvOptions(cusolverDnParams_t params, cusolverDnFunction_t function, cusolverAlgMode_t algo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<cusolverDnFunction_t>(function);
+    CusolverFrontend::AddVariableForArguments<cusolverAlgMode_t>(algo);
+    CusolverFrontend::Execute("cusolverDnSetAdvOptions");
+    return CusolverFrontend::GetExitCode();
+}
