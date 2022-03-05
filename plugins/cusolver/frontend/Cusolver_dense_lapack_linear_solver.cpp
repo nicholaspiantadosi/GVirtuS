@@ -693,3 +693,83 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnGetrf(cusolverDnHandle_t handl
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSgetrs(cusolverDnHandle_t handle, cublasOperation_t trans, int n, int nrhs, const float *A, int lda, const int *devIpiv, float *B, int ldb, int *devInfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasOperation_t>(trans);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(devIpiv);
+    CusolverFrontend::AddDevicePointerForArguments(B);
+    CusolverFrontend::AddVariableForArguments<int>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(devInfo);
+    CusolverFrontend::Execute("cusolverDnSgetrs");
+    if (CusolverFrontend::Success()) {
+        devInfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+        B = (float*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDgetrs(cusolverDnHandle_t handle, cublasOperation_t trans, int n, int nrhs, const double *A, int lda, const int *devIpiv, double *B, int ldb, int *devInfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasOperation_t>(trans);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(devIpiv);
+    CusolverFrontend::AddDevicePointerForArguments(B);
+    CusolverFrontend::AddVariableForArguments<int>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(devInfo);
+    CusolverFrontend::Execute("cusolverDnDgetrs");
+    if (CusolverFrontend::Success()) {
+        devInfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+        B = (double*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCgetrs(cusolverDnHandle_t handle, cublasOperation_t trans, int n, int nrhs, const cuComplex *A, int lda, const int *devIpiv, cuComplex *B, int ldb, int *devInfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasOperation_t>(trans);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(devIpiv);
+    CusolverFrontend::AddDevicePointerForArguments(B);
+    CusolverFrontend::AddVariableForArguments<int>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(devInfo);
+    CusolverFrontend::Execute("cusolverDnCgetrs");
+    if (CusolverFrontend::Success()) {
+        devInfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+        B = (cuComplex*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZgetrs(cusolverDnHandle_t handle, cublasOperation_t trans, int n, int nrhs, const cuDoubleComplex *A, int lda, const int *devIpiv, cuDoubleComplex *B, int ldb, int *devInfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasOperation_t>(trans);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(devIpiv);
+    CusolverFrontend::AddDevicePointerForArguments(B);
+    CusolverFrontend::AddVariableForArguments<int>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(devInfo);
+    CusolverFrontend::Execute("cusolverDnZgetrs");
+    if (CusolverFrontend::Success()) {
+        devInfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+        B = (cuDoubleComplex*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}

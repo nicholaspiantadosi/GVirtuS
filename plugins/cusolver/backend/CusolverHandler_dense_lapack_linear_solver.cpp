@@ -917,3 +917,111 @@ CUSOLVER_ROUTINE_HANDLER(DnGetrf){
     LOG4CPLUS_DEBUG(logger,"cusolverDnGetrf Executed");
     return std::make_shared<Result>(cs, out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(DnSgetrs){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSgetrs"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float* A = in->GetFromMarshal<float*>();
+    int lda = in->Get<int>();
+    int *devIpiv = in->GetFromMarshal<int*>();
+    float* B = in->GetFromMarshal<float*>();
+    int ldb = in->Get<int>();
+    int *devInfo = in->GetFromMarshal<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSgetrs(handle, trans, n, nrhs, A, lda, devIpiv, B, ldb, devInfo);
+        out->Add<int*>(devInfo);
+        out->Add<float*>(B);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSgetrs Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDgetrs){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDgetrs"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double* A = in->GetFromMarshal<double*>();
+    int lda = in->Get<int>();
+    int *devIpiv = in->GetFromMarshal<int*>();
+    double* B = in->GetFromMarshal<double*>();
+    int ldb = in->Get<int>();
+    int *devInfo = in->GetFromMarshal<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDgetrs(handle, trans, n, nrhs, A, lda, devIpiv, B, ldb, devInfo);
+        out->Add<int*>(devInfo);
+        out->Add<double*>(B);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDgetrs Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCgetrs){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCgetrs"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex* A = in->GetFromMarshal<cuComplex*>();
+    int lda = in->Get<int>();
+    int *devIpiv = in->GetFromMarshal<int*>();
+    cuComplex* B = in->GetFromMarshal<cuComplex*>();
+    int ldb = in->Get<int>();
+    int *devInfo = in->GetFromMarshal<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCgetrs(handle, trans, n, nrhs, A, lda, devIpiv, B, ldb, devInfo);
+        out->Add<int*>(devInfo);
+        out->Add<cuComplex*>(B);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCgetrs Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZgetrs){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZgetrs"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex* A = in->GetFromMarshal<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    int *devIpiv = in->GetFromMarshal<int*>();
+    cuDoubleComplex* B = in->GetFromMarshal<cuDoubleComplex*>();
+    int ldb = in->Get<int>();
+    int *devInfo = in->GetFromMarshal<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZgetrs(handle, trans, n, nrhs, A, lda, devIpiv, B, ldb, devInfo);
+        out->Add<int*>(devInfo);
+        out->Add<cuDoubleComplex*>(B);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZgetrs Executed");
+    return std::make_shared<Result>(cs,out);
+}

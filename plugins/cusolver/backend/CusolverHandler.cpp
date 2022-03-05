@@ -166,6 +166,10 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZgetrf));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnGetrf_bufferSize));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnGetrf));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSgetrs));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDgetrs));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCgetrs));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZgetrs));
     // DENSE LAPACK - DENSE EIGENVALUES SOLVER
     // DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT
     // SPARSE LAPACK - HELPER FUNCTION
