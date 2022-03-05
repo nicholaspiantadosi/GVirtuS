@@ -615,3 +615,81 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZgetrf(cusolverDnHandle_t hand
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnGetrf_bufferSize(cusolverDnHandle_t handle, cusolverDnParams_t params, int64_t m, int64_t n, cudaDataType dataTypeA, const void *A, int64_t lda, cudaDataType computeType, size_t *workspaceInBytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<int64_t>(m);
+    CusolverFrontend::AddVariableForArguments<int64_t>(n);
+    CusolverFrontend::AddVariableForArguments<cudaDataType_t>(dataTypeA);
+    CusolverFrontend::AddVariableForArguments<int64_t>(lda);
+    CusolverFrontend::AddVariableForArguments<cudaDataType_t>(computeType);
+    switch(dataTypeA){
+        case CUDA_R_32F:
+            //float
+            CusolverFrontend::AddDevicePointerForArguments((float *)A);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusolverFrontend::AddDevicePointerForArguments((double *)A);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusolverFrontend::AddDevicePointerForArguments((cuComplex *)A);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusolverFrontend::AddDevicePointerForArguments((cuDoubleComplex *)A);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusolverFrontend::Execute("cusolverDnGetrf_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *workspaceInBytes = CusolverFrontend::GetOutputVariable<int>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnGetrf(cusolverDnHandle_t handle, cusolverDnParams_t params, int64_t m, int64_t n, cudaDataType dataTypeA, void *A, int64_t lda, int64_t *ipiv, cudaDataType computeType, void *pBuffer, size_t workspaceInBytes, int *info) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<int64_t>(m);
+    CusolverFrontend::AddVariableForArguments<int64_t>(n);
+    CusolverFrontend::AddVariableForArguments<cudaDataType_t>(dataTypeA);
+    CusolverFrontend::AddVariableForArguments<int64_t>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(ipiv);
+    CusolverFrontend::AddVariableForArguments<cudaDataType_t>(computeType);
+    CusolverFrontend::AddDevicePointerForArguments(pBuffer);
+    CusolverFrontend::AddVariableForArguments<size_t>(workspaceInBytes);
+    CusolverFrontend::AddDevicePointerForArguments(info);
+    switch(dataTypeA){
+        case CUDA_R_32F:
+            //float
+            CusolverFrontend::AddDevicePointerForArguments((float *)A);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusolverFrontend::AddDevicePointerForArguments((double *)A);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusolverFrontend::AddDevicePointerForArguments((cuComplex *)A);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusolverFrontend::AddDevicePointerForArguments((cuDoubleComplex *)A);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusolverFrontend::Execute("cusolverDnGetrf");
+    if (CusolverFrontend::Success()) {
+        ipiv = (int64_t*) CusolverFrontend::GetOutputDevicePointer();
+        info = (int*) CusolverFrontend::GetOutputDevicePointer();
+        A = CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
