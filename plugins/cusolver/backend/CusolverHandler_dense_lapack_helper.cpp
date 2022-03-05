@@ -24,7 +24,6 @@
  */
 
 #include "CusolverHandler.h"
-#include <cuda_runtime.h>
 
 using namespace log4cplus;
 

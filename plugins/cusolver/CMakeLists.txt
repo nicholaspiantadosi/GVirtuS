@@ -32,7 +32,8 @@ message(STATUS "Found cuSolver: ${CUSOLVER_VERSION} (${CUSOLVER_INCLUDE_DIRECTOR
 
 gvirtus_add_backend(cusolver ${CUDA_VERSION}
         backend/CusolverHandler.cpp
-        backend/CusolverHandler_dense_helper.cpp
+        backend/CusolverHandler_dense_lapack_helper.cpp
+        backend/CusolverHandler_dense_lapack_linear_solver.cpp
         backend/Utilities.h
 )
 target_link_libraries(${PROJECT_NAME} ${CUDA_cusolver_LIBRARY} ${CUDA_CUDART_LIBRARY})
@@ -40,6 +41,7 @@ target_link_libraries(${PROJECT_NAME} ${CUDA_cusolver_LIBRARY} ${CUDA_CUDART_LIB
 gvirtus_add_frontend(cusolver ${CUDA_VERSION}
         frontend/Cusolver.cpp
         frontend/CusolverFrontend.cpp
-        frontend/Cusolver_dense_helper.cpp
+        frontend/Cusolver_dense_lapack_helper.cpp
+        frontend/Cusolver_dense_lapack_linear_solver.cpp
         frontend/Utilities.h
 )
