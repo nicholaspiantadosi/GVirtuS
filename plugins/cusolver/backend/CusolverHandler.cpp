@@ -148,6 +148,22 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCpotrs));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZpotrs));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnPotrs));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSpotri_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDpotri_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCpotri_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZpotri_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSpotri));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDpotri));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCpotri));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZpotri));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSgetrf_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDgetrf_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCgetrf_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZgetrf_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSgetrf));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDgetrf));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCgetrf));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZgetrf));
     // DENSE LAPACK - DENSE EIGENVALUES SOLVER
     // DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT
     // SPARSE LAPACK - HELPER FUNCTION
