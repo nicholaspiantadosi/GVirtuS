@@ -311,3 +311,47 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZpotrs(cusolverDnHandle_t hand
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnPotrs(cusolverDnHandle_t handle, cusolverDnParams_t params, cublasFillMode_t uplo, int64_t n, int64_t nrhs, cudaDataType dataTypeA, const void *A, int64_t lda, cudaDataType dataTypeB, void *B, int64_t ldb, int *info) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) params);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int64_t>(n);
+    CusolverFrontend::AddVariableForArguments<int64_t>(nrhs);
+    CusolverFrontend::AddVariableForArguments<cudaDataType_t>(dataTypeA);
+    CusolverFrontend::AddVariableForArguments<int64_t>(lda);
+    CusolverFrontend::AddVariableForArguments<cudaDataType_t>(dataTypeB);
+    CusolverFrontend::AddVariableForArguments<int64_t>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(info);
+    switch(dataTypeA){
+        case CUDA_R_32F:
+            //float
+            CusolverFrontend::AddDevicePointerForArguments((float *)A);
+            CusolverFrontend::AddDevicePointerForArguments((float *)B);
+            break;
+        case CUDA_R_64F:
+            //double
+            CusolverFrontend::AddDevicePointerForArguments((double *)A);
+            CusolverFrontend::AddDevicePointerForArguments((double *)B);
+            break;
+        case CUDA_C_32F:
+            //cuComplex
+            CusolverFrontend::AddDevicePointerForArguments((cuComplex *)A);
+            CusolverFrontend::AddDevicePointerForArguments((cuComplex *)B);
+            break;
+        case CUDA_C_64F:
+            //cuDoubleComplex
+            CusolverFrontend::AddDevicePointerForArguments((cuDoubleComplex *)A);
+            CusolverFrontend::AddDevicePointerForArguments((cuDoubleComplex *)B);
+            break;
+        default:
+            throw "Type not supported by GVirtus!";
+    }
+    CusolverFrontend::Execute("cusolverDnPotrs");
+    if (CusolverFrontend::Success()) {
+        info = (int*) CusolverFrontend::GetOutputDevicePointer();
+        B = CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
