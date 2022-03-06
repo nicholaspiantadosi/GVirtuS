@@ -228,7 +228,7 @@ CUSOLVER_ROUTINE_HANDLER(DnPotrf_bufferSize){
     cudaDataType dataTypeA = in->Get<cudaDataType_t>();
     int64_t lda = in->Get<int64_t>();
     cudaDataType computeType = in->Get<cudaDataType_t>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     void* A;
     if (dataTypeA == CUDA_R_32F) {
         // float
@@ -248,7 +248,7 @@ CUSOLVER_ROUTINE_HANDLER(DnPotrf_bufferSize){
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnPotrf_bufferSize(handle, params, uplo, n, dataTypeA, A, lda, computeType, workspaceInBytes);
+        cs = cusolverDnPotrf_bufferSize(handle, params, uplo, n, dataTypeA, A, lda, computeType, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -843,7 +843,7 @@ CUSOLVER_ROUTINE_HANDLER(DnGetrf_bufferSize){
     cudaDataType dataTypeA = in->Get<cudaDataType_t>();
     int64_t lda = in->Get<int64_t>();
     cudaDataType computeType = in->Get<cudaDataType_t>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     void* A;
     if (dataTypeA == CUDA_R_32F) {
         // float
@@ -863,7 +863,7 @@ CUSOLVER_ROUTINE_HANDLER(DnGetrf_bufferSize){
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnGetrf_bufferSize(handle, params, m, n, dataTypeA, A, lda, computeType, workspaceInBytes);
+        cs = cusolverDnGetrf_bufferSize(handle, params, m, n, dataTypeA, A, lda, computeType, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1089,11 +1089,11 @@ CUSOLVER_ROUTINE_HANDLER(DnZZgesv_bufferSize){
     cuDoubleComplex *dX = in->GetFromMarshal<cuDoubleComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnZZgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnZZgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1117,11 +1117,11 @@ CUSOLVER_ROUTINE_HANDLER(DnZCgesv_bufferSize){
     cuDoubleComplex *dX = in->GetFromMarshal<cuDoubleComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnZCgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnZCgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1145,11 +1145,11 @@ CUSOLVER_ROUTINE_HANDLER(DnZKgesv_bufferSize){
     cuDoubleComplex *dX = in->GetFromMarshal<cuDoubleComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnZKgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnZKgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1173,11 +1173,11 @@ CUSOLVER_ROUTINE_HANDLER(DnZEgesv_bufferSize){
     cuDoubleComplex *dX = in->GetFromMarshal<cuDoubleComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnZEgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnZEgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1201,11 +1201,11 @@ CUSOLVER_ROUTINE_HANDLER(DnZYgesv_bufferSize){
     cuDoubleComplex *dX = in->GetFromMarshal<cuDoubleComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnZYgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnZYgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1229,11 +1229,11 @@ CUSOLVER_ROUTINE_HANDLER(DnCCgesv_bufferSize){
     cuComplex *dX = in->GetFromMarshal<cuComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnCCgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnCCgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1257,11 +1257,11 @@ CUSOLVER_ROUTINE_HANDLER(DnCKgesv_bufferSize){
     cuComplex *dX = in->GetFromMarshal<cuComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnCKgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnCKgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1285,11 +1285,11 @@ CUSOLVER_ROUTINE_HANDLER(DnCEgesv_bufferSize){
     cuComplex *dX = in->GetFromMarshal<cuComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnCEgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnCEgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1313,11 +1313,11 @@ CUSOLVER_ROUTINE_HANDLER(DnCYgesv_bufferSize){
     cuComplex *dX = in->GetFromMarshal<cuComplex*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnCYgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnCYgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1341,11 +1341,11 @@ CUSOLVER_ROUTINE_HANDLER(DnDDgesv_bufferSize){
     double *dX = in->GetFromMarshal<double*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnDDgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnDDgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1369,11 +1369,11 @@ CUSOLVER_ROUTINE_HANDLER(DnDSgesv_bufferSize){
     double *dX = in->GetFromMarshal<double*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnDSgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnDSgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1397,11 +1397,11 @@ CUSOLVER_ROUTINE_HANDLER(DnDHgesv_bufferSize){
     double *dX = in->GetFromMarshal<double*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnDHgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnDHgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1425,11 +1425,11 @@ CUSOLVER_ROUTINE_HANDLER(DnDBgesv_bufferSize){
     double *dX = in->GetFromMarshal<double*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnDBgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnDBgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1453,11 +1453,11 @@ CUSOLVER_ROUTINE_HANDLER(DnDXgesv_bufferSize){
     double *dX = in->GetFromMarshal<double*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnDXgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnDXgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1481,11 +1481,11 @@ CUSOLVER_ROUTINE_HANDLER(DnSSgesv_bufferSize){
     float *dX = in->GetFromMarshal<float*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnSSgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnSSgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1509,11 +1509,11 @@ CUSOLVER_ROUTINE_HANDLER(DnSHgesv_bufferSize){
     float *dX = in->GetFromMarshal<float*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnSHgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnSHgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1537,11 +1537,11 @@ CUSOLVER_ROUTINE_HANDLER(DnSBgesv_bufferSize){
     float *dX = in->GetFromMarshal<float*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnSBgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnSBgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -1565,11 +1565,11 @@ CUSOLVER_ROUTINE_HANDLER(DnSXgesv_bufferSize){
     float *dX = in->GetFromMarshal<float*>();
     int lddx = in->Get<int>();
     void *dWork = in->Get<void*>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnSXgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, workspaceInBytes);
+        cs = cusolverDnSXgesv_bufferSize(handle, n, nrhs, dA, ldda, dipiv, dB, lddb, dX, lddx, dWork, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -2198,11 +2198,11 @@ CUSOLVER_ROUTINE_HANDLER(DnIRSXgesv_bufferSize){
     cusolverDnIRSParams_t gesv_irs_params = (cusolverDnIRSParams_t)in->Get<size_t>();
     cusolver_int_t n = in->Get<cusolver_int_t>();
     cusolver_int_t nrhs = in->Get<cusolver_int_t>();
-    size_t * lwork_bytes = new size_t;
+    size_t lwork_bytes;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnIRSXgesv_bufferSize(handle, gesv_irs_params, n, nrhs, lwork_bytes);
+        cs = cusolverDnIRSXgesv_bufferSize(handle, gesv_irs_params, n, nrhs, &lwork_bytes);
         out->Add<size_t>(lwork_bytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -2336,7 +2336,7 @@ CUSOLVER_ROUTINE_HANDLER(DnZgeqrf_bufferSize){
 }
 
 CUSOLVER_ROUTINE_HANDLER(DnSgeqrf){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSgeqrf_bufferSize"));
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSgeqrf"));
     CusolverHandler::setLogLevel(&logger);
     cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
     int m = in->Get<int>();
@@ -2363,7 +2363,7 @@ CUSOLVER_ROUTINE_HANDLER(DnSgeqrf){
 }
 
 CUSOLVER_ROUTINE_HANDLER(DnDgeqrf){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDgeqrf_bufferSize"));
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDgeqrf"));
     CusolverHandler::setLogLevel(&logger);
     cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
     int m = in->Get<int>();
@@ -2390,7 +2390,7 @@ CUSOLVER_ROUTINE_HANDLER(DnDgeqrf){
 }
 
 CUSOLVER_ROUTINE_HANDLER(DnCgeqrf){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCgeqrf_bufferSize"));
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCgeqrf"));
     CusolverHandler::setLogLevel(&logger);
     cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
     int m = in->Get<int>();
@@ -2417,7 +2417,7 @@ CUSOLVER_ROUTINE_HANDLER(DnCgeqrf){
 }
 
 CUSOLVER_ROUTINE_HANDLER(DnZgeqrf){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZgeqrf_bufferSize"));
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZgeqrf"));
     CusolverHandler::setLogLevel(&logger);
     cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
     int m = in->Get<int>();
@@ -2454,7 +2454,7 @@ CUSOLVER_ROUTINE_HANDLER(DnGeqrf_bufferSize){
     int64_t lda = in->Get<int64_t>();
     cudaDataType dataTypeTau = in->Get<cudaDataType_t>();
     cudaDataType computeType = in->Get<cudaDataType_t>();
-    size_t * workspaceInBytes = new size_t;
+    size_t workspaceInBytes;
     void* A;
     void* TAU;
     if (dataTypeA == CUDA_R_32F) {
@@ -2479,7 +2479,7 @@ CUSOLVER_ROUTINE_HANDLER(DnGeqrf_bufferSize){
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
-        cs = cusolverDnGeqrf_bufferSize(handle, params, m, n, dataTypeA, A, lda, dataTypeTau, TAU, computeType, workspaceInBytes);
+        cs = cusolverDnGeqrf_bufferSize(handle, params, m, n, dataTypeA, A, lda, dataTypeTau, TAU, computeType, &workspaceInBytes);
         out->Add<size_t>(workspaceInBytes);
     } catch (string e){
         LOG4CPLUS_DEBUG(logger,e);
@@ -2535,5 +2535,1085 @@ CUSOLVER_ROUTINE_HANDLER(DnGeqrf){
         return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
     }
     LOG4CPLUS_DEBUG(logger,"cusolverDnGeqrf Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZZgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZZgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZZgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZZgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZCgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZCgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZCgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZCgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZKgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZKgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZKgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZKgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZEgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZEgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZEgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZEgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZYgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZYgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZYgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZYgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCCgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCCgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex *dA = in->Get<cuComplex*>();
+    int ldda = in->Get<int>();
+    cuComplex *dB = in->Get<cuComplex*>();
+    int lddb = in->Get<int>();
+    cuComplex *dX = in->Get<cuComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCCgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCCgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCKgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCKgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex *dA = in->Get<cuComplex*>();
+    int ldda = in->Get<int>();
+    cuComplex *dB = in->Get<cuComplex*>();
+    int lddb = in->Get<int>();
+    cuComplex *dX = in->Get<cuComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCKgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCKgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCEgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCEgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex *dA = in->Get<cuComplex*>();
+    int ldda = in->Get<int>();
+    cuComplex *dB = in->Get<cuComplex*>();
+    int lddb = in->Get<int>();
+    cuComplex *dX = in->Get<cuComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCEgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCEgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCYgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCYgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex *dA = in->Get<cuComplex*>();
+    int ldda = in->Get<int>();
+    cuComplex *dB = in->Get<cuComplex*>();
+    int lddb = in->Get<int>();
+    cuComplex *dX = in->Get<cuComplex*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCYgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCYgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDDgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDDgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDDgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDDgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDSgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDSgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDSgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDSgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDHgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDHgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDHgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDHgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDBgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDBgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDBgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDBgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDXgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDXgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDXgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDXgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSSgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSSgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float *dA = in->Get<float*>();
+    int ldda = in->Get<int>();
+    float *dB = in->Get<float*>();
+    int lddb = in->Get<int>();
+    float *dX = in->Get<float*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSSgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSSgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSHgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSHgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float *dA = in->Get<float*>();
+    int ldda = in->Get<int>();
+    float *dB = in->Get<float*>();
+    int lddb = in->Get<int>();
+    float *dX = in->Get<float*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSHgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSHgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSBgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSBgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float *dA = in->Get<float*>();
+    int ldda = in->Get<int>();
+    float *dB = in->Get<float*>();
+    int lddb = in->Get<int>();
+    float *dX = in->Get<float*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSBgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSBgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSXgels_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSXgels_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float *dA = in->Get<float*>();
+    int ldda = in->Get<int>();
+    float *dB = in->Get<float*>();
+    int lddb = in->Get<int>();
+    float *dX = in->Get<float*>();
+    int lddx = in->Get<int>();
+    void *dwork = in->Get<void*>();
+    size_t lwork_bytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSXgels_bufferSize(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dwork, &lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSXgels_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZZgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZZgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZZgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuDoubleComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZZgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZCgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZCgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZCgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuDoubleComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZCgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZKgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZKgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZKgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuDoubleComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZKgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZEgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZEgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZEgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuDoubleComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZEgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZYgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZYgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex *dA = in->Get<cuDoubleComplex*>();
+    int ldda = in->Get<int>();
+    cuDoubleComplex *dB = in->Get<cuDoubleComplex*>();
+    int lddb = in->Get<int>();
+    cuDoubleComplex *dX = in->Get<cuDoubleComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZYgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuDoubleComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZYgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCCgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCCgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex *dA = in->Get<cuComplex*>();
+    int ldda = in->Get<int>();
+    cuComplex *dB = in->Get<cuComplex*>();
+    int lddb = in->Get<int>();
+    cuComplex *dX = in->Get<cuComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCCgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCCgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCKgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCKgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex *dA = in->Get<cuComplex*>();
+    int ldda = in->Get<int>();
+    cuComplex *dB = in->Get<cuComplex*>();
+    int lddb = in->Get<int>();
+    cuComplex *dX = in->Get<cuComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCKgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCKgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCEgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCEgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex *dA = in->Get<cuComplex*>();
+    int ldda = in->Get<int>();
+    cuComplex *dB = in->Get<cuComplex*>();
+    int lddb = in->Get<int>();
+    cuComplex *dX = in->Get<cuComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCEgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCEgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCYgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCYgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex *dA = in->Get<cuComplex*>();
+    int ldda = in->Get<int>();
+    cuComplex *dB = in->Get<cuComplex*>();
+    int lddb = in->Get<int>();
+    cuComplex *dX = in->Get<cuComplex*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCYgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<cuComplex*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCYgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDDgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDDgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDDgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<double*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDDgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDSgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDSgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDSgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<double*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDSgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDHgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDHgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDHgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<double*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDHgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDBgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDBgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDBgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<double*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDBgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDXgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDXgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double *dA = in->Get<double*>();
+    int ldda = in->Get<int>();
+    double *dB = in->Get<double*>();
+    int lddb = in->Get<int>();
+    double *dX = in->Get<double*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDXgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<double*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDXgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSSgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSSgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float *dA = in->Get<float*>();
+    int ldda = in->Get<int>();
+    float *dB = in->Get<float*>();
+    int lddb = in->Get<int>();
+    float *dX = in->Get<float*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSSgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<float*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSSgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSHgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSHgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float *dA = in->Get<float*>();
+    int ldda = in->Get<int>();
+    float *dB = in->Get<float*>();
+    int lddb = in->Get<int>();
+    float *dX = in->Get<float*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSHgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<float*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSHgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSBgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSBgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float *dA = in->Get<float*>();
+    int ldda = in->Get<int>();
+    float *dB = in->Get<float*>();
+    int lddb = in->Get<int>();
+    float *dX = in->Get<float*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSBgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<float*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSBgels Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSXgels){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSXgels"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float *dA = in->Get<float*>();
+    int ldda = in->Get<int>();
+    float *dB = in->Get<float*>();
+    int lddb = in->Get<int>();
+    float *dX = in->Get<float*>();
+    int lddx = in->Get<int>();
+    void *dWorkspace = in->Get<void*>();
+    int lwork_bytes = in->Get<int>();
+    int niters;
+    int *dinfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSXgels(handle, m, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<float*>(dX);
+        out->Add<int>(niters);
+        out->Add<int*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSXgels Executed");
     return std::make_shared<Result>(cs, out);
 }
