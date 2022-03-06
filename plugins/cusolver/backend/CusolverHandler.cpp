@@ -265,6 +265,14 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDormqr));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCunmqr));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZunmqr));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSorgqr_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDorgqr_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCungqr_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZungqr_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSorgqr));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDorgqr));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCungqr));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZungqr));
     // DENSE LAPACK - DENSE EIGENVALUES SOLVER
     // DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT
     // SPARSE LAPACK - HELPER FUNCTION
