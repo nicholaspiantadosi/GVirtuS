@@ -2190,3 +2190,59 @@ CUSOLVER_ROUTINE_HANDLER(DnSXgesv){
     LOG4CPLUS_DEBUG(logger,"cusolverDnSXgesv Executed");
     return std::make_shared<Result>(cs,out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(DnIRSXgesv_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnIRSXgesv_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverDnIRSParams_t gesv_irs_params = (cusolverDnIRSParams_t)in->Get<size_t>();
+    cusolver_int_t n = in->Get<cusolver_int_t>();
+    cusolver_int_t nrhs = in->Get<cusolver_int_t>();
+    size_t * lwork_bytes = new size_t;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnIRSXgesv_bufferSize(handle, gesv_irs_params, n, nrhs, lwork_bytes);
+        out->Add<size_t>(lwork_bytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnIRSXgesv_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnIRSXgesv){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnIRSXgesv"));
+    CusolverHandler::setLogLevel(&logger);
+
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverDnIRSParams_t gesv_irs_params = (cusolverDnIRSParams_t)in->Get<size_t>();
+    cusolverDnIRSInfos_t gesv_irs_infos = (cusolverDnIRSInfos_t)in->Get<size_t>();
+    cusolver_int_t n = in->Get<cusolver_int_t>();
+    cusolver_int_t nrhs = in->Get<cusolver_int_t>();
+    void *dA = in->GetFromMarshal<void*>();
+    cusolver_int_t ldda = in->Get<cusolver_int_t>();
+    void *dB = in->GetFromMarshal<void*>();
+    cusolver_int_t lddb = in->Get<cusolver_int_t>();
+    void *dX = in->GetFromMarshal<void*>();
+    cusolver_int_t lddx = in->Get<cusolver_int_t>();
+    void *dWorkspace = in->Get<void*>();
+    size_t lwork_bytes = in->Get<size_t>();
+    cusolver_int_t niters;
+    cusolver_int_t *dinfo = in->Get<cusolver_int_t*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnIRSXgesv(handle, gesv_irs_params, gesv_irs_infos, n, nrhs, dA, ldda, dB, lddb, dX, lddx, dWorkspace, lwork_bytes, &niters, dinfo);
+        out->Add<void*>(dA);
+        out->Add<void*>(dX);
+        out->Add<cusolver_int_t>(niters);
+        out->Add<cusolver_int_t*>(dinfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnIRSXgesv Executed");
+    return std::make_shared<Result>(cs,out);
+}
