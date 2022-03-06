@@ -2442,3 +2442,98 @@ CUSOLVER_ROUTINE_HANDLER(DnZgeqrf){
     LOG4CPLUS_DEBUG(logger,"cusolverDnZgeqrf Executed");
     return std::make_shared<Result>(cs, out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(DnGeqrf_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnGeqrf_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverDnParams_t params = (cusolverDnParams_t)in->Get<size_t>();
+    int64_t m = in->Get<int64_t>();
+    int64_t n = in->Get<int64_t>();
+    cudaDataType dataTypeA = in->Get<cudaDataType_t>();
+    int64_t lda = in->Get<int64_t>();
+    cudaDataType dataTypeTau = in->Get<cudaDataType_t>();
+    cudaDataType computeType = in->Get<cudaDataType_t>();
+    size_t * workspaceInBytes = new size_t;
+    void* A;
+    void* TAU;
+    if (dataTypeA == CUDA_R_32F) {
+        // float
+        A = in->GetFromMarshal<float*>();
+        TAU = in->GetFromMarshal<float*>();
+    } else if (dataTypeA == CUDA_R_64F) {
+        // double
+        A = in->GetFromMarshal<double*>();
+        TAU = in->GetFromMarshal<double*>();
+    } else if (dataTypeA == CUDA_C_32F) {
+        // cuComplex
+        A = in->GetFromMarshal<cuComplex*>();
+        TAU = in->GetFromMarshal<cuComplex*>();
+    } else if (dataTypeA == CUDA_C_64F) {
+        // cuDoubleComplex
+        A = in->GetFromMarshal<cuDoubleComplex*>();
+        TAU = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnGeqrf_bufferSize(handle, params, m, n, dataTypeA, A, lda, dataTypeTau, TAU, computeType, workspaceInBytes);
+        out->Add<size_t>(workspaceInBytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnGeqrf_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnGeqrf){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnGeqrf"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverDnParams_t params = (cusolverDnParams_t)in->Get<size_t>();
+    int64_t m = in->Get<int64_t>();
+    int64_t n = in->Get<int64_t>();
+    cudaDataType dataTypeA = in->Get<cudaDataType_t>();
+    int64_t lda = in->Get<int64_t>();
+    cudaDataType dataTypeTau = in->Get<cudaDataType_t>();
+    cudaDataType computeType = in->Get<cudaDataType_t>();
+    void *pBuffer = in->Get<void*>();
+    size_t workspaceInBytes = in->Get<size_t >();
+    int *info = in->GetFromMarshal<int*>();
+    void* A;
+    void* TAU;
+    if (dataTypeA == CUDA_R_32F) {
+        // float
+        A = in->GetFromMarshal<float*>();
+        TAU = in->GetFromMarshal<float*>();
+    } else if (dataTypeA == CUDA_R_64F) {
+        // double
+        A = in->GetFromMarshal<double*>();
+        TAU = in->GetFromMarshal<double*>();
+    } else if (dataTypeA == CUDA_C_32F) {
+        // cuComplex
+        A = in->GetFromMarshal<cuComplex*>();
+        TAU = in->GetFromMarshal<cuComplex*>();
+    } else if (dataTypeA == CUDA_C_64F) {
+        // cuDoubleComplex
+        A = in->GetFromMarshal<cuDoubleComplex*>();
+        TAU = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnGeqrf(handle, params, m, n, dataTypeA, A, lda, dataTypeTau, TAU, computeType, pBuffer, workspaceInBytes, info);
+        out->Add<int*>(info);
+        out->Add<void*>(TAU);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnGeqrf Executed");
+    return std::make_shared<Result>(cs, out);
+}
