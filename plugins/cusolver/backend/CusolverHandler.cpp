@@ -171,6 +171,42 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCgetrs));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZgetrs));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnGetrs));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZZgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZCgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZKgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZEgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZYgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCCgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCKgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCEgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCYgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDDgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDSgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDHgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDBgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDXgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSSgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSHgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSBgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSXgesv_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZZgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZCgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZKgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZEgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZYgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCCgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCKgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCEgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCYgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDDgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDSgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDHgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDBgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDXgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSSgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSHgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSBgesv));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSXgesv));
     // DENSE LAPACK - DENSE EIGENVALUES SOLVER
     // DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT
     // SPARSE LAPACK - HELPER FUNCTION

@@ -818,3 +818,831 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnGetrs(cusolverDnHandle_t handl
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZZgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *   dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnZZgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZCgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *   dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnZCgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZKgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *   dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnZKgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZEgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *   dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnZEgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZYgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *   dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnZYgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCCgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuComplex *dA, int ldda, int *   dipiv, cuComplex *dB, int lddb, cuComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnCCgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCKgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuComplex *dA, int ldda, int *   dipiv, cuComplex *dB, int lddb, cuComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnCKgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCEgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuComplex *dA, int ldda, int *   dipiv, cuComplex *dB, int lddb, cuComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnCEgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCYgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, cuComplex *dA, int ldda, int *   dipiv, cuComplex *dB, int lddb, cuComplex *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnCYgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDDgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *   dipiv, double *dB, int lddb, double *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnDDgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDSgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *   dipiv, double *dB, int lddb, double *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnDSgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDHgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *   dipiv, double *dB, int lddb, double *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnDHgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDBgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *   dipiv, double *dB, int lddb, double *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnDBgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDXgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *   dipiv, double *dB, int lddb, double *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnDXgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSSgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, float *dA, int ldda, int *   dipiv, float *dB, int lddb, float *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnSSgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSHgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, float *dA, int ldda, int *   dipiv, float *dB, int lddb, float *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnSHgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSBgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, float *dA, int ldda, int *   dipiv, float *dB, int lddb, float *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnSBgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSXgesv_bufferSize(cusolverDnHandle_t handle, int n, int nrhs, float *dA, int ldda, int *   dipiv, float *dB, int lddb, float *dX, int lddx, void *dwork, size_t *lwork_bytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dwork);
+    CusolverFrontend::Execute("cusolverDnSXgesv_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork_bytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZZgesv(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnZZgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZCgesv(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnZCgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZKgesv(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnZKgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZEgesv(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnZEgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZYgesv(cusolverDnHandle_t handle, int n, int nrhs, cuDoubleComplex *dA, int ldda, int *dipiv, cuDoubleComplex *dB, int lddb, cuDoubleComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnZYgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuDoubleComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCCgesv(cusolverDnHandle_t handle, int n, int nrhs, cuComplex *dA, int ldda, int *dipiv, cuComplex *dB, int lddb, cuComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnCCgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCKgesv(cusolverDnHandle_t handle, int n, int nrhs, cuComplex *dA, int ldda, int *dipiv, cuComplex *dB, int lddb, cuComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnCKgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCEgesv(cusolverDnHandle_t handle, int n, int nrhs, cuComplex *dA, int ldda, int *dipiv, cuComplex *dB, int lddb, cuComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnCEgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCYgesv(cusolverDnHandle_t handle, int n, int nrhs, cuComplex *dA, int ldda, int *dipiv, cuComplex *dB, int lddb, cuComplex *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnCYgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (cuComplex *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (cuComplex *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDDgesv(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *dipiv, double *dB, int lddb, double *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnDDgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (double *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (double *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDSgesv(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *dipiv, double *dB, int lddb, double *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnDSgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (double *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (double *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDHgesv(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *dipiv, double *dB, int lddb, double *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnDHgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (double *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (double *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDBgesv(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *dipiv, double *dB, int lddb, double *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnDBgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (double *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (double *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDXgesv(cusolverDnHandle_t handle, int n, int nrhs, double *dA, int ldda, int *dipiv, double *dB, int lddb, double *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnDXgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (double *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (double *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSSgesv(cusolverDnHandle_t handle, int n, int nrhs, float *dA, int ldda, int *dipiv, float *dB, int lddb, float *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnSSgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (float *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (float *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSHgesv(cusolverDnHandle_t handle, int n, int nrhs, float *dA, int ldda, int *dipiv, float *dB, int lddb, float *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnSHgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (float *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (float *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSBgesv(cusolverDnHandle_t handle, int n, int nrhs, float *dA, int ldda, int *dipiv, float *dB, int lddb, float *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnSBgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (float *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (float *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSXgesv(cusolverDnHandle_t handle, int n, int nrhs, float *dA, int ldda, int *dipiv, float *dB, int lddb, float *dX, int lddx, void *dWorkspace, size_t lwork_bytes, int *niter, int *dinfo) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(dA);
+    CusolverFrontend::AddVariableForArguments<int>(ldda);
+    CusolverFrontend::AddDevicePointerForArguments(dipiv);
+    CusolverFrontend::AddDevicePointerForArguments(dB);
+    CusolverFrontend::AddVariableForArguments<int>(lddb);
+    CusolverFrontend::AddDevicePointerForArguments(dX);
+    CusolverFrontend::AddVariableForArguments<int>(lddx);
+    CusolverFrontend::AddDevicePointerForArguments(dWorkspace);
+    CusolverFrontend::AddVariableForArguments<size_t>(lwork_bytes);
+    CusolverFrontend::AddDevicePointerForArguments(dinfo);
+    CusolverFrontend::Execute("cusolverDnSXgesv");
+    if (CusolverFrontend::Success()) {
+        dA = (float *) CusolverFrontend::GetOutputDevicePointer();
+        dipiv = (int*) CusolverFrontend::GetOutputDevicePointer();
+        dX = (float *) CusolverFrontend::GetOutputDevicePointer();
+        *niter = CusolverFrontend::GetOutputVariable<int>();
+        dinfo = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
