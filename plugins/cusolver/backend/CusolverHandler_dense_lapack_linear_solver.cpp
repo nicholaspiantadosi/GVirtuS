@@ -3674,3 +3674,239 @@ CUSOLVER_ROUTINE_HANDLER(DnIRSXgels){
     LOG4CPLUS_DEBUG(logger,"cusolverDnIRSXgels Executed");
     return std::make_shared<Result>(cs,out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(DnSormqr_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSormqr_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    float *A = in->Get<float*>();
+    int lda = in->Get<int>();
+    float *tau = in->Get<float*>();
+    float *C = in->Get<float*>();
+    int ldc = in->Get<int>();
+    int lwork;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSormqr_bufferSize(handle, side, trans, m, n, k, A, lda, tau, C, ldc, &lwork);
+        out->Add<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSormqr_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDormqr_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDormqr_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    double *A = in->Get<double*>();
+    int lda = in->Get<int>();
+    double *tau = in->Get<double*>();
+    double *C = in->Get<double*>();
+    int ldc = in->Get<int>();
+    int lwork;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDormqr_bufferSize(handle, side, trans, m, n, k, A, lda, tau, C, ldc, &lwork);
+        out->Add<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDormqr_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCunmqr_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCunmqr_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    cuComplex *A = in->Get<cuComplex*>();
+    int lda = in->Get<int>();
+    cuComplex *tau = in->Get<cuComplex*>();
+    cuComplex *C = in->Get<cuComplex*>();
+    int ldc = in->Get<int>();
+    int lwork;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCunmqr_bufferSize(handle, side, trans, m, n, k, A, lda, tau, C, ldc, &lwork);
+        out->Add<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCunmqr_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZunmqr_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZunmqr_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    cuDoubleComplex *A = in->Get<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    cuDoubleComplex *tau = in->Get<cuDoubleComplex*>();
+    cuDoubleComplex *C = in->Get<cuDoubleComplex*>();
+    int ldc = in->Get<int>();
+    int lwork;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZunmqr_bufferSize(handle, side, trans, m, n, k, A, lda, tau, C, ldc, &lwork);
+        out->Add<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZunmqr_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSormqr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSormqr"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    float *A = in->Get<float*>();
+    int lda = in->Get<int>();
+    float *tau = in->Get<float*>();
+    float *C = in->Get<float*>();
+    int ldc = in->Get<int>();
+    float *work = in->Get<float*>();
+    int lwork = in->Get<int>();
+    int *devInfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSormqr(handle, side, trans, m, n, k, A, lda, tau, C, ldc, work, lwork, devInfo);
+        out->Add<float*>(tau);
+        out->Add<int*>(devInfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSormqr Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDormqr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDormqr"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    double *A = in->Get<double*>();
+    int lda = in->Get<int>();
+    double *tau = in->Get<double*>();
+    double *C = in->Get<double*>();
+    int ldc = in->Get<int>();
+    double *work = in->Get<double*>();
+    int lwork = in->Get<int>();
+    int *devInfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDormqr(handle, side, trans, m, n, k, A, lda, tau, C, ldc, work, lwork, devInfo);
+        out->Add<double*>(tau);
+        out->Add<int*>(devInfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDormqr Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCunmqr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCunmqr"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    cuComplex *A = in->Get<cuComplex*>();
+    int lda = in->Get<int>();
+    cuComplex *tau = in->Get<cuComplex*>();
+    cuComplex *C = in->Get<cuComplex*>();
+    int ldc = in->Get<int>();
+    cuComplex *work = in->Get<cuComplex*>();
+    int lwork = in->Get<int>();
+    int *devInfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCunmqr(handle, side, trans, m, n, k, A, lda, tau, C, ldc, work, lwork, devInfo);
+        out->Add<cuComplex*>(tau);
+        out->Add<int*>(devInfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCunmqr Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZunmqr){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZunmqr"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasSideMode_t side = in->Get<cublasSideMode_t>();
+    cublasOperation_t trans = in->Get<cublasOperation_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int k = in->Get<int>();
+    cuDoubleComplex *A = in->Get<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    cuDoubleComplex *tau = in->Get<cuDoubleComplex*>();
+    cuDoubleComplex *C = in->Get<cuDoubleComplex*>();
+    int ldc = in->Get<int>();
+    cuDoubleComplex *work = in->Get<cuDoubleComplex*>();
+    int lwork = in->Get<int>();
+    int *devInfo = in->Get<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZunmqr(handle, side, trans, m, n, k, A, lda, tau, C, ldc, work, lwork, devInfo);
+        out->Add<cuDoubleComplex*>(tau);
+        out->Add<int*>(devInfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZunmqr Executed");
+    return std::make_shared<Result>(cs, out);
+}
