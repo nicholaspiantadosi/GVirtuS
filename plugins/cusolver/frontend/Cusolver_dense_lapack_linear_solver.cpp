@@ -3188,3 +3188,143 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZsytrf(cusolverDnHandle_t hand
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSpotrfBatched(cusolverDnHandle_t handle, cublasFillMode_t uplo, int n, float **A, int lda, int *infoArray, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(infoArray);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnSpotrfBatched");
+    if (CusolverFrontend::Success()) {
+        infoArray = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDpotrfBatched(cusolverDnHandle_t handle, cublasFillMode_t uplo, int n, double **A, int lda, int *infoArray, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(infoArray);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnDpotrfBatched");
+    if (CusolverFrontend::Success()) {
+        infoArray = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCpotrfBatched(cusolverDnHandle_t handle, cublasFillMode_t uplo, int n, cuComplex **A, int lda, int *infoArray, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(infoArray);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnCpotrfBatched");
+    if (CusolverFrontend::Success()) {
+        infoArray = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZpotrfBatched(cusolverDnHandle_t handle, cublasFillMode_t uplo, int n, cuDoubleComplex **A, int lda, int *infoArray, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(infoArray);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnZpotrfBatched");
+    if (CusolverFrontend::Success()) {
+        infoArray = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSpotrsBatched(cusolverDnHandle_t handle, cublasFillMode_t uplo, int n, int nrhs, float **A, int lda, float **B, int ldb, int *infoArray, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(B);
+    CusolverFrontend::AddVariableForArguments<int>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(infoArray);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnSpotrsBatched");
+    if (CusolverFrontend::Success()) {
+        infoArray = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDpotrsBatched(cusolverDnHandle_t handle, cublasFillMode_t uplo, int n, int nrhs, double **A, int lda, double **B, int ldb, int *infoArray, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(B);
+    CusolverFrontend::AddVariableForArguments<int>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(infoArray);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnDpotrsBatched");
+    if (CusolverFrontend::Success()) {
+        infoArray = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCpotrsBatched(cusolverDnHandle_t handle, cublasFillMode_t uplo, int n, int nrhs, cuComplex **A, int lda, cuComplex **B, int ldb, int *infoArray, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(B);
+    CusolverFrontend::AddVariableForArguments<int>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(infoArray);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnCpotrsBatched");
+    if (CusolverFrontend::Success()) {
+        infoArray = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZpotrsBatched(cusolverDnHandle_t handle, cublasFillMode_t uplo, int n, int nrhs, cuDoubleComplex **A, int lda, cuDoubleComplex **B, int ldb, int *infoArray, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cublasFillMode_t>(uplo);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddDevicePointerForArguments(B);
+    CusolverFrontend::AddVariableForArguments<int>(ldb);
+    CusolverFrontend::AddDevicePointerForArguments(infoArray);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnZpotrsBatched");
+    if (CusolverFrontend::Success()) {
+        infoArray = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}

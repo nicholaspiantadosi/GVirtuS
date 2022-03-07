@@ -4302,3 +4302,199 @@ CUSOLVER_ROUTINE_HANDLER(DnZsytrf){
     LOG4CPLUS_DEBUG(logger,"cusolverDnZsytrf Executed");
     return std::make_shared<Result>(cs, out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(DnSpotrfBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSpotrfBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    float **A = in->Get<float**>();
+    int lda = in->Get<int>();
+    int *infoArray = in->Get<int*>();
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSpotrfBatched(handle, uplo, n, A, lda, infoArray, batchSize);
+        out->Add<int*>(infoArray);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSpotrfBatched Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDpotrfBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDpotrfBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    double **A = in->Get<double**>();
+    int lda = in->Get<int>();
+    int *infoArray = in->Get<int*>();
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDpotrfBatched(handle, uplo, n, A, lda, infoArray, batchSize);
+        out->Add<int*>(infoArray);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDpotrfBatched Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCpotrfBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCpotrfBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    cuComplex **A = in->Get<cuComplex**>();
+    int lda = in->Get<int>();
+    int *infoArray = in->Get<int*>();
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCpotrfBatched(handle, uplo, n, A, lda, infoArray, batchSize);
+        out->Add<int*>(infoArray);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCpotrfBatched Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZpotrfBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZpotrfBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    cuDoubleComplex **A = in->Get<cuDoubleComplex**>();
+    int lda = in->Get<int>();
+    int *infoArray = in->Get<int*>();
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZpotrfBatched(handle, uplo, n, A, lda, infoArray, batchSize);
+        out->Add<int*>(infoArray);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZpotrfBatched Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSpotrsBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSpotrsBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    float **A = in->Get<float**>();
+    int lda = in->Get<int>();
+    float **B = in->Get<float**>();
+    int ldb = in->Get<int>();
+    int *infoArray = in->Get<int*>();
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSpotrsBatched(handle, uplo, n, nrhs, A, lda, B, ldb, infoArray, batchSize);
+        out->Add<int*>(infoArray);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSpotrsBatched Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDpotrsBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDpotrsBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    double **A = in->Get<double**>();
+    int lda = in->Get<int>();
+    double **B = in->Get<double**>();
+    int ldb = in->Get<int>();
+    int *infoArray = in->Get<int*>();
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDpotrsBatched(handle, uplo, n, nrhs, A, lda, B, ldb, infoArray, batchSize);
+        out->Add<int*>(infoArray);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDpotrsBatched Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCpotrsBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCpotrsBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuComplex **A = in->Get<cuComplex**>();
+    int lda = in->Get<int>();
+    cuComplex **B = in->Get<cuComplex**>();
+    int ldb = in->Get<int>();
+    int *infoArray = in->Get<int*>();
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCpotrsBatched(handle, uplo, n, nrhs, A, lda, B, ldb, infoArray, batchSize);
+        out->Add<int*>(infoArray);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCpotrsBatched Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZpotrsBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZpotrsBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    int nrhs = in->Get<int>();
+    cuDoubleComplex **A = in->Get<cuDoubleComplex**>();
+    int lda = in->Get<int>();
+    cuDoubleComplex **B = in->Get<cuDoubleComplex**>();
+    int ldb = in->Get<int>();
+    int *infoArray = in->Get<int*>();
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZpotrsBatched(handle, uplo, n, nrhs, A, lda, B, ldb, infoArray, batchSize);
+        out->Add<int*>(infoArray);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZpotrsBatched Executed");
+    return std::make_shared<Result>(cs, out);
+}
