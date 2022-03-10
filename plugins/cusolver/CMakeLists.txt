@@ -34,6 +34,7 @@ gvirtus_add_backend(cusolver ${CUDA_VERSION}
         backend/CusolverHandler.cpp
         backend/CusolverHandler_dense_lapack_helper.cpp
         backend/CusolverHandler_dense_lapack_linear_solver.cpp
+        backend/CusolverHandler_dense_lapack_eigenvalue_solver.cpp
         backend/Utilities.h
 )
 target_link_libraries(${PROJECT_NAME} ${CUDA_cusolver_LIBRARY} ${CUDA_CUDART_LIBRARY})
@@ -43,5 +44,6 @@ gvirtus_add_frontend(cusolver ${CUDA_VERSION}
         frontend/CusolverFrontend.cpp
         frontend/Cusolver_dense_lapack_helper.cpp
         frontend/Cusolver_dense_lapack_linear_solver.cpp
+        frontend/Cusolver_dense_lapack_eigenvalue_solver.cpp
         frontend/Utilities.h
 )
