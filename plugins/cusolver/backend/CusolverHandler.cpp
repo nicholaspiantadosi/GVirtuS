@@ -428,6 +428,13 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXpotrs));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgetrf_bufferSize));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgetrf));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgetrs));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgeqrf_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXgeqrf));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXsytrs_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXsytrs));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXtrtri_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXtrtri));
     // SPARSE LAPACK - HELPER FUNCTION
     // SPARSE LAPACK - HIGH LEVEL FUNCTION
     // SPARSE LAPACK - LOW LEVEL FUNCTION
