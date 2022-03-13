@@ -390,6 +390,30 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDsygvd));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnChegvd));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZhegvd));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSsygvdx_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDsygvdx_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnChegvdx_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZhegvdx_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSsygvdx));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDsygvdx));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnChegvdx));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZhegvdx));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSsyevj_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDsyevj_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCheevj_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZheevj_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSsyevj));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDsyevj));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnCheevj));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZheevj));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSsygvj_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDsygvj_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnChegvj_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZhegvj_bufferSize));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnSsygvj));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnDsygvj));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnChegvj));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnZhegvj));
     // DENSE LAPACK - DENSE LINEAR SOLVER - 64-BIT
     // SPARSE LAPACK - HELPER FUNCTION
     // SPARSE LAPACK - HIGH LEVEL FUNCTION
