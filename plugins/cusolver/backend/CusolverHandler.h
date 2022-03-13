@@ -32,6 +32,9 @@
 #include <gvirtus/communicators/Result.h>
 
 #include <cusolverDn.h>
+#include <cusolverSp.h>
+#include <cusolverRf.h>
+#include <cusolverMg.h>
 #include <cusolver_common.h>
 
 using gvirtus::common::pointer_t;

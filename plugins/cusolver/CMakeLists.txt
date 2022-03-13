@@ -8,6 +8,24 @@ find_path(CUSOLVER_INCLUDE_DIRECTORY
 if(NOT CUSOLVER_INCLUDE_DIRECTORY)
     message(FATAL_ERROR "cusolverDn.h not found")
 endif()
+find_path(CUSOLVER_INCLUDE_DIRECTORY
+        cusolverSp.h
+        PATHS ${CUDA_INCLUDE_DIRS})
+if(NOT CUSOLVER_INCLUDE_DIRECTORY)
+    message(FATAL_ERROR "cusolverSp.h not found")
+endif()
+find_path(CUSOLVER_INCLUDE_DIRECTORY
+        cusolverRf.h
+        PATHS ${CUDA_INCLUDE_DIRS})
+if(NOT CUSOLVER_INCLUDE_DIRECTORY)
+    message(FATAL_ERROR "cusolverRf.h not found")
+endif()
+find_path(CUSOLVER_INCLUDE_DIRECTORY
+        cusolverMg.h
+        PATHS ${CUDA_INCLUDE_DIRS})
+if(NOT CUSOLVER_INCLUDE_DIRECTORY)
+    message(FATAL_ERROR "cusolverMg.h not found")
+endif()
 include_directories(${CUSOLVER_INCLUDE_DIRECTORY} ${CUDA_INCLUDE_DIRS})
 
 get_filename_component(CUDA_LIBRARIES_PATH ${CUDA_CUDART_LIBRARY} DIRECTORY FALSE)
@@ -28,7 +46,7 @@ while(IS_SYMLINK "${CUSOLVER_VERSION}")
 endwhile()
 string(REGEX REPLACE ".*\\.so\\.([0-9]+\\.[0-9]+\\.[0-9]+)" "\\1" CUSOLVER_VERSION "${CUSOLVER_VERSION}")
 
-message(STATUS "Found cuSolver: ${CUSOLVER_VERSION} (${CUSOLVER_INCLUDE_DIRECTORY}/cusolverDn.h, ${CUSOLVER_LIBRARY})")
+message(STATUS "Found cuSolver: ${CUSOLVER_VERSION} (${CUSOLVER_INCLUDE_DIRECTORY}/cusolverDn.h, ${CUSOLVER_INCLUDE_DIRECTORY}/cusolverSp.h, ${CUSOLVER_INCLUDE_DIRECTORY}/cusolverRf.h, ${CUSOLVER_INCLUDE_DIRECTORY}/cusolverMg.h, ${CUSOLVER_LIBRARY})")
 
 gvirtus_add_backend(cusolver ${CUDA_VERSION}
         backend/CusolverHandler.cpp

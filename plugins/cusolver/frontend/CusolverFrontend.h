@@ -34,6 +34,9 @@
 
 #include <cuda_runtime_api.h>
 #include <cusolverDn.h>
+#include <cusolverSp.h>
+#include <cusolverRf.h>
+#include <cusolverMg.h>
 
 #include <gvirtus/frontend/Frontend.h>
 using gvirtus::communicators::Buffer;
