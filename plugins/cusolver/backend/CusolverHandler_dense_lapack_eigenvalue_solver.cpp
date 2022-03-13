@@ -1972,3 +1972,303 @@ CUSOLVER_ROUTINE_HANDLER(DnZgesvdjBatched){
     LOG4CPLUS_DEBUG(logger,"cusolverDnZgesvdjBatched Executed");
     return std::make_shared<Result>(cs,out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(DnSgesvdaStridedBatched_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSgesvdaStridedBatched_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    int rank = in->Get<int>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    float *A = in->Get<float*>();
+    int lda = in->Get<int>();
+    size_t strideA = in->Get<size_t>();
+    float *S = in->Get<float*>();
+    size_t strideS = in->Get<size_t>();
+    float *U = in->Get<float*>();
+    int ldu = in->Get<int>();
+    size_t strideU = in->Get<size_t>();
+    float *V = in->Get<float*>();
+    int ldv = in->Get<int>();
+    size_t strideV = in->Get<size_t>();
+    int lwork;
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSgesvdaStridedBatched_bufferSize(handle, jobz, rank, m, n, A, lda, strideA, S, strideS, U, ldu, strideU, V, ldv, strideV, &lwork, batchSize);
+        out->AddMarshal<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSgesvdaStridedBatched_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDgesvdaStridedBatched_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDgesvdaStridedBatched_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    int rank = in->Get<int>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    double *A = in->Get<double*>();
+    int lda = in->Get<int>();
+    size_t strideA = in->Get<size_t>();
+    double *S = in->Get<double*>();
+    size_t strideS = in->Get<size_t>();
+    double *U = in->Get<double*>();
+    int ldu = in->Get<int>();
+    size_t strideU = in->Get<size_t>();
+    double *V = in->Get<double*>();
+    int ldv = in->Get<int>();
+    size_t strideV = in->Get<size_t>();
+    int lwork;
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDgesvdaStridedBatched_bufferSize(handle, jobz, rank, m, n, A, lda, strideA, S, strideS, U, ldu, strideU, V, ldv, strideV, &lwork, batchSize);
+        out->AddMarshal<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDgesvdaStridedBatched_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCgesvdaStridedBatched_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCgesvdaStridedBatched_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    int rank = in->Get<int>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    cuComplex *A = in->Get<cuComplex*>();
+    int lda = in->Get<int>();
+    size_t strideA = in->Get<size_t>();
+    float *S = in->Get<float*>();
+    size_t strideS = in->Get<size_t>();
+    cuComplex *U = in->Get<cuComplex*>();
+    int ldu = in->Get<int>();
+    size_t strideU = in->Get<size_t>();
+    cuComplex *V = in->Get<cuComplex*>();
+    int ldv = in->Get<int>();
+    size_t strideV = in->Get<size_t>();
+    int lwork;
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCgesvdaStridedBatched_bufferSize(handle, jobz, rank, m, n, A, lda, strideA, S, strideS, U, ldu, strideU, V, ldv, strideV, &lwork, batchSize);
+        out->AddMarshal<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCgesvdaStridedBatched_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZgesvdaStridedBatched_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZgesvdaStridedBatched_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    int rank = in->Get<int>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    cuDoubleComplex *A = in->Get<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    size_t strideA = in->Get<size_t>();
+    double *S = in->Get<double*>();
+    size_t strideS = in->Get<size_t>();
+    cuDoubleComplex *U = in->Get<cuDoubleComplex*>();
+    int ldu = in->Get<int>();
+    size_t strideU = in->Get<size_t>();
+    cuDoubleComplex *V = in->Get<cuDoubleComplex*>();
+    int ldv = in->Get<int>();
+    size_t strideV = in->Get<size_t>();
+    int lwork;
+    int batchSize = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZgesvdaStridedBatched_bufferSize(handle, jobz, rank, m, n, A, lda, strideA, S, strideS, U, ldu, strideU, V, ldv, strideV, &lwork, batchSize);
+        out->AddMarshal<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZgesvdaStridedBatched_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSgesvdaStridedBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSgesvdaStridedBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    int rank = in->Get<int>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    float *A = in->Get<float*>();
+    int lda = in->Get<int>();
+    size_t strideA = in->Get<size_t>();
+    float *S = in->Get<float*>();
+    size_t strideS = in->Get<size_t>();
+    float *U = in->Get<float*>();
+    int ldu = in->Get<int>();
+    size_t strideU = in->Get<size_t>();
+    float *V = in->Get<float*>();
+    int ldv = in->Get<int>();
+    size_t strideV = in->Get<size_t>();
+    float *work = in->GetFromMarshal<float*>();
+    int lwork = in->Get<int>();
+    int *info = in->GetFromMarshal<int*>();
+    int batchSize = in->Get<int>();
+    double *h_R_nrmF = in->Assign<double>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSgesvdaStridedBatched(handle, jobz, rank, m, n, A, lda, strideA, S, strideS, U, ldu, strideU, V, ldv, strideV, work, lwork, info, h_R_nrmF, batchSize);
+        out->Add<float*>(S);
+        out->Add<float*>(U);
+        out->Add<float*>(V);
+        out->Add<int*>(info);
+        out->Add(h_R_nrmF);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSgesvdaStridedBatched Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDgesvdaStridedBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDgesvdaStridedBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    int rank = in->Get<int>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    double *A = in->Get<double*>();
+    int lda = in->Get<int>();
+    size_t strideA = in->Get<size_t>();
+    double *S = in->Get<double*>();
+    size_t strideS = in->Get<size_t>();
+    double *U = in->Get<double*>();
+    int ldu = in->Get<int>();
+    size_t strideU = in->Get<size_t>();
+    double *V = in->Get<double*>();
+    int ldv = in->Get<int>();
+    size_t strideV = in->Get<size_t>();
+    double *work = in->GetFromMarshal<double*>();
+    int lwork = in->Get<int>();
+    int *info = in->GetFromMarshal<int*>();
+    int batchSize = in->Get<int>();
+    double *h_R_nrmF = in->Assign<double>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDgesvdaStridedBatched(handle, jobz, rank, m, n, A, lda, strideA, S, strideS, U, ldu, strideU, V, ldv, strideV, work, lwork, info, h_R_nrmF, batchSize);
+        out->Add<double*>(S);
+        out->Add<double*>(U);
+        out->Add<double*>(V);
+        out->Add<int*>(info);
+        out->Add(h_R_nrmF);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDgesvdaStridedBatched Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCgesvdaStridedBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCgesvdaStridedBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    int rank = in->Get<int>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    cuComplex *A = in->Get<cuComplex*>();
+    int lda = in->Get<int>();
+    size_t strideA = in->Get<size_t>();
+    float *S = in->Get<float*>();
+    size_t strideS = in->Get<size_t>();
+    cuComplex *U = in->Get<cuComplex*>();
+    int ldu = in->Get<int>();
+    size_t strideU = in->Get<size_t>();
+    cuComplex *V = in->Get<cuComplex*>();
+    int ldv = in->Get<int>();
+    size_t strideV = in->Get<size_t>();
+    cuComplex *work = in->GetFromMarshal<cuComplex*>();
+    int lwork = in->Get<int>();
+    int *info = in->GetFromMarshal<int*>();
+    int batchSize = in->Get<int>();
+    double *h_R_nrmF = in->Assign<double>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCgesvdaStridedBatched(handle, jobz, rank, m, n, A, lda, strideA, S, strideS, U, ldu, strideU, V, ldv, strideV, work, lwork, info, h_R_nrmF, batchSize);
+        out->Add<float*>(S);
+        out->Add<cuComplex*>(U);
+        out->Add<cuComplex*>(V);
+        out->Add<int*>(info);
+        out->Add(h_R_nrmF);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCgesvdaStridedBatched Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZgesvdaStridedBatched){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZgesvdaStridedBatched"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    int rank = in->Get<int>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    cuDoubleComplex *A = in->Get<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    size_t strideA = in->Get<size_t>();
+    double *S = in->Get<double*>();
+    size_t strideS = in->Get<size_t>();
+    cuDoubleComplex *U = in->Get<cuDoubleComplex*>();
+    int ldu = in->Get<int>();
+    size_t strideU = in->Get<size_t>();
+    cuDoubleComplex *V = in->Get<cuDoubleComplex*>();
+    int ldv = in->Get<int>();
+    size_t strideV = in->Get<size_t>();
+    cuDoubleComplex *work = in->GetFromMarshal<cuDoubleComplex*>();
+    int lwork = in->Get<int>();
+    int *info = in->GetFromMarshal<int*>();
+    int batchSize = in->Get<int>();
+    double *h_R_nrmF = in->Assign<double>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZgesvdaStridedBatched(handle, jobz, rank, m, n, A, lda, strideA, S, strideS, U, ldu, strideU, V, ldv, strideV, work, lwork, info, h_R_nrmF, batchSize);
+        out->Add<double*>(S);
+        out->Add<cuDoubleComplex*>(U);
+        out->Add<cuDoubleComplex*>(V);
+        out->Add<int*>(info);
+        out->Add(h_R_nrmF);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZgesvdaStridedBatched Executed");
+    return std::make_shared<Result>(cs,out);
+}

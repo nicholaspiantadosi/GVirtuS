@@ -1479,3 +1479,243 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZgesvdjBatched(cusolverDnHandl
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSgesvdaStridedBatched_bufferSize(cusolverDnHandle_t handle, cusolverEigMode_t jobz, int rank, int m, int n, const float *A, int lda, long long int strideA, const float *S, long long int strideS, const float *U, int ldu, long long int strideU, const float *V, int ldv, long long int strideV, int *lwork, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverEigMode_t>(jobz);
+    CusolverFrontend::AddVariableForArguments<int>(rank);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideA);
+    CusolverFrontend::AddDevicePointerForArguments(S);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideS);
+    CusolverFrontend::AddDevicePointerForArguments(U);
+    CusolverFrontend::AddVariableForArguments<int>(ldu);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideU);
+    CusolverFrontend::AddDevicePointerForArguments(V);
+    CusolverFrontend::AddVariableForArguments<int>(ldv);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideV);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnSgesvdaStridedBatched_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork = CusolverFrontend::GetOutputVariable<int>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDgesvdaStridedBatched_bufferSize(cusolverDnHandle_t handle, cusolverEigMode_t jobz, int rank, int m, int n, const double *A, int lda, long long int strideA, const double *S, long long int strideS, const double *U, int ldu, long long int strideU, const double *V, int ldv, long long int strideV, int *lwork, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverEigMode_t>(jobz);
+    CusolverFrontend::AddVariableForArguments<int>(rank);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideA);
+    CusolverFrontend::AddDevicePointerForArguments(S);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideS);
+    CusolverFrontend::AddDevicePointerForArguments(U);
+    CusolverFrontend::AddVariableForArguments<int>(ldu);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideU);
+    CusolverFrontend::AddDevicePointerForArguments(V);
+    CusolverFrontend::AddVariableForArguments<int>(ldv);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideV);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnDgesvdaStridedBatched_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork = CusolverFrontend::GetOutputVariable<int>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCgesvdaStridedBatched_bufferSize(cusolverDnHandle_t handle, cusolverEigMode_t jobz, int rank, int m, int n, const cuComplex *A, int lda, long long int strideA, const float *S, long long int strideS, const cuComplex *U, int ldu, long long int strideU, const cuComplex *V, int ldv, long long int strideV, int *lwork, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverEigMode_t>(jobz);
+    CusolverFrontend::AddVariableForArguments<int>(rank);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideA);
+    CusolverFrontend::AddDevicePointerForArguments(S);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideS);
+    CusolverFrontend::AddDevicePointerForArguments(U);
+    CusolverFrontend::AddVariableForArguments<int>(ldu);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideU);
+    CusolverFrontend::AddDevicePointerForArguments(V);
+    CusolverFrontend::AddVariableForArguments<int>(ldv);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideV);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnCgesvdaStridedBatched_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork = CusolverFrontend::GetOutputVariable<int>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZgesvdaStridedBatched_bufferSize(cusolverDnHandle_t handle, cusolverEigMode_t jobz, int rank, int m, int n, const cuDoubleComplex *A, int lda, long long int strideA, const double *S, long long int strideS, const cuDoubleComplex *U, int ldu, long long int strideU, const cuDoubleComplex *V, int ldv, long long int strideV, int *lwork, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverEigMode_t>(jobz);
+    CusolverFrontend::AddVariableForArguments<int>(rank);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideA);
+    CusolverFrontend::AddDevicePointerForArguments(S);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideS);
+    CusolverFrontend::AddDevicePointerForArguments(U);
+    CusolverFrontend::AddVariableForArguments<int>(ldu);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideU);
+    CusolverFrontend::AddDevicePointerForArguments(V);
+    CusolverFrontend::AddVariableForArguments<int>(ldv);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideV);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::Execute("cusolverDnZgesvdaStridedBatched_bufferSize");
+    if (CusolverFrontend::Success()) {
+        *lwork = CusolverFrontend::GetOutputVariable<int>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnSgesvdaStridedBatched(cusolverDnHandle_t handle, cusolverEigMode_t jobz, int rank, int m, int n, const float *A, int lda, long long int strideA, float *S, long long int strideS, float *U, int ldu, long long int strideU, float *V, int ldv, long long int strideV, float *work, int lwork, int *info, double *h_R_nrmF, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverEigMode_t>(jobz);
+    CusolverFrontend::AddVariableForArguments<int>(rank);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideA);
+    CusolverFrontend::AddDevicePointerForArguments(S);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideS);
+    CusolverFrontend::AddDevicePointerForArguments(U);
+    CusolverFrontend::AddVariableForArguments<int>(ldu);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideU);
+    CusolverFrontend::AddDevicePointerForArguments(V);
+    CusolverFrontend::AddVariableForArguments<int>(ldv);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideV);
+    CusolverFrontend::AddDevicePointerForArguments(work);
+    CusolverFrontend::AddVariableForArguments<int>(lwork);
+    CusolverFrontend::AddDevicePointerForArguments(info);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddHostPointerForArguments(h_R_nrmF);
+    CusolverFrontend::Execute("cusolverDnSgesvdaStridedBatched");
+    if (CusolverFrontend::Success()) {
+        S = (float*) CusolverFrontend::GetOutputDevicePointer();
+        U = (float*) CusolverFrontend::GetOutputDevicePointer();
+        V = (float*) CusolverFrontend::GetOutputDevicePointer();
+        info = (int*) CusolverFrontend::GetOutputDevicePointer();
+        h_R_nrmF = CusolverFrontend::GetOutputHostPointer<double>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnDgesvdaStridedBatched(cusolverDnHandle_t handle, cusolverEigMode_t jobz, int rank, int m, int n, const double *A, int lda, long long int strideA, double *S, long long int strideS, double *U, int ldu, long long int strideU, double *V, int ldv, long long int strideV, double *work, int lwork, int *info, double *h_R_nrmF, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverEigMode_t>(jobz);
+    CusolverFrontend::AddVariableForArguments<int>(rank);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideA);
+    CusolverFrontend::AddDevicePointerForArguments(S);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideS);
+    CusolverFrontend::AddDevicePointerForArguments(U);
+    CusolverFrontend::AddVariableForArguments<int>(ldu);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideU);
+    CusolverFrontend::AddDevicePointerForArguments(V);
+    CusolverFrontend::AddVariableForArguments<int>(ldv);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideV);
+    CusolverFrontend::AddDevicePointerForArguments(work);
+    CusolverFrontend::AddVariableForArguments<int>(lwork);
+    CusolverFrontend::AddDevicePointerForArguments(info);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddHostPointerForArguments(h_R_nrmF);
+    CusolverFrontend::Execute("cusolverDnDgesvdaStridedBatched");
+    if (CusolverFrontend::Success()) {
+        S = (double*) CusolverFrontend::GetOutputDevicePointer();
+        U = (double*) CusolverFrontend::GetOutputDevicePointer();
+        V = (double*) CusolverFrontend::GetOutputDevicePointer();
+        info = (int*) CusolverFrontend::GetOutputDevicePointer();
+        h_R_nrmF = CusolverFrontend::GetOutputHostPointer<double>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnCgesvdaStridedBatched(cusolverDnHandle_t handle, cusolverEigMode_t jobz, int rank, int m, int n, const cuComplex *A, int lda, long long int strideA, float *S, long long int strideS, cuComplex *U, int ldu, long long int strideU, cuComplex *V, int ldv, long long int strideV, cuComplex *work, int lwork, int *info, double *h_R_nrmF, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverEigMode_t>(jobz);
+    CusolverFrontend::AddVariableForArguments<int>(rank);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideA);
+    CusolverFrontend::AddDevicePointerForArguments(S);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideS);
+    CusolverFrontend::AddDevicePointerForArguments(U);
+    CusolverFrontend::AddVariableForArguments<int>(ldu);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideU);
+    CusolverFrontend::AddDevicePointerForArguments(V);
+    CusolverFrontend::AddVariableForArguments<int>(ldv);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideV);
+    CusolverFrontend::AddDevicePointerForArguments(work);
+    CusolverFrontend::AddVariableForArguments<int>(lwork);
+    CusolverFrontend::AddDevicePointerForArguments(info);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddHostPointerForArguments(h_R_nrmF);
+    CusolverFrontend::Execute("cusolverDnCgesvdaStridedBatched");
+    if (CusolverFrontend::Success()) {
+        S = (float*) CusolverFrontend::GetOutputDevicePointer();
+        U = (cuComplex*) CusolverFrontend::GetOutputDevicePointer();
+        V = (cuComplex*) CusolverFrontend::GetOutputDevicePointer();
+        info = (int*) CusolverFrontend::GetOutputDevicePointer();
+        h_R_nrmF = CusolverFrontend::GetOutputHostPointer<double>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverDnZgesvdaStridedBatched(cusolverDnHandle_t handle, cusolverEigMode_t jobz, int rank, int m, int n, const cuDoubleComplex *A, int lda, long long int strideA, double *S, long long int strideS, cuDoubleComplex *U, int ldu, long long int strideU, cuDoubleComplex *V, int ldv, long long int strideV, cuDoubleComplex *work, int lwork, int *info, double *h_R_nrmF, int batchSize) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverEigMode_t>(jobz);
+    CusolverFrontend::AddVariableForArguments<int>(rank);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddDevicePointerForArguments(A);
+    CusolverFrontend::AddVariableForArguments<int>(lda);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideA);
+    CusolverFrontend::AddDevicePointerForArguments(S);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideS);
+    CusolverFrontend::AddDevicePointerForArguments(U);
+    CusolverFrontend::AddVariableForArguments<int>(ldu);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideU);
+    CusolverFrontend::AddDevicePointerForArguments(V);
+    CusolverFrontend::AddVariableForArguments<int>(ldv);
+    CusolverFrontend::AddVariableForArguments<size_t>(strideV);
+    CusolverFrontend::AddDevicePointerForArguments(work);
+    CusolverFrontend::AddVariableForArguments<int>(lwork);
+    CusolverFrontend::AddDevicePointerForArguments(info);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddHostPointerForArguments(h_R_nrmF);
+    CusolverFrontend::Execute("cusolverDnZgesvdaStridedBatched");
+    if (CusolverFrontend::Success()) {
+        S = (double*) CusolverFrontend::GetOutputDevicePointer();
+        U = (cuDoubleComplex*) CusolverFrontend::GetOutputDevicePointer();
+        V = (cuDoubleComplex*) CusolverFrontend::GetOutputDevicePointer();
+        info = (int*) CusolverFrontend::GetOutputDevicePointer();
+        h_R_nrmF = CusolverFrontend::GetOutputHostPointer<double>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
