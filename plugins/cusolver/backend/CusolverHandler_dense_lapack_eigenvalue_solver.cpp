@@ -2661,3 +2661,259 @@ CUSOLVER_ROUTINE_HANDLER(DnSyevd){
     LOG4CPLUS_DEBUG(logger,"cusolverDnSyevd Executed");
     return std::make_shared<Result>(cs,out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(DnSsyevdx_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSsyevdx_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cusolverEigRange_t range = in->Get<cusolverEigRange_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    float *A = in->Get<float*>();
+    int lda = in->Get<int>();
+    float vl = in->Get<float>();
+    float vu = in->Get<float>();
+    int il = in->Get<int>();
+    int iu = in->Get<int>();
+    int *h_meig = in->Assign<int>();
+    float *W = in->Get<float*>();
+    int lwork;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSsyevdx_bufferSize(handle, jobz, range, uplo, n, A, lda, vl, vu, il, iu, h_meig, W, &lwork);
+        out->AddMarshal<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSsyevdx_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDsyevdx_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDsyevdx_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cusolverEigRange_t range = in->Get<cusolverEigRange_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    double *A = in->Get<double*>();
+    int lda = in->Get<int>();
+    double vl = in->Get<double>();
+    double vu = in->Get<double>();
+    int il = in->Get<int>();
+    int iu = in->Get<int>();
+    int *h_meig = in->Assign<int>();
+    double *W = in->Get<double*>();
+    int lwork;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDsyevdx_bufferSize(handle, jobz, range, uplo, n, A, lda, vl, vu, il, iu, h_meig, W, &lwork);
+        out->AddMarshal<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDsyevdx_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCheevdx_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCheevdx_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cusolverEigRange_t range = in->Get<cusolverEigRange_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    cuComplex *A = in->Get<cuComplex*>();
+    int lda = in->Get<int>();
+    float vl = in->Get<float>();
+    float vu = in->Get<float>();
+    int il = in->Get<int>();
+    int iu = in->Get<int>();
+    int *h_meig = in->Assign<int>();
+    float *W = in->Get<float*>();
+    int lwork;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCheevdx_bufferSize(handle, jobz, range, uplo, n, A, lda, vl, vu, il, iu, h_meig, W, &lwork);
+        out->AddMarshal<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCheevdx_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZheevdx_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZheevdx_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cusolverEigRange_t range = in->Get<cusolverEigRange_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    cuDoubleComplex *A = in->Get<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    double vl = in->Get<double>();
+    double vu = in->Get<double>();
+    int il = in->Get<int>();
+    int iu = in->Get<int>();
+    int *h_meig = in->Assign<int>();
+    double *W = in->Get<double*>();
+    int lwork;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZheevdx_bufferSize(handle, jobz, range, uplo, n, A, lda, vl, vu, il, iu, h_meig, W, &lwork);
+        out->AddMarshal<int>(lwork);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZheevdx_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSsyevdx){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSsyevdx"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cusolverEigRange_t range = in->Get<cusolverEigRange_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    float *A = in->Get<float*>();
+    int lda = in->Get<int>();
+    float vl = in->Get<float>();
+    float vu = in->Get<float>();
+    int il = in->Get<int>();
+    int iu = in->Get<int>();
+    int *h_meig = in->Assign<int>();
+    float *W = in->Get<float*>();
+    float *work = in->GetFromMarshal<float*>();
+    int lwork = in->Get<int>();
+    int *devInfo = in->GetFromMarshal<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSsyevdx(handle, jobz, range, uplo, n, A, lda, vl, vu, il, iu, h_meig, W, work, lwork, devInfo);
+        out->Add(h_meig);
+        out->Add<float*>(W);
+        out->Add<int*>(devInfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSsyevdx Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnDsyevdx){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnDsyevdx"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cusolverEigRange_t range = in->Get<cusolverEigRange_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    double *A = in->Get<double*>();
+    int lda = in->Get<int>();
+    double vl = in->Get<double>();
+    double vu = in->Get<double>();
+    int il = in->Get<int>();
+    int iu = in->Get<int>();
+    int *h_meig = in->Assign<int>();
+    double *W = in->Get<double*>();
+    double *work = in->GetFromMarshal<double*>();
+    int lwork = in->Get<int>();
+    int *devInfo = in->GetFromMarshal<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnDsyevdx(handle, jobz, range, uplo, n, A, lda, vl, vu, il, iu, h_meig, W, work, lwork, devInfo);
+        out->Add(h_meig);
+        out->Add<double*>(W);
+        out->Add<int*>(devInfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnDsyevdx Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnCheevdx){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnCheevdx"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cusolverEigRange_t range = in->Get<cusolverEigRange_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    cuComplex *A = in->Get<cuComplex*>();
+    int lda = in->Get<int>();
+    float vl = in->Get<float>();
+    float vu = in->Get<float>();
+    int il = in->Get<int>();
+    int iu = in->Get<int>();
+    int *h_meig = in->Assign<int>();
+    float *W = in->Get<float*>();
+    cuComplex *work = in->GetFromMarshal<cuComplex*>();
+    int lwork = in->Get<int>();
+    int *devInfo = in->GetFromMarshal<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnCheevdx(handle, jobz, range, uplo, n, A, lda, vl, vu, il, iu, h_meig, W, work, lwork, devInfo);
+        out->Add(h_meig);
+        out->Add<float*>(W);
+        out->Add<int*>(devInfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnCheevdx Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnZheevdx){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnZheevdx"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cusolverEigRange_t range = in->Get<cusolverEigRange_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int n = in->Get<int>();
+    cuDoubleComplex *A = in->Get<cuDoubleComplex*>();
+    int lda = in->Get<int>();
+    double vl = in->Get<double>();
+    double vu = in->Get<double>();
+    int il = in->Get<int>();
+    int iu = in->Get<int>();
+    int *h_meig = in->Assign<int>();
+    double *W = in->Get<double*>();
+    cuDoubleComplex *work = in->GetFromMarshal<cuDoubleComplex*>();
+    int lwork = in->Get<int>();
+    int *devInfo = in->GetFromMarshal<int*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnZheevdx(handle, jobz, range, uplo, n, A, lda, vl, vu, il, iu, h_meig, W, work, lwork, devInfo);
+        out->Add(h_meig);
+        out->Add<double*>(W);
+        out->Add<int*>(devInfo);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnZheevdx Executed");
+    return std::make_shared<Result>(cs,out);
+}
