@@ -1342,32 +1342,65 @@ CUSOLVER_ROUTINE_HANDLER(DnGesvd_bufferSize){
         cudaDataType computeType = in->Get<cudaDataType>();
         size_t workspaceInBytes;
         void *A;
-        void *S;
-        void *U;
-        void *VT;
         if (dataTypeA == CUDA_R_32F) {
             // float
             A = in->GetFromMarshal<float*>();
-            S = in->GetFromMarshal<float*>();
-            U = in->GetFromMarshal<float*>();
-            VT = in->GetFromMarshal<float*>();
         } else if (dataTypeA == CUDA_R_64F) {
             // double
             A = in->GetFromMarshal<double*>();
-            S = in->GetFromMarshal<double*>();
-            U = in->GetFromMarshal<double*>();
-            VT = in->GetFromMarshal<double*>();
         } else if (dataTypeA == CUDA_C_32F) {
             // cuComplex
             A = in->GetFromMarshal<cuComplex*>();
-            S = in->GetFromMarshal<float*>();
-            U = in->GetFromMarshal<cuComplex*>();
-            VT = in->GetFromMarshal<cuComplex*>();
         } else if (dataTypeA == CUDA_C_64F) {
             // cuDoubleComplex
             A = in->GetFromMarshal<cuDoubleComplex*>();
+        } else {
+            throw "Type not supported by GVirtus!";
+        }
+        void *S;
+        if (dataTypeS == CUDA_R_32F) {
+            // float
+            S = in->GetFromMarshal<float*>();
+        } else if (dataTypeS == CUDA_R_64F) {
+            // double
             S = in->GetFromMarshal<double*>();
+        } else if (dataTypeS == CUDA_C_32F) {
+            // cuComplex
+            S = in->GetFromMarshal<float*>();
+        } else if (dataTypeS == CUDA_C_64F) {
+            // cuDoubleComplex
+            S = in->GetFromMarshal<double*>();
+        } else {
+            throw "Type not supported by GVirtus!";
+        }
+        void *U;
+        if (dataTypeU == CUDA_R_32F) {
+            // float
+            U = in->GetFromMarshal<float*>();
+        } else if (dataTypeU == CUDA_R_64F) {
+            // double
+            U = in->GetFromMarshal<double*>();
+        } else if (dataTypeU == CUDA_C_32F) {
+            // cuComplex
+            U = in->GetFromMarshal<cuComplex*>();
+        } else if (dataTypeU == CUDA_C_64F) {
+            // cuDoubleComplex
             U = in->GetFromMarshal<cuDoubleComplex*>();
+        } else {
+            throw "Type not supported by GVirtus!";
+        }
+        void *VT;
+        if (dataTypeVT == CUDA_R_32F) {
+            // float
+            VT = in->GetFromMarshal<float*>();
+        } else if (dataTypeVT == CUDA_R_64F) {
+            // double
+            VT = in->GetFromMarshal<double*>();
+        } else if (dataTypeVT == CUDA_C_32F) {
+            // cuComplex
+            VT = in->GetFromMarshal<cuComplex*>();
+        } else if (dataTypeVT == CUDA_C_64F) {
+            // cuDoubleComplex
             VT = in->GetFromMarshal<cuDoubleComplex*>();
         } else {
             throw "Type not supported by GVirtus!";
@@ -1407,32 +1440,65 @@ CUSOLVER_ROUTINE_HANDLER(DnGesvd){
     size_t workspaceInBytes = in->Get<size_t>();
     int *info = in->Get<int*>();
     void *A;
-    void *S;
-    void *U;
-    void *VT;
     if (dataTypeA == CUDA_R_32F) {
         // float
         A = in->GetFromMarshal<float*>();
-        S = in->GetFromMarshal<float*>();
-        U = in->GetFromMarshal<float*>();
-        VT = in->GetFromMarshal<float*>();
     } else if (dataTypeA == CUDA_R_64F) {
         // double
         A = in->GetFromMarshal<double*>();
-        S = in->GetFromMarshal<double*>();
-        U = in->GetFromMarshal<double*>();
-        VT = in->GetFromMarshal<double*>();
     } else if (dataTypeA == CUDA_C_32F) {
         // cuComplex
         A = in->GetFromMarshal<cuComplex*>();
-        S = in->GetFromMarshal<float*>();
-        U = in->GetFromMarshal<cuComplex*>();
-        VT = in->GetFromMarshal<cuComplex*>();
     } else if (dataTypeA == CUDA_C_64F) {
         // cuDoubleComplex
         A = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    void *S;
+    if (dataTypeS == CUDA_R_32F) {
+        // float
+        S = in->GetFromMarshal<float*>();
+    } else if (dataTypeS == CUDA_R_64F) {
+        // double
         S = in->GetFromMarshal<double*>();
+    } else if (dataTypeS == CUDA_C_32F) {
+        // cuComplex
+        S = in->GetFromMarshal<float*>();
+    } else if (dataTypeS == CUDA_C_64F) {
+        // cuDoubleComplex
+        S = in->GetFromMarshal<double*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    void *U;
+    if (dataTypeU == CUDA_R_32F) {
+        // float
+        U = in->GetFromMarshal<float*>();
+    } else if (dataTypeU == CUDA_R_64F) {
+        // double
+        U = in->GetFromMarshal<double*>();
+    } else if (dataTypeU == CUDA_C_32F) {
+        // cuComplex
+        U = in->GetFromMarshal<cuComplex*>();
+    } else if (dataTypeU == CUDA_C_64F) {
+        // cuDoubleComplex
         U = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    void *VT;
+    if (dataTypeVT == CUDA_R_32F) {
+        // float
+        VT = in->GetFromMarshal<float*>();
+    } else if (dataTypeVT == CUDA_R_64F) {
+        // double
+        VT = in->GetFromMarshal<double*>();
+    } else if (dataTypeVT == CUDA_C_32F) {
+        // cuComplex
+        VT = in->GetFromMarshal<cuComplex*>();
+    } else if (dataTypeVT == CUDA_C_64F) {
+        // cuDoubleComplex
         VT = in->GetFromMarshal<cuDoubleComplex*>();
     } else {
         throw "Type not supported by GVirtus!";
@@ -2474,5 +2540,124 @@ CUSOLVER_ROUTINE_HANDLER(DnZheevd){
         return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
     }
     LOG4CPLUS_DEBUG(logger,"cusolverDnZheevd Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSyevd_bufferSize){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSyevd_bufferSize"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverDnParams_t params = (cusolverDnParams_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int64_t n = in->Get<int64_t>();
+    cudaDataType dataTypeA = in->Get<cudaDataType>();
+    int64_t lda = in->Get<int64_t>();
+    cudaDataType dataTypeW = in->Get<cudaDataType>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    size_t workspaceInBytes;
+    void *A;
+    if (dataTypeA == CUDA_R_32F) {
+        // float
+        A = in->GetFromMarshal<float*>();
+    } else if (dataTypeA == CUDA_R_64F) {
+        // double
+        A = in->GetFromMarshal<double*>();
+    } else if (dataTypeA == CUDA_C_32F) {
+        // cuComplex
+        A = in->GetFromMarshal<cuComplex*>();
+    } else if (dataTypeA == CUDA_C_64F) {
+        // cuDoubleComplex
+        A = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    void *W;
+    if (dataTypeW == CUDA_R_32F) {
+        // float
+        W = in->GetFromMarshal<float*>();
+    } else if (dataTypeW == CUDA_R_64F) {
+        // double
+        W = in->GetFromMarshal<double*>();
+    } else if (dataTypeW == CUDA_C_32F) {
+        // cuComplex
+        W = in->GetFromMarshal<cuComplex*>();
+    } else if (dataTypeW == CUDA_C_64F) {
+        // cuDoubleComplex
+        W = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSyevd_bufferSize(handle, params, jobz, uplo, n, dataTypeA, A, lda, dataTypeW, W, computeType, &workspaceInBytes);
+        out->AddMarshal<size_t>(workspaceInBytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSyevd_bufferSize Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(DnSyevd){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("DnSyevd"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverDnHandle_t handle = (cusolverDnHandle_t)in->Get<size_t>();
+    cusolverDnParams_t params = (cusolverDnParams_t)in->Get<size_t>();
+    cusolverEigMode_t jobz = in->Get<cusolverEigMode_t>();
+    cublasFillMode_t uplo = in->Get<cublasFillMode_t>();
+    int64_t n = in->Get<int64_t>();
+    cudaDataType dataTypeA = in->Get<cudaDataType>();
+    int64_t lda = in->Get<int64_t>();
+    cudaDataType dataTypeW = in->Get<cudaDataType>();
+    cudaDataType computeType = in->Get<cudaDataType>();
+    void *pBuffer = in->Get<void*>();
+    size_t workspaceInBytes = in->Get<size_t>();
+    int *info = in->Get<int*>();
+    void *A;
+    if (dataTypeA == CUDA_R_32F) {
+        // float
+        A = in->GetFromMarshal<float*>();
+    } else if (dataTypeA == CUDA_R_64F) {
+        // double
+        A = in->GetFromMarshal<double*>();
+    } else if (dataTypeA == CUDA_C_32F) {
+        // cuComplex
+        A = in->GetFromMarshal<cuComplex*>();
+    } else if (dataTypeA == CUDA_C_64F) {
+        // cuDoubleComplex
+        A = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    void *W;
+    if (dataTypeW == CUDA_R_32F) {
+        // float
+        W = in->GetFromMarshal<float*>();
+    } else if (dataTypeW == CUDA_R_64F) {
+        // double
+        W = in->GetFromMarshal<double*>();
+    } else if (dataTypeW == CUDA_C_32F) {
+        // cuComplex
+        W = in->GetFromMarshal<cuComplex*>();
+    } else if (dataTypeW == CUDA_C_64F) {
+        // cuDoubleComplex
+        W = in->GetFromMarshal<cuDoubleComplex*>();
+    } else {
+        throw "Type not supported by GVirtus!";
+    }
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverDnSyevd(handle, params, jobz, uplo, n, dataTypeA, A, lda, dataTypeW, W, computeType, pBuffer, workspaceInBytes, info);
+        out->Add<void*>(W);
+        out->Add<int*>(info);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverDnSyevd Executed");
     return std::make_shared<Result>(cs,out);
 }
