@@ -436,6 +436,10 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXtrtri_bufferSize));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(DnXtrtri));
     // SPARSE LAPACK - HELPER FUNCTION
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCreate));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDestroy));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpSetStream));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrissymHost));
     // SPARSE LAPACK - HIGH LEVEL FUNCTION
     // SPARSE LAPACK - LOW LEVEL FUNCTION
     // REFACTORIZATION
