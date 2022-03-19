@@ -476,7 +476,6 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsrzfdHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrperm_bufferSizeHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrpermHost));
-    /*
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCreateCsrqrInfo));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDestroyCsrqrInfo));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrqrAnalysisBatched));
@@ -488,7 +487,6 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDcsrqrsvBatched));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCcsrqrsvBatched));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsrqrsvBatched));
-     */
     // REFACTORIZATION
 
 }

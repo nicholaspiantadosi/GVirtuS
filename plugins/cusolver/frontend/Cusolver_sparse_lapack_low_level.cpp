@@ -238,3 +238,213 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpXcsrpermHost(cusolverSpHandle_
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpCreateCsrqrInfo(csrqrInfo_t *info) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddHostPointerForArguments<csrqrInfo_t>(info);
+    CusolverFrontend::Execute("cusolverSpCreateCsrqrInfo");
+    if(CusolverFrontend::Success())
+        *info = CusolverFrontend::GetOutputVariable<csrqrInfo_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpDestroyCsrqrInfo(csrqrInfo_t info) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::Execute("cusolverSpDestroyCsrqrInfo");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpXcsrqrAnalysisBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const int *csrRowPtrA, const int *csrColIndA, csrqrInfo_t info) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)info);
+    CusolverFrontend::Execute("cusolverSpXcsrqrAnalysisBatched");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpScsrqrBufferInfoBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const float *csrValA, const int *csrRowPtrA, const int *csrColIndA, int batchSize, csrqrInfo_t info, size_t *internalDataInBytes, size_t *workspaceInBytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::Execute("cusolverSpScsrqrBufferInfoBatched");
+    if (CusolverFrontend::Success()) {
+        *internalDataInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+        *workspaceInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpDcsrqrBufferInfoBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const double *csrValA, const int *csrRowPtrA, const int *csrColIndA, int batchSize, csrqrInfo_t info, size_t *internalDataInBytes, size_t *workspaceInBytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::Execute("cusolverSpDcsrqrBufferInfoBatched");
+    if (CusolverFrontend::Success()) {
+        *internalDataInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+        *workspaceInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpCcsrqrBufferInfoBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const cuComplex *csrValA, const int *csrRowPtrA, const int *csrColIndA, int batchSize, csrqrInfo_t info, size_t *internalDataInBytes, size_t *workspaceInBytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::Execute("cusolverSpCcsrqrBufferInfoBatched");
+    if (CusolverFrontend::Success()) {
+        *internalDataInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+        *workspaceInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpZcsrqrBufferInfoBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const cuDoubleComplex *csrValA, const int *csrRowPtrA, const int *csrColIndA, int batchSize, csrqrInfo_t info, size_t *internalDataInBytes, size_t *workspaceInBytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::Execute("cusolverSpZcsrqrBufferInfoBatched");
+    if (CusolverFrontend::Success()) {
+        *internalDataInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+        *workspaceInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpScsrqrsvBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const float *csrValA, const int *csrRowPtrA, const int *csrColIndA, const float *b, float *x, int batchSize, csrqrInfo_t info, void *pBuffer) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddHostPointerForArguments(b, m * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(x, m * batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::AddDevicePointerForArguments(pBuffer);
+    CusolverFrontend::Execute("cusolverSpScsrqrsvBatched");
+    if (CusolverFrontend::Success()) {
+        float *tmp1 = CusolverFrontend::GetOutputHostPointer<float>(m*batchSize);
+        for (int i = 0; i < m*batchSize; i++) {
+            *(x+i) = *(tmp1+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpDcsrqrsvBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const double *csrValA, const int *csrRowPtrA, const int *csrColIndA, const double *b, double *x, int batchSize, csrqrInfo_t info, void *pBuffer) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddHostPointerForArguments(b, m * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(x, m * batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::AddDevicePointerForArguments(pBuffer);
+    CusolverFrontend::Execute("cusolverSpDcsrqrsvBatched");
+    if (CusolverFrontend::Success()) {
+        double *tmp1 = CusolverFrontend::GetOutputHostPointer<double>(m*batchSize);
+        for (int i = 0; i < m*batchSize; i++) {
+            *(x+i) = *(tmp1+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpCcsrqrsvBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const cuComplex *csrValA, const int *csrRowPtrA, const int *csrColIndA, const cuComplex *b, cuComplex *x, int batchSize, csrqrInfo_t info, void *pBuffer) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddHostPointerForArguments(b, m * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(x, m * batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::AddDevicePointerForArguments(pBuffer);
+    CusolverFrontend::Execute("cusolverSpCcsrqrsvBatched");
+    if (CusolverFrontend::Success()) {
+        cuComplex *tmp1 = CusolverFrontend::GetOutputHostPointer<cuComplex>(m*batchSize);
+        for (int i = 0; i < m*batchSize; i++) {
+            *(x+i) = *(tmp1+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpZcsrqrsvBatched(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const cuDoubleComplex *csrValA, const int *csrRowPtrA, const int *csrColIndA, const cuDoubleComplex *b, cuDoubleComplex *x, int batchSize, csrqrInfo_t info, void *pBuffer) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddHostPointerForArguments(b, m * batchSize);
+    CusolverFrontend::AddHostPointerForArguments(x, m * batchSize);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) info);
+    CusolverFrontend::AddDevicePointerForArguments(pBuffer);
+    CusolverFrontend::Execute("cusolverSpZcsrqrsvBatched");
+    if (CusolverFrontend::Success()) {
+        cuDoubleComplex *tmp1 = CusolverFrontend::GetOutputHostPointer<cuDoubleComplex>(m*batchSize);
+        for (int i = 0; i < m*batchSize; i++) {
+            *(x+i) = *(tmp1+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}
