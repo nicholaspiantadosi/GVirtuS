@@ -6,8 +6,8 @@
 
 int main(void) {
 
-    int n = 3;
-    int nnzA = 9;
+    int m = 3;
+    int nnz = 9;
     cuComplex hCsrValA[] = {make_cuComplex(10, 0), make_cuComplex(1, 0), make_cuComplex(9, 0), make_cuComplex(3, 0), make_cuComplex(4, 0), make_cuComplex(-6, 0), make_cuComplex(1, 0), make_cuComplex(6, 0), make_cuComplex(2, 0)};
     const int hCsrRowPtrA[] = {0, 3, 6, 9};
     const int hCsrColIndA[] = {0, 1, 2, 0, 1, 2, 0, 1, 2};
@@ -24,11 +24,11 @@ int main(void) {
     cusparseSetMatType(descrA, CUSPARSE_MATRIX_TYPE_GENERAL);
     cusparseSetMatIndexBase(descrA, CUSPARSE_INDEX_BASE_ZERO);
 
-    cuComplex x[n];
+    cuComplex x[m];
     int singularity;
 
     int correct = 1;
-    cs = cusolverSpCcsrlsvluHost(handle, n, nnzA, descrA, hCsrValA, hCsrRowPtrA, hCsrColIndA, b, 1, 0, x, &singularity);
+    cs = cusolverSpCcsrlsvluHost(handle, m, nnz, descrA, hCsrValA, hCsrRowPtrA, hCsrColIndA, b, 1, 0, x, &singularity);
     if (cs != CUSOLVER_STATUS_SUCCESS) {
         correct = 0;
     }
@@ -36,7 +36,7 @@ int main(void) {
     printf("%d\n", singularity);
     correct = singularity == -1;
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < m; i++) {
         printf("%f\n", x[i].x);
         if (fabsf(x[i].x - x_result[i].x) > 0.01) {
             correct = 0;
@@ -47,9 +47,9 @@ int main(void) {
     cusolverSpDestroy(handle);
 
     if (correct == 1) {
-        printf("spcsrlsvlu test PASSED\n");
+        printf("spcsrlsvqr test PASSED\n");
     } else {
-        printf("spcsrlsvlu test FAILED\n");
+        printf("spcsrlsvqr test FAILED\n");
     }
 
     return EXIT_SUCCESS;

@@ -445,6 +445,10 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDcsrlsvluHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCcsrlsvluHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsrlsvluHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpScsrlsvqrHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDcsrlsvqrHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCcsrlsvqrHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsrlsvqrHost));
     // SPARSE LAPACK - LOW LEVEL FUNCTION
     // REFACTORIZATION
 

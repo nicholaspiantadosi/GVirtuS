@@ -12,9 +12,9 @@ int main(void) {
     const int hCsrRowPtrA[] = {0, 3, 6, 9};
     const int hCsrColIndA[] = {0, 1, 2, 0, 1, 2, 0, 1, 2};
 
-    cuDoubleComplex b[] = {1, 1, 1};
+    cuDoubleComplex b[] = {make_cuDoubleComplex(1, 0), make_cuDoubleComplex(1, 0), make_cuDoubleComplex(1, 0)};
 
-    cuDoubleComplex x_result[] = {make_cuDoubleComplex(0.173285, 0), make_cuDoubleComplex(-0.001805, 0), make_cuDoubleComplex(-0.081227, 0)};
+    cuDoubleComplex x_result[] = {make_cuDoubleComplex(0.097473, 0), make_cuDoubleComplex(0.155235, 0), make_cuDoubleComplex(-0.014440, 0)};
 
     cusolverSpHandle_t handle = NULL;
     cusolverStatus_t cs = cusolverSpCreate(&handle);
