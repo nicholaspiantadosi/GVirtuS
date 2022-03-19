@@ -466,6 +466,29 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCcsreigsHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsreigsHost));
     // SPARSE LAPACK - LOW LEVEL FUNCTION
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrsymrcmHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrsymmdqHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrsymamdHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrmetisndHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpScsrzfdHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDcsrzfdHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCcsrzfdHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsrzfdHost));
+    /*
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrperm_bufferSizeHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrpermHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCreateCsrqrInfo));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDestroyCsrqrInfo));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpXcsrqrAnalysisBatched));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpScsrqrBufferInfoBatched));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDcsrqrBufferInfoBatched));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCcsrqrBufferInfoBatched));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsrqrBufferInfoBatched));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpScsrqrsvBatched));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpDcsrqrsvBatched));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpCcsrqrsvBatched));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsrqrsvBatched));
+     */
     // REFACTORIZATION
 
 }
