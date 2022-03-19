@@ -8,7 +8,6 @@
 
 #include <cuComplex.h>
 #include <cuda_runtime_api.h>
-#include <cublas_api.h>
 #include <cusolverDn.h>
 #include <library_types.h>
 
@@ -31,3 +30,33 @@
             throw std::runtime_error("cusolver error");                                            \
         }                                                                                          \
     } while (0)
+
+void printArray(int array[], int size, std::string name) {
+    printf("%s: ", name.c_str());
+    for (int i = 0; i < size; i++) {
+        if (i == 0) {
+            printf("[");
+        }
+        printf("%d", array[i]);
+        if (i < size - 1) {
+            printf(", ");
+        } else {
+            printf("]\n");
+        }
+    }
+}
+
+void printArrayD(double array[], int size, std::string name) {
+    printf("%s: ", name.c_str());
+    for (int i = 0; i < size; i++) {
+        if (i == 0) {
+            printf("[");
+        }
+        printf("%f", array[i]);
+        if (i < size - 1) {
+            printf(", ");
+        } else {
+            printf("]\n");
+        }
+    }
+}
