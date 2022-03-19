@@ -191,3 +191,50 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpZcsrzfdHost(cusolverSpHandle_t
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpXcsrperm_bufferSizeHost(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, const int *csrRowPtrA, const int *csrColIndA, const int *p, const int *q, size_t *bufferSizeInBytes) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddHostPointerForArguments(p, m);
+    CusolverFrontend::AddHostPointerForArguments(q, n);
+    CusolverFrontend::Execute("cusolverSpXcsrperm_bufferSizeHost");
+    if (CusolverFrontend::Success()) {
+        *bufferSizeInBytes = CusolverFrontend::GetOutputVariable<size_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpXcsrpermHost(cusolverSpHandle_t handle, int m, int n, int nnzA, const cusparseMatDescr_t descrA, int *csrRowPtrA, int *csrColIndA, const int *p, const int *q, int *map, void *pBuffer) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddHostPointerForArguments(p, m);
+    CusolverFrontend::AddHostPointerForArguments(q, n);
+    CusolverFrontend::AddHostPointerForArguments(map, nnzA);
+    CusolverFrontend::AddHostPointerForArguments((size_t*)pBuffer);
+    CusolverFrontend::Execute("cusolverSpXcsrpermHost");
+    if (CusolverFrontend::Success()) {
+        int *tmp1 = CusolverFrontend::GetOutputHostPointer<int>(m+1);
+        for (int i = 0; i < m+1; i++) {
+            *(csrRowPtrA+i) = *(tmp1+i);
+        }
+        int *tmp2 = CusolverFrontend::GetOutputHostPointer<int>(nnzA);
+        int *tmp3 = CusolverFrontend::GetOutputHostPointer<int>(nnzA);
+        for (int i = 0; i < nnzA; i++) {
+            *(csrColIndA+i) = *(tmp2+i);
+            *(map+i) = *(tmp3+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}

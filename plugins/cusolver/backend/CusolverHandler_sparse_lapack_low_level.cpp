@@ -250,3 +250,64 @@ CUSOLVER_ROUTINE_HANDLER(SpZcsrzfdHost){
     LOG4CPLUS_DEBUG(logger,"cusolverSpZcsrzfdHost Executed");
     return std::make_shared<Result>(cs, out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(SpXcsrperm_bufferSizeHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpXcsrperm_bufferSizeHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    int *csrRowPtrA = in->Assign<int>(n + 1);
+    int *csrColIndA = in->Assign<int>(nnzA);
+    int *p = in->Get<int>(n);
+    int *q = in->Get<int>(n);
+    size_t bufferSizeInBytes;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpXcsrperm_bufferSizeHost(handle, m, n, nnzA, descrA, csrRowPtrA, csrColIndA, p, q, &bufferSizeInBytes);
+        out->Add<size_t>(bufferSizeInBytes);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpXcsrperm_bufferSizeHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(SpXcsrpermHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpXcsrpermHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    int *csrRowPtrA = in->Assign<int>(n + 1);
+    int *csrColIndA = in->Assign<int>(nnzA);
+    int *p = in->Get<int>(n);
+    int *q = in->Get<int>(n);
+    int *map = in->Get<int>(nnzA);
+    void * pBuffer = in->Assign<void*>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpXcsrpermHost(handle, m, n, nnzA, descrA, csrRowPtrA, csrColIndA, p, q, map, pBuffer);
+        out->Add<int>(csrRowPtrA, m+1);
+        out->Add<int>(csrColIndA, nnzA);
+        out->Add<int>(map, nnzA);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpXcsrpermHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
