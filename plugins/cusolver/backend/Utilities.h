@@ -1,5 +1,16 @@
 #include <cuda_runtime.h>
 
+void printHArrayF(float hArray[], int size) {
+    printf("[");
+    for (int i = 0; i < size; i++) {
+        printf("%f", hArray[i]);
+        if (i < (size - 1)) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
 void printArray(int* dArray, int size) {
     int hArray[size];
     cudaMemcpy(hArray, dArray, size * sizeof(int), cudaMemcpyDeviceToHost);
@@ -16,14 +27,7 @@ void printArray(int* dArray, int size) {
 void printArrayF(float* dArray, int size) {
     float hArray[size];
     cudaMemcpy(hArray, dArray, size * sizeof(float), cudaMemcpyDeviceToHost);
-    printf("[");
-    for (int i = 0; i < size; i++) {
-        printf("%f", hArray[i]);
-        if (i < (size - 1)) {
-            printf(", ");
-        }
-    }
-    printf("]\n");
+    printHArrayF(hArray, size);
 }
 
 void printArrayD(double* dArray, int size) {

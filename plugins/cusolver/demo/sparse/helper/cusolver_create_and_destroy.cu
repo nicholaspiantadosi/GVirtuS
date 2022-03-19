@@ -21,7 +21,6 @@ int main(void) {
         correct = 0;
     }
 
-    /*
     int m = 4;
     int nnzA = 9;
     cusparseMatDescr_t descrA = NULL;
@@ -38,7 +37,6 @@ int main(void) {
         correct = 0;
     }
     correct = (issym == 0);
-     */
 
     cs = cusolverSpDestroy(handle);
     if (cs != CUSOLVER_STATUS_SUCCESS) {

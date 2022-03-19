@@ -69,10 +69,10 @@ CUSOLVER_ROUTINE_HANDLER(SpXcsrissymHost){
     cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
     int m = in->Get<int>();
     int nnzA = in->Get<int>();
-    const cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
-    int *csrRowPtrA = in->Get<int*>();
-    int *csrEndPtrA = in->Get<int*>();
-    int *csrColIndA = in->Get<int*>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    int *csrRowPtrA = in->Assign<int>(m);
+    int *csrEndPtrA = in->Assign<int>(m);
+    int *csrColIndA = in->Assign<int>(nnzA);
     int issym = 0;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();

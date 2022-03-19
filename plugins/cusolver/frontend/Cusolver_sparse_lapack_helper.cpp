@@ -61,9 +61,10 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpXcsrissymHost(cusolverSpHandle
     CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
     CusolverFrontend::AddVariableForArguments<int>(m);
     CusolverFrontend::AddVariableForArguments<int>(nnzA);
-    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA);
-    CusolverFrontend::AddHostPointerForArguments(csrEndPtrA);
-    CusolverFrontend::AddHostPointerForArguments(csrColIndA);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m);
+    CusolverFrontend::AddHostPointerForArguments(csrEndPtrA, m);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
     CusolverFrontend::Execute("cusolverSpXcsrissymHost");
     if (CusolverFrontend::Success()) {
         *issym = CusolverFrontend::GetOutputVariable<int>();
