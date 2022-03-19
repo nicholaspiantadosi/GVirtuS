@@ -413,3 +413,147 @@ CUSOLVER_ROUTINE_HANDLER(SpZcsrlsvcholHost){
     LOG4CPLUS_DEBUG(logger,"cusolverSpZcsrlsvcholHost Executed");
     return std::make_shared<Result>(cs, out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(SpScsrlsqvqrHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpScsrlsqvqrHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnz = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    float *csrValA = in->Assign<float>(nnz);
+    int *csrRowPtrA = in->Assign<int>(m + 1);
+    int *csrColIndA = in->Assign<int>(nnz);
+    float *b = in->Assign<float>(m);
+    float tol = in->Get<float>();
+    int rankA;
+    float *x = in->Get<float>(n);
+    int *p = in->Get<int>(n);
+    float min_norm;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpScsrlsqvqrHost(handle, m, n, nnz, descrA, csrValA, csrRowPtrA, csrColIndA, b, tol, &rankA, x, p, &min_norm);
+        out->Add<int>(rankA);
+        out->Add<float>(x, n);
+        out->Add<int>(p, n);
+        out->Add<float>(min_norm);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpScsrlsqvqrHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(SpDcsrlsqvqrHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpDcsrlsqvqrHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnz = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    double *csrValA = in->Assign<double>(nnz);
+    int *csrRowPtrA = in->Assign<int>(m + 1);
+    int *csrColIndA = in->Assign<int>(nnz);
+    double *b = in->Assign<double>(m);
+    double tol = in->Get<double>();
+    int rankA;
+    double *x = in->Get<double>(n);
+    int *p = in->Get<int>(n);
+    double min_norm;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpDcsrlsqvqrHost(handle, m, n, nnz, descrA, csrValA, csrRowPtrA, csrColIndA, b, tol, &rankA, x, p, &min_norm);
+        out->Add<int>(rankA);
+        out->Add<double>(x, n);
+        out->Add<int>(p, n);
+        out->Add<double>(min_norm);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpDcsrlsqvqrHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(SpCcsrlsqvqrHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpCcsrlsqvqrHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnz = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    cuComplex *csrValA = in->Assign<cuComplex>(nnz);
+    int *csrRowPtrA = in->Assign<int>(m + 1);
+    int *csrColIndA = in->Assign<int>(nnz);
+    cuComplex *b = in->Assign<cuComplex>(m);
+    float tol = in->Get<float>();
+    int rankA;
+    cuComplex *x = in->Get<cuComplex>(n);
+    int *p = in->Get<int>(n);
+    float min_norm;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpCcsrlsqvqrHost(handle, m, n, nnz, descrA, csrValA, csrRowPtrA, csrColIndA, b, tol, &rankA, x, p, &min_norm);
+        out->Add<int>(rankA);
+        out->Add<cuComplex>(x, n);
+        out->Add<int>(p, n);
+        out->Add<float>(min_norm);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpCcsrlsqvqrHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(SpZcsrlsqvqrHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpZcsrlsqvqrHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int n = in->Get<int>();
+    int nnz = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    cuDoubleComplex *csrValA = in->Assign<cuDoubleComplex>(nnz);
+    int *csrRowPtrA = in->Assign<int>(m + 1);
+    int *csrColIndA = in->Assign<int>(nnz);
+    cuDoubleComplex *b = in->Assign<cuDoubleComplex>(m);
+    double tol = in->Get<double>();
+    int rankA;
+    cuDoubleComplex *x = in->Get<cuDoubleComplex>(n);
+    int *p = in->Get<int>(n);
+    double min_norm;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpZcsrlsqvqrHost(handle, m, n, nnz, descrA, csrValA, csrRowPtrA, csrColIndA, b, tol, &rankA, x, p, &min_norm);
+        out->Add<int>(rankA);
+        out->Add<cuDoubleComplex>(x, n);
+        out->Add<int>(p, n);
+        out->Add<double>(min_norm);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpZcsrlsqvqrHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
