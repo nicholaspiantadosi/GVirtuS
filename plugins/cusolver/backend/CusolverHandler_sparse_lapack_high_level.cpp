@@ -557,3 +557,135 @@ CUSOLVER_ROUTINE_HANDLER(SpZcsrlsqvqrHost){
     LOG4CPLUS_DEBUG(logger,"cusolverSpZcsrlsqvqrHost Executed");
     return std::make_shared<Result>(cs, out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(SpScsreigvsiHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpScsreigvsiHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int nnz = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    float *csrValA = in->Assign<float>(nnz);
+    int *csrRowPtrA = in->Assign<int>(m + 1);
+    int *csrColIndA = in->Assign<int>(nnz);
+    float mu0 = in->Get<float>();
+    float *x0 = in->Get<float>(m);
+    int maxite = in->Get<int>();
+    float tol = in->Get<float>();
+    float mu;
+    float *x = in->Get<float>(m);
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpScsreigvsiHost(handle, m, nnz, descrA, csrValA, csrRowPtrA, csrColIndA, mu0, x0, maxite, tol, &mu, x);
+        out->Add<float>(mu);
+        out->Add<float>(x, m);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpScsreigvsiHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(SpDcsreigvsiHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpDcsreigvsiHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int nnz = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    double *csrValA = in->Assign<double>(nnz);
+    int *csrRowPtrA = in->Assign<int>(m + 1);
+    int *csrColIndA = in->Assign<int>(nnz);
+    double mu0 = in->Get<double>();
+    double *x0 = in->Get<double>(m);
+    int maxite = in->Get<int>();
+    double tol = in->Get<double>();
+    double mu;
+    double *x = in->Get<double>(m);
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpDcsreigvsiHost(handle, m, nnz, descrA, csrValA, csrRowPtrA, csrColIndA, mu0, x0, maxite, tol, &mu, x);
+        out->Add<double>(mu);
+        out->Add<double>(x, m);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpDcsreigvsiHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(SpCcsreigvsiHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpCcsreigvsiHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int nnz = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    cuComplex *csrValA = in->Assign<cuComplex>(nnz);
+    int *csrRowPtrA = in->Assign<int>(m + 1);
+    int *csrColIndA = in->Assign<int>(nnz);
+    cuComplex mu0 = in->Get<cuComplex>();
+    cuComplex *x0 = in->Get<cuComplex>(m);
+    int maxite = in->Get<int>();
+    float tol = in->Get<float>();
+    cuComplex mu;
+    cuComplex *x = in->Get<cuComplex>(m);
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpCcsreigvsiHost(handle, m, nnz, descrA, csrValA, csrRowPtrA, csrColIndA, mu0, x0, maxite, tol, &mu, x);
+        out->Add<cuComplex>(mu);
+        out->Add<cuComplex>(x, m);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpCcsreigvsiHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(SpZcsreigvsiHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("SpZcsreigvsiHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverSpHandle_t handle = (cusolverSpHandle_t)in->Get<size_t>();
+    int m = in->Get<int>();
+    int nnz = in->Get<int>();
+    cusparseMatDescr_t descrA = (cusparseMatDescr_t)in->Get<size_t>();
+    cuDoubleComplex *csrValA = in->Assign<cuDoubleComplex>(nnz);
+    int *csrRowPtrA = in->Assign<int>(m + 1);
+    int *csrColIndA = in->Assign<int>(nnz);
+    cuDoubleComplex mu0 = in->Get<cuDoubleComplex>();
+    cuDoubleComplex *x0 = in->Get<cuDoubleComplex>(m);
+    int maxite = in->Get<int>();
+    double tol = in->Get<double>();
+    cuDoubleComplex mu;
+    cuDoubleComplex *x = in->Get<cuDoubleComplex>(m);
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverSpZcsreigvsiHost(handle, m, nnz, descrA, csrValA, csrRowPtrA, csrColIndA, mu0, x0, maxite, tol, &mu, x);
+        out->Add<cuDoubleComplex>(mu);
+        out->Add<cuDoubleComplex>(x, m);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    } catch(const char *e) {
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverSpZcsreigvsiHost Executed");
+    return std::make_shared<Result>(cs, out);
+}

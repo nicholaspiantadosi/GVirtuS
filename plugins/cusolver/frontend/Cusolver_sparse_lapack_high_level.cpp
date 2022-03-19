@@ -441,3 +441,103 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpZcsrlsqvqrHost(cusolverSpHandl
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpScsreigvsiHost(cusolverSpHandle_t handle, int m, int nnz, const cusparseMatDescr_t descrA, const float *csrValA, const int *csrRowPtrA, const int *csrColIndA, float mu0, const float *x0, int maxite, float tol, float *mu, float *x) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(nnz);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnz);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnz);
+    CusolverFrontend::AddVariableForArguments<float>(mu0);
+    CusolverFrontend::AddHostPointerForArguments(x0, m);
+    CusolverFrontend::AddVariableForArguments<int>(maxite);
+    CusolverFrontend::AddVariableForArguments<float>(tol);
+    CusolverFrontend::AddHostPointerForArguments(x, m);
+    CusolverFrontend::Execute("cusolverSpScsreigvsiHost");
+    if (CusolverFrontend::Success()) {
+        *mu = CusolverFrontend::GetOutputVariable<float>();
+        float *tmp = CusolverFrontend::GetOutputHostPointer<float>(m);
+        for (int i = 0; i < m; i++) {
+            *(x+i) = *(tmp+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpDcsreigvsiHost(cusolverSpHandle_t handle, int m, int nnz, const cusparseMatDescr_t descrA, const double *csrValA, const int *csrRowPtrA, const int *csrColIndA, double mu0, const double *x0, int maxite, double tol, double *mu, double *x) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(nnz);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnz);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnz);
+    CusolverFrontend::AddVariableForArguments<double>(mu0);
+    CusolverFrontend::AddHostPointerForArguments(x0, m);
+    CusolverFrontend::AddVariableForArguments<int>(maxite);
+    CusolverFrontend::AddVariableForArguments<double>(tol);
+    CusolverFrontend::AddHostPointerForArguments(x, m);
+    CusolverFrontend::Execute("cusolverSpDcsreigvsiHost");
+    if (CusolverFrontend::Success()) {
+        *mu = CusolverFrontend::GetOutputVariable<double>();
+        double *tmp = CusolverFrontend::GetOutputHostPointer<double>(m);
+        for (int i = 0; i < m; i++) {
+            *(x+i) = *(tmp+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpCcsreigvsiHost(cusolverSpHandle_t handle, int m, int nnz, const cusparseMatDescr_t descrA, const cuComplex *csrValA, const int *csrRowPtrA, const int *csrColIndA, cuComplex mu0, const cuComplex *x0, int maxite, float tol, cuComplex *mu, cuComplex *x) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(nnz);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnz);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnz);
+    CusolverFrontend::AddVariableForArguments<cuComplex>(mu0);
+    CusolverFrontend::AddHostPointerForArguments(x0, m);
+    CusolverFrontend::AddVariableForArguments<int>(maxite);
+    CusolverFrontend::AddVariableForArguments<float>(tol);
+    CusolverFrontend::AddHostPointerForArguments(x, m);
+    CusolverFrontend::Execute("cusolverSpCcsreigvsiHost");
+    if (CusolverFrontend::Success()) {
+        *mu = CusolverFrontend::GetOutputVariable<cuComplex>();
+        cuComplex *tmp = CusolverFrontend::GetOutputHostPointer<cuComplex>(m);
+        for (int i = 0; i < m; i++) {
+            *(x+i) = *(tmp+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverSpZcsreigvsiHost(cusolverSpHandle_t handle, int m, int nnz, const cusparseMatDescr_t descrA, const cuDoubleComplex *csrValA, const int *csrRowPtrA, const int *csrColIndA, cuDoubleComplex mu0, const cuDoubleComplex *x0, int maxite, double tol, cuDoubleComplex *mu, cuDoubleComplex *x) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<int>(m);
+    CusolverFrontend::AddVariableForArguments<int>(nnz);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t)descrA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnz);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, m + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnz);
+    CusolverFrontend::AddVariableForArguments<cuDoubleComplex>(mu0);
+    CusolverFrontend::AddHostPointerForArguments(x0, m);
+    CusolverFrontend::AddVariableForArguments<int>(maxite);
+    CusolverFrontend::AddVariableForArguments<double>(tol);
+    CusolverFrontend::AddHostPointerForArguments(x, m);
+    CusolverFrontend::Execute("cusolverSpZcsreigvsiHost");
+    if (CusolverFrontend::Success()) {
+        *mu = CusolverFrontend::GetOutputVariable<cuDoubleComplex>();
+        cuDoubleComplex *tmp = CusolverFrontend::GetOutputHostPointer<cuDoubleComplex>(m);
+        for (int i = 0; i < m; i++) {
+            *(x+i) = *(tmp+i);
+        }
+    }
+    return CusolverFrontend::GetExitCode();
+}
