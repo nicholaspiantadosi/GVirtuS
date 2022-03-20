@@ -502,5 +502,11 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfGetResetValuesFastMode));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfGetAlgs));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfRefactor));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfResetValues));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSetMatrixFormat));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSetNumericProperties));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSetResetValuesFastMode));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSetAlgs));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSolve));
 
 }

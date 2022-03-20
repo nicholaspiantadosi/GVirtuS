@@ -205,3 +205,69 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfRefactor(cusolverRfHandle_t ha
     CusolverFrontend::Execute("cusolverRfRefactor");
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfResetValues(int n, int nnzA, int* csrRowPtrA, int* csrColIndA, double* csrValA, int* P, int* Q, cusolverRfHandle_t handle) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusolverFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusolverFrontend::AddDevicePointerForArguments(csrValA);
+    CusolverFrontend::AddDevicePointerForArguments(P);
+    CusolverFrontend::AddDevicePointerForArguments(Q);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfResetValues");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfSetMatrixFormat(cusolverRfHandle_t handle, cusolverRfMatrixFormat_t format, cusolverRfUnitDiagonal_t diag) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverRfMatrixFormat_t>(format);
+    CusolverFrontend::AddVariableForArguments<cusolverRfUnitDiagonal_t>(diag);
+    CusolverFrontend::Execute("cusolverRfSetMatrixFormat");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfSetNumericProperties(cusolverRfHandle_t handle, double zero, double boost) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<double>(zero);
+    CusolverFrontend::AddVariableForArguments<double>(boost);
+    CusolverFrontend::Execute("cusolverRfSetNumericProperties");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfSetResetValuesFastMode(cusolverRfHandle_t handle, cusolverRfResetValuesFastMode_t fastMode) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverRfResetValuesFastMode_t>(fastMode);
+    CusolverFrontend::Execute("cusolverRfSetResetValuesFastMode");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfSetAlgs(cusolverRfHandle_t handle, cusolverRfFactorization_t fact_alg, cusolverRfTriangularSolve_t alg) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddVariableForArguments<cusolverRfFactorization_t>(fact_alg);
+    CusolverFrontend::AddVariableForArguments<cusolverRfTriangularSolve_t>(alg);
+    CusolverFrontend::Execute("cusolverRfSetAlgs");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfSolve(cusolverRfHandle_t handle, int *P, int *Q, int nrhs, double *Temp, int ldt, double *XF, int ldxf) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddDevicePointerForArguments(P);
+    CusolverFrontend::AddDevicePointerForArguments(Q);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(Temp);
+    CusolverFrontend::AddVariableForArguments<int>(ldt);
+    CusolverFrontend::AddDevicePointerForArguments(XF);
+    CusolverFrontend::AddVariableForArguments<int>(ldxf);
+    CusolverFrontend::Execute("cusolverRfSolve");
+    if (CusolverFrontend::Success()) {
+        XF = (double*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}

@@ -116,6 +116,23 @@ int main(void) {
     //printf("diag: %d\n", diag);
     correct = diag == CUSOLVERRF_UNIT_DIAGONAL_STORED_L;
 
+    cs = cusolverRfSetMatrixFormat(handle, CUSOLVERRF_MATRIX_FORMAT_CSC, CUSOLVERRF_UNIT_DIAGONAL_STORED_U);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+
+    cs = cusolverRfGetMatrixFormat(handle, &format, &diag);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    correct = format == CUSOLVERRF_MATRIX_FORMAT_CSC;
+    correct = diag == CUSOLVERRF_UNIT_DIAGONAL_STORED_U;
+
+    cs = cusolverRfSetMatrixFormat(handle, CUSOLVERRF_MATRIX_FORMAT_CSR, CUSOLVERRF_UNIT_DIAGONAL_STORED_L);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+
     double zero;
     double boost;
     cs = cusolverRfGetNumericProperties(handle, &zero, &boost);
@@ -126,6 +143,23 @@ int main(void) {
     correct = zero == 0;
     //printf("boost: %f\n", boost);
     correct = boost == 0;
+
+    cs = cusolverRfSetNumericProperties(handle, 1, 1);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+
+    cs = cusolverRfGetNumericProperties(handle, &zero, &boost);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    correct = zero == 1;
+    correct = boost == 1;
+
+    cs = cusolverRfSetNumericProperties(handle, 0, 0);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
 
     cusolverRfNumericBoostReport_t report;
     cs = cusolverRfGetNumericBoostReport(handle, &report);
@@ -143,6 +177,22 @@ int main(void) {
     //printf("fastMode: %d\n", fastMode);
     correct = fastMode == CUSOLVERRF_RESET_VALUES_FAST_MODE_OFF;
 
+    cs = cusolverRfSetResetValuesFastMode(handle, CUSOLVERRF_RESET_VALUES_FAST_MODE_ON);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+
+    cs = cusolverRfGetResetValuesFastMode(handle, &fastMode);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    correct = fastMode == CUSOLVERRF_RESET_VALUES_FAST_MODE_ON;
+
+    cs = cusolverRfSetResetValuesFastMode(handle, CUSOLVERRF_RESET_VALUES_FAST_MODE_OFF);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+
     cusolverRfFactorization_t fact_alg;
     cusolverRfTriangularSolve_t solve_alg;
     cs = cusolverRfGetAlgs(handle, &fact_alg, &solve_alg);
@@ -153,6 +203,55 @@ int main(void) {
     correct = fact_alg == CUSOLVERRF_FACTORIZATION_ALG0;
     //printf("solve_alg: %d\n", solve_alg);
     correct = solve_alg == CUSOLVERRF_TRIANGULAR_SOLVE_ALG1;
+
+    cs = cusolverRfSetAlgs(handle, CUSOLVERRF_FACTORIZATION_ALG1, CUSOLVERRF_TRIANGULAR_SOLVE_ALG2);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+
+    cs = cusolverRfGetAlgs(handle, &fact_alg, &solve_alg);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    correct = fact_alg == CUSOLVERRF_FACTORIZATION_ALG1;
+    correct = solve_alg == CUSOLVERRF_TRIANGULAR_SOLVE_ALG2;
+
+    cs = cusolverRfSetAlgs(handle, CUSOLVERRF_FACTORIZATION_ALG0, CUSOLVERRF_TRIANGULAR_SOLVE_ALG1);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+
+    int nrhs = 3;
+    int ldt = 3;
+    int ldxf = 3;
+    double *Temp, *XF;
+    CUDA_CHECK( cudaMalloc((void**) &Temp, ldt * nrhs * sizeof(double)));
+    CUDA_CHECK( cudaMalloc((void**) &XF, ldxf * nrhs * sizeof(double)));
+    cs = cusolverRfSolve(handle, dP, dQ, 1, Temp, ldt, XF, ldxf);
+    double hXF[ldxf * nrhs];
+    CUDA_CHECK( cudaMemcpy(hXF, XF, ldxf * nrhs * sizeof(double), cudaMemcpyDeviceToHost) );
+
+    double hCsrValA2[] = {20, 1, 9, 3, 4, -6, 1, 6, 2};
+    const int hCsrRowPtrA2[] = {0, 3, 6, 9};
+    const int hCsrColIndA2[] = {0, 1, 2, 0, 1, 2, 0, 1, 2};
+    int hP2[] = {2, 2, 2};
+    int hQ2[] = {2, 2, 2};
+    double *dCsrValA2;
+    int *dCsrRowPtrA2, *dCsrColIndA2, *dP2, *dQ2;
+    CUDA_CHECK( cudaMalloc((void**) &dCsrValA2, nnzA * sizeof(double)));
+    CUDA_CHECK( cudaMalloc((void**) &dCsrRowPtrA2, (n + 1) * sizeof(int)));
+    CUDA_CHECK( cudaMalloc((void**) &dCsrColIndA2, nnzA * sizeof(int)));
+    CUDA_CHECK( cudaMalloc((void**) &dP2, n * sizeof(int)));
+    CUDA_CHECK( cudaMalloc((void**) &dQ2, n * sizeof(int)));
+    CUDA_CHECK( cudaMemcpy(dCsrValA2, hCsrValA2, nnzA * sizeof(double), cudaMemcpyHostToDevice) );
+    CUDA_CHECK( cudaMemcpy(dCsrRowPtrA2, hCsrRowPtrA2, (n + 1) * sizeof(int), cudaMemcpyHostToDevice) );
+    CUDA_CHECK( cudaMemcpy(dCsrColIndA2, hCsrColIndA2, nnzA * sizeof(int), cudaMemcpyHostToDevice) );
+    CUDA_CHECK( cudaMemcpy(dP2, hP2, n * sizeof(int), cudaMemcpyHostToDevice) );
+    CUDA_CHECK( cudaMemcpy(dQ2, hQ2, n * sizeof(int), cudaMemcpyHostToDevice) );
+    cs = cusolverRfResetValues(n, nnzA, dCsrRowPtrA2, dCsrColIndA2, dCsrValA2, dP2, dQ2, handle);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
 
     cs = cusolverRfDestroy(handle);
     if (cs != CUSOLVER_STATUS_SUCCESS) {
@@ -170,6 +269,11 @@ int main(void) {
     CUDA_CHECK(cudaFree(dCsrColIndU));
     CUDA_CHECK(cudaFree(dP));
     CUDA_CHECK(cudaFree(dQ));
+    CUDA_CHECK(cudaFree(dCsrValA2));
+    CUDA_CHECK(cudaFree(dCsrRowPtrA2));
+    CUDA_CHECK(cudaFree(dCsrColIndA2));
+    CUDA_CHECK(cudaFree(dP2));
+    CUDA_CHECK(cudaFree(dQ2));
 
     if (correct == 1) {
         printf("rf_create_destroy test PASSED\n");
