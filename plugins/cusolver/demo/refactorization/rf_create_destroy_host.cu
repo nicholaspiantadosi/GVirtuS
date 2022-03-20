@@ -56,7 +56,7 @@ int main(void) {
     correct = nnzM == 15;
     int hMp_result[] = {0, 5, 10, 15};
     int hMi_result[] = {0, 1, 0, 1, 2, 0, 1, 0, 1, 2, 0, 1, 0, 1, 2};
-    double hMx_result[] = {0.000000, 0.000000, 10.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000};
+    double hMx_result[] = {0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     printArray(hMp, (n+1), "Mp");
     printArray(hMi, nnzM, "Mi");
     printArrayD(hMx, nnzM, "Mx");
@@ -68,6 +68,59 @@ int main(void) {
     }
     for (int i = 0; i < nnzM; i++) {
         if (fabsf(hMi[i] - hMi_result[i]) > 0.001 || fabsf(hMx[i] - hMx_result[i]) > 0.001) {
+            correct = 0;
+            break;
+        }
+    }
+
+    int nnzL2;
+    int *hLp2;
+    int *hLi2;
+    double *hLx2;
+    int nnzU2;
+    int *hUp2;
+    int *hUi2;
+    double *hUx2;
+    cs = cusolverRfExtractSplitFactorsHost(handle, &nnzL2, &hLp2, &hLi2, &hLx2, &nnzU2, &hUp2, &hUi2, &hUx2);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    printf("nnzL: %d\n", nnzL2);
+    correct = nnzL2 == 11;
+    int hLp2_result[] = {0, 2, 6, 11};
+    int hLi2_result[] = {0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 2};
+    double hLx2_result[] = {1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1};
+    printArray(hLp2, (n+1), "Lp");
+    printArray(hLi2, nnzL2, "Li");
+    printArrayD(hLx2, nnzL2, "Lx");
+    for (int i = 0; i < (n + 1); i++) {
+        if (fabsf(hLp2[i] - hLp2_result[i]) > 0.001) {
+            correct = 0;
+            break;
+        }
+    }
+    for (int i = 0; i < nnzL2; i++) {
+        if (fabsf(hLi2[i] - hLi2_result[i]) > 0.001 || fabsf(hLx2[i] - hLx2_result[i]) > 0.001) {
+            correct = 0;
+            break;
+        }
+    }
+    printf("nnzU: %d\n", nnzU2);
+    correct = nnzU2 == 9;
+    int hUp2_result[] = {0, 5, 8, 9};
+    int hUi2_result[] = {0, 1, 0, 1, 2, 1, 1, 2, 2};
+    double hUx2_result[] = {0., 0., 10., 0., 0., 0., 0., 0., 0.};
+    printArray(hUp2, (n+1), "Up");
+    printArray(hUi2, nnzU2, "Ui");
+    printArrayD(hUx2, nnzU2, "Ux");
+    for (int i = 0; i < (n + 1); i++) {
+        if (fabsf(hUp2[i] - hUp2_result[i]) > 0.001) {
+            correct = 0;
+            break;
+        }
+    }
+    for (int i = 0; i < nnzU2; i++) {
+        if (fabsf(hUi2[i] - hUi2_result[i]) > 0.001 || fabsf(hUx2[i] - hUx2_result[i]) > 0.001) {
             correct = 0;
             break;
         }

@@ -55,30 +55,6 @@ CUSOLVER_ROUTINE_HANDLER(RfAccessBundledFactorsDevice){
     return std::make_shared<Result>(cs, out);
 }
 
-CUSOLVER_ROUTINE_HANDLER(RfExtractBundledFactorsHost){
-    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfExtractBundledFactorsHost"));
-    CusolverHandler::setLogLevel(&logger);
-    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
-    int* nnzM = new int;
-    int* Mp = new int;
-    int** Mi = new int*;
-    double** Mx = new double*;
-    cusolverStatus_t cs;
-    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
-    try{
-        cs = cusolverRfExtractBundledFactorsHost(handle, nnzM, &Mp, Mi, Mx);
-        out->Add<int>(*nnzM);
-        out->Add<int>(Mp, *nnzM);
-        out->Add<int>(*Mi, *nnzM);
-        out->Add<double>(*Mx, *nnzM);
-    } catch (string e){
-        LOG4CPLUS_DEBUG(logger,e);
-        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
-    }
-    LOG4CPLUS_DEBUG(logger,"cusolverRfExtractBundledFactorsHost Executed");
-    return std::make_shared<Result>(cs, out);
-}
-
 CUSOLVER_ROUTINE_HANDLER(RfAnalyze){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfAnalyze"));
     CusolverHandler::setLogLevel(&logger);
@@ -165,6 +141,62 @@ CUSOLVER_ROUTINE_HANDLER(RfCreate){
     }
     LOG4CPLUS_DEBUG(logger,"cusolverRfCreate Executed");
     return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfExtractBundledFactorsHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfExtractBundledFactorsHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    int* nnzM = new int;
+    int** Mp = new int*;
+    int** Mi = new int*;
+    double** Mx = new double*;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfExtractBundledFactorsHost(handle, nnzM, Mp, Mi, Mx);
+        out->Add<int>(*nnzM);
+        out->Add<int>(*Mp, *nnzM);
+        out->Add<int>(*Mi, *nnzM);
+        out->Add<double>(*Mx, *nnzM);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfExtractBundledFactorsHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfExtractSplitFactorsHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfExtractSplitFactorsHost"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    int* nnzL = new int;
+    int** Lp = new int*;
+    int** Li = new int*;
+    double** Lx = new double*;
+    int* nnzU = new int;
+    int** Up = new int*;
+    int** Ui = new int*;
+    double** Ux = new double*;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfExtractSplitFactorsHost(handle, nnzL, Lp, Li, Lx, nnzU, Up, Ui, Ux);
+        out->Add<int>(*nnzL);
+        out->Add<int>(*Lp, *nnzL);
+        out->Add<int>(*Li, *nnzL);
+        out->Add<double>(*Lx, *nnzL);
+        out->Add<int>(*nnzU);
+        out->Add<int>(*Up, *nnzU);
+        out->Add<int>(*Ui, *nnzU);
+        out->Add<double>(*Ux, *nnzU);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfExtractSplitFactorsHost Executed");
+    return std::make_shared<Result>(cs, out);
 }
 
 CUSOLVER_ROUTINE_HANDLER(RfDestroy){

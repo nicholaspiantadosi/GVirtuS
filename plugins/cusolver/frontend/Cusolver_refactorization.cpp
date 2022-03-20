@@ -49,19 +49,6 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfAccessBundledFactorsDevice(cus
     return CusolverFrontend::GetExitCode();
 }
 
-extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfExtractBundledFactorsHost(cusolverRfHandle_t handle, int* nnzM, int** Mp, int** Mi, double** Mx) {
-    CusolverFrontend::Prepare();
-    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
-    CusolverFrontend::Execute("cusolverRfExtractBundledFactorsHost");
-    if(CusolverFrontend::Success()) {
-        *nnzM = CusolverFrontend::GetOutputVariable<int>();
-        *Mp = CusolverFrontend::GetOutputHostPointer<int>(*nnzM);
-        *Mi = CusolverFrontend::GetOutputHostPointer<int>(*nnzM);
-        *Mx = CusolverFrontend::GetOutputHostPointer<double>(*nnzM);
-    }
-    return CusolverFrontend::GetExitCode();
-}
-
 extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfAnalyze(cusolverRfHandle_t handle) {
     CusolverFrontend::Prepare();
     CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
@@ -119,6 +106,36 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfCreate(cusolverRfHandle_t *han
     CusolverFrontend::Execute("cusolverRfCreate");
     if(CusolverFrontend::Success())
         *handle = CusolverFrontend::GetOutputVariable<cusolverRfHandle_t>();
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfExtractBundledFactorsHost(cusolverRfHandle_t handle, int* nnzM, int** Mp, int** Mi, double** Mx) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfExtractBundledFactorsHost");
+    if(CusolverFrontend::Success()) {
+        *nnzM = CusolverFrontend::GetOutputVariable<int>();
+        *Mp = CusolverFrontend::GetOutputHostPointer<int>(*nnzM);
+        *Mi = CusolverFrontend::GetOutputHostPointer<int>(*nnzM);
+        *Mx = CusolverFrontend::GetOutputHostPointer<double>(*nnzM);
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfExtractSplitFactorsHost(cusolverRfHandle_t handle, int* nnzL, int** Lp, int** Li, double** Lx, int* nnzU, int** Up, int** Ui, double** Ux) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfExtractSplitFactorsHost");
+    if(CusolverFrontend::Success()) {
+        *nnzL = CusolverFrontend::GetOutputVariable<int>();
+        *Lp = CusolverFrontend::GetOutputHostPointer<int>(*nnzL);
+        *Li = CusolverFrontend::GetOutputHostPointer<int>(*nnzL);
+        *Lx = CusolverFrontend::GetOutputHostPointer<double>(*nnzL);
+        *nnzU = CusolverFrontend::GetOutputVariable<int>();
+        *Up = CusolverFrontend::GetOutputHostPointer<int>(*nnzU);
+        *Ui = CusolverFrontend::GetOutputHostPointer<int>(*nnzU);
+        *Ux = CusolverFrontend::GetOutputHostPointer<double>(*nnzU);
+    }
     return CusolverFrontend::GetExitCode();
 }
 
