@@ -207,6 +207,102 @@ CUSOLVER_ROUTINE_HANDLER(RfDestroy){
     return std::make_shared<Result>(cs);
 }
 
+CUSOLVER_ROUTINE_HANDLER(RfGetMatrixFormat){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfGetMatrixFormat"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    cusolverRfMatrixFormat_t format;
+    cusolverRfUnitDiagonal_t diag;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfGetMatrixFormat(handle, &format, &diag);
+        out->Add<cusolverRfMatrixFormat_t>(format);
+        out->Add<cusolverRfUnitDiagonal_t>(diag);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfGetMatrixFormat Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfGetNumericProperties){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfGetNumericProperties"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    double zero;
+    double boost;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfGetNumericProperties(handle, &zero, &boost);
+        out->Add<double>(zero);
+        out->Add<double>(boost);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfGetNumericProperties Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfGetNumericBoostReport){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfGetNumericBoostReport"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    cusolverRfNumericBoostReport_t report;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfGetNumericBoostReport(handle, &report);
+        out->Add<cusolverRfNumericBoostReport_t>(report);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfGetNumericBoostReport Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfGetResetValuesFastMode){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfGetResetValuesFastMode"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    cusolverRfResetValuesFastMode_t fastMode;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfGetResetValuesFastMode(handle, &fastMode);
+        out->Add<cusolverRfResetValuesFastMode_t>(fastMode);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfGetResetValuesFastMode Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfGetAlgs){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfGetAlgs"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    cusolverRfFactorization_t fact_alg;
+    cusolverRfTriangularSolve_t solve_alg;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfGetAlgs(handle, &fact_alg, &solve_alg);
+        out->Add<cusolverRfFactorization_t>(fact_alg);
+        out->Add<cusolverRfTriangularSolve_t>(solve_alg);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfGetAlgs Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
 CUSOLVER_ROUTINE_HANDLER(RfRefactor){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfRefactor"));
     CusolverHandler::setLogLevel(&logger);

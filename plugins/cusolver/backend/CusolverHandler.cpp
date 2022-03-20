@@ -496,6 +496,11 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfExtractBundledFactorsHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfExtractSplitFactorsHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfDestroy));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfGetMatrixFormat));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfGetNumericProperties));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfGetNumericBoostReport));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfGetResetValuesFastMode));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfGetAlgs));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfRefactor));
 
 }

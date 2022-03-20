@@ -105,6 +105,55 @@ int main(void) {
         }
     }
 
+    cusolverRfMatrixFormat_t format;
+    cusolverRfUnitDiagonal_t diag;
+    cs = cusolverRfGetMatrixFormat(handle, &format, &diag);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    //printf("format: %d\n", format);
+    correct = format == CUSOLVERRF_MATRIX_FORMAT_CSR;
+    //printf("diag: %d\n", diag);
+    correct = diag == CUSOLVERRF_UNIT_DIAGONAL_STORED_L;
+
+    double zero;
+    double boost;
+    cs = cusolverRfGetNumericProperties(handle, &zero, &boost);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    //printf("zero: %f\n", zero);
+    correct = zero == 0;
+    //printf("boost: %f\n", boost);
+    correct = boost == 0;
+
+    cusolverRfNumericBoostReport_t report;
+    cs = cusolverRfGetNumericBoostReport(handle, &report);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    //printf("report: %d\n", report);
+    correct = report == CUSOLVERRF_NUMERIC_BOOST_NOT_USED;
+
+    cusolverRfResetValuesFastMode_t fastMode;
+    cs = cusolverRfGetResetValuesFastMode(handle, &fastMode);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    //printf("fastMode: %d\n", fastMode);
+    correct = fastMode == CUSOLVERRF_RESET_VALUES_FAST_MODE_OFF;
+
+    cusolverRfFactorization_t fact_alg;
+    cusolverRfTriangularSolve_t solve_alg;
+    cs = cusolverRfGetAlgs(handle, &fact_alg, &solve_alg);
+    if (cs != CUSOLVER_STATUS_SUCCESS) {
+        correct = 0;
+    }
+    //printf("fact_alg: %d\n", fact_alg);
+    correct = fact_alg == CUSOLVERRF_FACTORIZATION_ALG0;
+    //printf("solve_alg: %d\n", solve_alg);
+    correct = solve_alg == CUSOLVERRF_TRIANGULAR_SOLVE_ALG1;
+
     cs = cusolverRfDestroy(handle);
     if (cs != CUSOLVER_STATUS_SUCCESS) {
         correct = 0;

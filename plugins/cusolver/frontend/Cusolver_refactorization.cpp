@@ -146,6 +146,59 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfDestroy(cusolverRfHandle_t han
     return CusolverFrontend::GetExitCode();
 }
 
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfGetMatrixFormat(cusolverRfHandle_t handle, cusolverRfMatrixFormat_t *format, cusolverRfUnitDiagonal_t *diag) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfGetMatrixFormat");
+    if(CusolverFrontend::Success()) {
+        *format = CusolverFrontend::GetOutputVariable<cusolverRfMatrixFormat_t>();
+        *diag = CusolverFrontend::GetOutputVariable<cusolverRfUnitDiagonal_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfGetNumericProperties(cusolverRfHandle_t handle, double *zero, double *boost) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfGetNumericProperties");
+    if(CusolverFrontend::Success()) {
+        *zero = CusolverFrontend::GetOutputVariable<double>();
+        *boost = CusolverFrontend::GetOutputVariable<double>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfGetNumericBoostReport(cusolverRfHandle_t handle, cusolverRfNumericBoostReport_t *report) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfGetNumericBoostReport");
+    if(CusolverFrontend::Success()) {
+        *report = CusolverFrontend::GetOutputVariable<cusolverRfNumericBoostReport_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfGetResetValuesFastMode(cusolverRfHandle_t handle, cusolverRfResetValuesFastMode_t *fastMode) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfGetResetValuesFastMode");
+    if(CusolverFrontend::Success()) {
+        *fastMode = CusolverFrontend::GetOutputVariable<cusolverRfResetValuesFastMode_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfGetAlgs(cusolverRfHandle_t handle, cusolverRfFactorization_t* fact_alg, cusolverRfTriangularSolve_t* solve_alg) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfGetAlgs");
+    if(CusolverFrontend::Success()) {
+        *fact_alg = CusolverFrontend::GetOutputVariable<cusolverRfFactorization_t>();
+        *solve_alg = CusolverFrontend::GetOutputVariable<cusolverRfTriangularSolve_t>();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
 extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfRefactor(cusolverRfHandle_t handle) {
     CusolverFrontend::Prepare();
     CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
