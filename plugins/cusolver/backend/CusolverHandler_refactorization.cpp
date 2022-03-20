@@ -430,3 +430,121 @@ CUSOLVER_ROUTINE_HANDLER(RfSolve){
     LOG4CPLUS_DEBUG(logger,"cusolverRfSolve Executed");
     return std::make_shared<Result>(cs, out);
 }
+
+CUSOLVER_ROUTINE_HANDLER(RfBatchSetupHost){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfBatchSetupHost"));
+    CusolverHandler::setLogLevel(&logger);
+    int batchSize = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    int* csrRowPtrA = in->Assign<int>(n + 1);
+    int* csrColIndA = in->Assign<int>(nnzA);
+    double** csrValA = in->Assign<double*>(nnzA);
+    int nnzL = in->Get<int>();
+    int* csrRowPtrL = in->Assign<int>(n + 1);
+    int* csrColIndL = in->Assign<int>(nnzL);
+    double* csrValL = in->Assign<double>(nnzL);
+    int nnzU = in->Get<int>();
+    int* csrRowPtrU = in->Assign<int>(n + 1);
+    int* csrColIndU = in->Assign<int>(nnzU);
+    double* csrValU = in->Assign<double>(nnzU);
+    int* P = in->Assign<int>(n);
+    int* Q = in->Assign<int>(n);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfBatchSetupHost(batchSize, n, nnzA, csrRowPtrA, csrColIndA, csrValA, nnzL, csrRowPtrL, csrColIndL, csrValL, nnzU, csrRowPtrU, csrColIndU, csrValU, P, Q, handle);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfBatchSetupHost Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfBatchAnalyze){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfBatchAnalyze"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    cusolverStatus_t cs = cusolverRfBatchAnalyze(handle);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    LOG4CPLUS_DEBUG(logger,"cusolverRfBatchAnalyze Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfBatchResetValues){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfBatchResetValues"));
+    CusolverHandler::setLogLevel(&logger);
+    int batchSize = in->Get<int>();
+    int n = in->Get<int>();
+    int nnzA = in->Get<int>();
+    int* csrRowPtrA = in->Get<int*>();
+    int* csrColIndA = in->Get<int*>();
+    double** csrValA = in->Get<double**>();
+    int* P = in->Get<int*>();
+    int* Q = in->Get<int*>();
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfBatchResetValues(batchSize, n, nnzA, csrRowPtrA, csrColIndA, csrValA, P, Q, handle);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfBatchResetValues Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfBatchRefactor){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfBatchRefactor"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    cusolverStatus_t cs = cusolverRfBatchRefactor(handle);
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    LOG4CPLUS_DEBUG(logger,"cusolverRfBatchRefactor Executed");
+    return std::make_shared<Result>(cs,out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfBatchSolve){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfBatchSolve"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    int* P = in->Get<int*>();
+    int* Q = in->Get<int*>();
+    int nrhs = in->Get<int>();
+    double* Temp = in->Get<double*>();
+    int ldt = in->Get<int>();
+    double** XF = in->Get<double**>();
+    int ldxf = in->Get<int>();
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfBatchSolve(handle, P, Q, nrhs, Temp, ldt, XF, ldxf);
+        out->Add<double**>(XF);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfBatchSolve Executed");
+    return std::make_shared<Result>(cs, out);
+}
+
+CUSOLVER_ROUTINE_HANDLER(RfBatchZeroPivot){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RfBatchZeroPivot"));
+    CusolverHandler::setLogLevel(&logger);
+    cusolverRfHandle_t handle = (cusolverRfHandle_t)in->Get<size_t>();
+    int* position = new int;
+    cusolverStatus_t cs;
+    std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
+    try{
+        cs = cusolverRfBatchZeroPivot(handle, position);
+        out->Add<int*>(position);
+    } catch (string e){
+        LOG4CPLUS_DEBUG(logger,e);
+        return std::make_shared<Result>(CUSOLVER_STATUS_EXECUTION_FAILED);
+    }
+    LOG4CPLUS_DEBUG(logger,"cusolverRfBatchZeroPivot Executed");
+    return std::make_shared<Result>(cs, out);
+}

@@ -508,5 +508,11 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSetResetValuesFastMode));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSetAlgs));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSolve));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchSetupHost));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchAnalyze));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchResetValues));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchRefactor));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchSolve));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchZeroPivot));
 
 }

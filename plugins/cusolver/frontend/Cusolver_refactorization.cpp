@@ -271,3 +271,81 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfSolve(cusolverRfHandle_t handl
     }
     return CusolverFrontend::GetExitCode();
 }
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfBatchSetupHost(int batchSize, int n, int nnzA, int* csrRowPtrA, int* csrColIndA, double** csrValA, int nnzL, int* csrRowPtrL, int* csrColIndL, double* csrValL, int nnzU, int* csrRowPtrU, int* csrColIndU, double* csrValU, int* P, int* Q, cusolverRfHandle_t handle) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<int>(batchSize);
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, n + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddHostPointerForArguments<double*>(csrValA, nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(nnzL);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrL, n + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndL, nnzL);
+    CusolverFrontend::AddHostPointerForArguments(csrValL, nnzL);
+    CusolverFrontend::AddVariableForArguments<int>(nnzU);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrU, n + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndU, nnzU);
+    CusolverFrontend::AddHostPointerForArguments(csrValU, nnzU);
+    CusolverFrontend::AddHostPointerForArguments(P, n);
+    CusolverFrontend::AddHostPointerForArguments(Q, n);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfBatchSetupHost");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfBatchAnalyze(cusolverRfHandle_t handle) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfBatchAnalyze");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfBatchResetValues(int batchSize, int n, int nnzA, int* csrRowPtrA, int* csrColIndA, double** csrValA, int* P, int* Q, cusolverRfHandle_t handle) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddDevicePointerForArguments(csrRowPtrA);
+    CusolverFrontend::AddDevicePointerForArguments(csrColIndA);
+    CusolverFrontend::AddDevicePointerForArguments(csrValA);
+    CusolverFrontend::AddDevicePointerForArguments(P);
+    CusolverFrontend::AddDevicePointerForArguments(Q);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfBatchResetValues");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfBatchRefactor(cusolverRfHandle_t handle) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfBatchRefactor");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfBatchSolve(cusolverRfHandle_t handle, int *P, int *Q, int nrhs, double *Temp, int ldt, double **XF, int ldxf) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::AddDevicePointerForArguments(P);
+    CusolverFrontend::AddDevicePointerForArguments(Q);
+    CusolverFrontend::AddVariableForArguments<int>(nrhs);
+    CusolverFrontend::AddDevicePointerForArguments(Temp);
+    CusolverFrontend::AddVariableForArguments<int>(ldt);
+    CusolverFrontend::AddDevicePointerForArguments(XF);
+    CusolverFrontend::AddVariableForArguments<int>(ldxf);
+    CusolverFrontend::Execute("cusolverRfBatchSolve");
+    if (CusolverFrontend::Success()) {
+        XF = (double**) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfBatchZeroPivot(cusolverRfHandle_t handle, int *position) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfBatchZeroPivot");
+    if (CusolverFrontend::Success()) {
+        position = (int*) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
