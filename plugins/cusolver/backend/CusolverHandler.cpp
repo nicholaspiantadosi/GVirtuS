@@ -514,5 +514,15 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchRefactor));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchSolve));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfBatchZeroPivot));
+    // MULTI GPU - HELPER FUNCTION
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(MgCreate));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(MgDestroy));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(MgDeviceSelect));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(MgCreateDeviceGrid));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(MgDestroyGrid));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(MgCreateMatrixDesc));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(MgDestroyMatrixDesc));
+    // MULTI GPU - DENSE LINEAR SOLVER FUNCTION
+    // MULTI GPU - DENSE LINEAR EIGENVALUE FUNCTION
 
 }

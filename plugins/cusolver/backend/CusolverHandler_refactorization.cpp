@@ -24,7 +24,6 @@
  */
 
 #include "CusolverHandler.h"
-#include "Utilities.h"
 
 using namespace log4cplus;
 
