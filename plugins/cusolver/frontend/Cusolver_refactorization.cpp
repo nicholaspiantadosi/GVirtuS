@@ -28,6 +28,7 @@
 #include <string>
 
 #include "CusolverFrontend.h"
+#include "Utilities.h"
 
 using namespace std;
 
@@ -44,6 +45,19 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfAccessBundledFactorsDevice(cus
         *Mp = (int *) CusolverFrontend::GetOutputDevicePointer();
         *Mi = (int *) CusolverFrontend::GetOutputDevicePointer();
         *Mx = (double *) CusolverFrontend::GetOutputDevicePointer();
+    }
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfExtractBundledFactorsHost(cusolverRfHandle_t handle, int* nnzM, int** Mp, int** Mi, double** Mx) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfExtractBundledFactorsHost");
+    if(CusolverFrontend::Success()) {
+        *nnzM = CusolverFrontend::GetOutputVariable<int>();
+        *Mp = CusolverFrontend::GetOutputHostPointer<int>(*nnzM);
+        *Mi = CusolverFrontend::GetOutputHostPointer<int>(*nnzM);
+        *Mx = CusolverFrontend::GetOutputHostPointer<double>(*nnzM);
     }
     return CusolverFrontend::GetExitCode();
 }
@@ -74,6 +88,28 @@ extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfSetupDevice(int n, int nnzA, i
     CusolverFrontend::AddDevicePointerForArguments(Q);
     CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
     CusolverFrontend::Execute("cusolverRfSetupDevice");
+    return CusolverFrontend::GetExitCode();
+}
+
+extern "C" cusolverStatus_t CUSOLVERAPI cusolverRfSetupHost(int n, int nnzA, int* csrRowPtrA, int* csrColIndA, double* csrValA, int nnzL, int* csrRowPtrL, int* csrColIndL, double* csrValL, int nnzU, int* csrRowPtrU, int* csrColIndU, double* csrValU, int* P, int* Q, cusolverRfHandle_t handle) {
+    CusolverFrontend::Prepare();
+    CusolverFrontend::AddVariableForArguments<int>(n);
+    CusolverFrontend::AddVariableForArguments<int>(nnzA);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrA, n + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndA, nnzA);
+    CusolverFrontend::AddHostPointerForArguments(csrValA, nnzA);
+    CusolverFrontend::AddVariableForArguments<int>(nnzL);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrL, n + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndL, nnzL);
+    CusolverFrontend::AddHostPointerForArguments(csrValL, nnzL);
+    CusolverFrontend::AddVariableForArguments<int>(nnzU);
+    CusolverFrontend::AddHostPointerForArguments(csrRowPtrU, n + 1);
+    CusolverFrontend::AddHostPointerForArguments(csrColIndU, nnzU);
+    CusolverFrontend::AddHostPointerForArguments(csrValU, nnzU);
+    CusolverFrontend::AddHostPointerForArguments(P, n);
+    CusolverFrontend::AddHostPointerForArguments(Q, n);
+    CusolverFrontend::AddVariableForArguments<size_t>((size_t) handle);
+    CusolverFrontend::Execute("cusolverRfSetupHost");
     return CusolverFrontend::GetExitCode();
 }
 

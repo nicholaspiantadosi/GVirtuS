@@ -489,8 +489,10 @@ void CusolverHandler::Initialize(){
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(SpZcsrqrsvBatched));
     // REFACTORIZATION
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfAccessBundledFactorsDevice));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfExtractBundledFactorsHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfAnalyze));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSetupDevice));
+    mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfSetupHost));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfCreate));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfDestroy));
     mspHandlers->insert(CUSOLVER_ROUTINE_HANDLER_PAIR(RfRefactor));

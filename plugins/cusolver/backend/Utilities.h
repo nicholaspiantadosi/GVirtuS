@@ -1,6 +1,28 @@
 #include <cuda_runtime.h>
 
+void printHArray(int hArray[], int size) {
+    printf("[");
+    for (int i = 0; i < size; i++) {
+        printf("%d", hArray[i]);
+        if (i < (size - 1)) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
 void printHArrayF(float hArray[], int size) {
+    printf("[");
+    for (int i = 0; i < size; i++) {
+        printf("%f", hArray[i]);
+        if (i < (size - 1)) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
+void printHArrayD(double hArray[], int size) {
     printf("[");
     for (int i = 0; i < size; i++) {
         printf("%f", hArray[i]);
