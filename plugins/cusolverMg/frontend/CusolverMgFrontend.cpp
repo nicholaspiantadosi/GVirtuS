@@ -4,7 +4,7 @@
  * Copyright (C) 2009-2010  The University of Napoli Parthenope at Naples.
  *
  * This file is part of gVirtuS.
- *
+ * 
  * gVirtuS is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -20,12 +20,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * Written by: Nicholas Piantadosi <nicholas.piantadosi@studenti.uniparthenope.it>,
- *             Department of Science and Technologies
+ *             Department of Science and Technology
  */
 
-#include "CusolverHandler.h"
+#include "CusolverMgFrontend.h"
 
-using namespace log4cplus;
+using namespace std;
 
-using gvirtus::communicators::Buffer;
-using gvirtus::communicators::Result;
+CusolverMgFrontend msInstance __attribute_used__;
+
+void * CusolverMgFrontend::handler = NULL;
+
+CusolverMgFrontend::CusolverMgFrontend() {
+Frontend::GetFrontend();
+}
+

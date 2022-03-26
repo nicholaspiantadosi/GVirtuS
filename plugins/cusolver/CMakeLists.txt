@@ -20,12 +20,6 @@ find_path(CUSOLVER_INCLUDE_DIRECTORY
 if(NOT CUSOLVER_INCLUDE_DIRECTORY)
     message(FATAL_ERROR "cusolverRf.h not found")
 endif()
-find_path(CUSOLVER_INCLUDE_DIRECTORY
-        cusolverMg.h
-        PATHS ${CUDA_INCLUDE_DIRS})
-if(NOT CUSOLVER_INCLUDE_DIRECTORY)
-    message(FATAL_ERROR "cusolverMg.h not found")
-endif()
 include_directories(${CUSOLVER_INCLUDE_DIRECTORY} ${CUDA_INCLUDE_DIRS})
 
 get_filename_component(CUDA_LIBRARIES_PATH ${CUDA_CUDART_LIBRARY} DIRECTORY FALSE)
@@ -46,7 +40,7 @@ while(IS_SYMLINK "${CUSOLVER_VERSION}")
 endwhile()
 string(REGEX REPLACE ".*\\.so\\.([0-9]+\\.[0-9]+\\.[0-9]+)" "\\1" CUSOLVER_VERSION "${CUSOLVER_VERSION}")
 
-message(STATUS "Found cuSolver: ${CUSOLVER_VERSION} (${CUSOLVER_INCLUDE_DIRECTORY}/cusolverDn.h, ${CUSOLVER_INCLUDE_DIRECTORY}/cusolverSp.h, ${CUSOLVER_INCLUDE_DIRECTORY}/cusolverRf.h, ${CUSOLVER_INCLUDE_DIRECTORY}/cusolverMg.h, ${CUSOLVER_LIBRARY})")
+message(STATUS "Found cuSolver: ${CUSOLVER_VERSION} (${CUSOLVER_INCLUDE_DIRECTORY}/cusolverDn.h, ${CUSOLVER_INCLUDE_DIRECTORY}/cusolverSp.h, ${CUSOLVER_INCLUDE_DIRECTORY}/cusolverRf.h, ${CUSOLVER_LIBRARY})")
 
 gvirtus_add_backend(cusolver ${CUDA_VERSION}
         backend/CusolverHandler.cpp
@@ -58,9 +52,6 @@ gvirtus_add_backend(cusolver ${CUDA_VERSION}
         backend/CusolverHandler_sparse_lapack_high_level.cpp
         backend/CusolverHandler_sparse_lapack_low_level.cpp
         backend/CusolverHandler_refactorization.cpp
-        backend/CusolverHandler_multi_gpu_helper.cpp
-        backend/CusolverHandler_multi_gpu_dense_linear_solver.cpp
-        backend/CusolverHandler_multi_gpu_dense_linear_eigenvalue.cpp
         backend/Utilities.h
 )
 target_link_libraries(${PROJECT_NAME} ${CUDA_cusolver_LIBRARY} ${CUDA_CUDART_LIBRARY})
@@ -76,8 +67,5 @@ gvirtus_add_frontend(cusolver ${CUDA_VERSION}
         frontend/Cusolver_sparse_lapack_high_level.cpp
         frontend/Cusolver_sparse_lapack_low_level.cpp
         frontend/Cusolver_refactorization.cpp
-        frontend/Cusolver_multi_gpu_helper.cpp
-        frontend/Cusolver_multi_gpu_dense_linear_solver.cpp
-        frontend/Cusolver_multi_gpu_dense_linear_eigenvalue.cpp
         frontend/Utilities.h
 )

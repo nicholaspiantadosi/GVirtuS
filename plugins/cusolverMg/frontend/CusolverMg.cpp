@@ -20,12 +20,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *
  * Written by: Nicholas Piantadosi <nicholas.piantadosi@studenti.uniparthenope.it>,
- *             Department of Science and Technologies
+ * Department of Applied Science
  */
 
-#include "CusolverHandler.h"
+#include <iostream>
+#include <cstdio>
+#include <string>
 
-using namespace log4cplus;
+#include "CusolverMgFrontend.h"
 
-using gvirtus::communicators::Buffer;
-using gvirtus::communicators::Result;
+using namespace std;

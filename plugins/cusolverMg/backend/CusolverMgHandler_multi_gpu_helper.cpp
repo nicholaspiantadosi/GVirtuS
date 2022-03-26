@@ -23,7 +23,7 @@
  *             Department of Science and Technologies
  */
 
-#include "CusolverHandler.h"
+#include "CusolverMgHandler.h"
 #include "Utilities.h"
 
 using namespace log4cplus;
@@ -31,9 +31,9 @@ using namespace log4cplus;
 using gvirtus::communicators::Buffer;
 using gvirtus::communicators::Result;
 
-CUSOLVER_ROUTINE_HANDLER(MgCreate){
+CUSOLVERMG_ROUTINE_HANDLER(MgCreate){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("MgCreate"));
-    CusolverHandler::setLogLevel(&logger);
+    CusolverMgHandler::setLogLevel(&logger);
     cusolverMgHandle_t handle;
     cusolverStatus_t cs;
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
@@ -48,8 +48,9 @@ CUSOLVER_ROUTINE_HANDLER(MgCreate){
     return std::make_shared<Result>(cs,out);
 }
 
-CUSOLVER_ROUTINE_HANDLER(MgDestroy){
+CUSOLVERMG_ROUTINE_HANDLER(MgDestroy){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("MgDestroy"));
+    CusolverMgHandler::setLogLevel(&logger);
     cusolverMgHandle_t handle = (cusolverMgHandle_t)in->Get<size_t>();
     cusolverStatus_t cs;
     try{
@@ -62,8 +63,9 @@ CUSOLVER_ROUTINE_HANDLER(MgDestroy){
     return std::make_shared<Result>(cs);
 }
 
-CUSOLVER_ROUTINE_HANDLER(MgDeviceSelect){
+CUSOLVERMG_ROUTINE_HANDLER(MgDeviceSelect){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("MgDeviceSelect"));
+    CusolverMgHandler::setLogLevel(&logger);
     cusolverMgHandle_t handle = (cusolverMgHandle_t)in->Get<size_t>();
     int nbDevices = in->Get<int>();
     int* deviceId = in->Get<int>(nbDevices);
@@ -78,8 +80,9 @@ CUSOLVER_ROUTINE_HANDLER(MgDeviceSelect){
     return std::make_shared<Result>(cs);
 }
 
-CUSOLVER_ROUTINE_HANDLER(MgCreateDeviceGrid){
+CUSOLVERMG_ROUTINE_HANDLER(MgCreateDeviceGrid){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("MgCreateDeviceGrid"));
+    CusolverMgHandler::setLogLevel(&logger);
     cudaLibMgGrid_t grid;
     int32_t numRowDevices = in->Get<int32_t>();
     int32_t numColDevices = in->Get<int32_t>();
@@ -98,8 +101,9 @@ CUSOLVER_ROUTINE_HANDLER(MgCreateDeviceGrid){
     return std::make_shared<Result>(cs, out);
 }
 
-CUSOLVER_ROUTINE_HANDLER(MgDestroyGrid){
+CUSOLVERMG_ROUTINE_HANDLER(MgDestroyGrid){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("MgDestroyGrid"));
+    CusolverMgHandler::setLogLevel(&logger);
     cudaLibMgGrid_t grid = (cudaLibMgGrid_t)in->Get<size_t>();
     cusolverStatus_t cs;
     try{
@@ -112,8 +116,9 @@ CUSOLVER_ROUTINE_HANDLER(MgDestroyGrid){
     return std::make_shared<Result>(cs);
 }
 
-CUSOLVER_ROUTINE_HANDLER(MgCreateMatrixDesc){
+CUSOLVERMG_ROUTINE_HANDLER(MgCreateMatrixDesc){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("MgCreateMatrixDesc"));
+    CusolverMgHandler::setLogLevel(&logger);
     cudaLibMgMatrixDesc_t desc;
     int64_t numRows = in->Get<int64_t>();
     int64_t numCols = in->Get<int64_t>();
@@ -134,8 +139,9 @@ CUSOLVER_ROUTINE_HANDLER(MgCreateMatrixDesc){
     return std::make_shared<Result>(cs, out);
 }
 
-CUSOLVER_ROUTINE_HANDLER(MgDestroyMatrixDesc){
+CUSOLVERMG_ROUTINE_HANDLER(MgDestroyMatrixDesc){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("MgDestroyMatrixDesc"));
+    CusolverMgHandler::setLogLevel(&logger);
     cudaLibMgMatrixDesc_t desc = (cudaLibMgMatrixDesc_t)in->Get<size_t>();
     cusolverStatus_t cs;
     try{
