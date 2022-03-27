@@ -54,7 +54,7 @@ gvirtus_add_backend(cusolver ${CUDA_VERSION}
         backend/CusolverHandler_refactorization.cpp
         backend/Utilities.h
 )
-target_link_libraries(${PROJECT_NAME} ${CUDA_cusolver_LIBRARY} ${CUDA_CUDART_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${CUSOLVER_LIBRARY})
 
 gvirtus_add_frontend(cusolver ${CUDA_VERSION}
         frontend/Cusolver.cpp
