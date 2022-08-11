@@ -73,19 +73,14 @@ CentOS:
 
 ## Installation: ##
 1) Clone the GVirtuS main repository
-
-   git clone https://github.com/gvirtus/GVirtuS.git 
-
+* git clone https://github.com/gvirtus/GVirtuS.git
 2) Compile and install GVirtuS using CMake:
-
-
-    cd GVirutS
-    mkdir build
-    cd build
-    cmake ..
-    make
-    make install    
-    
+* cd GVirutS
+* mkdir build
+* cd build
+* cmake ..
+* make
+* make install
 
 By default GVirtuS will be installed in ${HOME}/GVirtuS; to override 
 this behavior export the GVIRTUS_HOME variable before running cmake, i.e.:
@@ -221,6 +216,7 @@ There is also a `docker-compose.yml` file available. Using docker-compose you ca
 * `cd ${GVIRTUS_HOME}`
 * `docker-compose build`
 * `UID=${UID} GID=${GID} docker-compose up`
+
 If everything it's ok you can see all logs in the console, colored differently depending on the backend or frontend.
 
 ## Logging ##
