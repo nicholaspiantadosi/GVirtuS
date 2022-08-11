@@ -1,0 +1,38 @@
+version: '2.3'
+services:
+  backend:
+    image: gvirtus-backend
+    build:
+      context: .
+      dockerfile: ./Dockerfile-backend
+    ports:
+      - "9999:9999"
+    user: "${UID}:${GID}"
+    runtime: nvidia
+    tty: true
+    networks:
+      gvirtus-net:
+        ipv4_address: 10.5.0.5
+  frontend:
+    image: gvirtus-frontend
+    build:
+      context: .
+      dockerfile: ./Dockerfile-frontend
+    user: "${UID}:${GID}"
+    runtime: nvidia
+    tty: true
+    networks:
+      gvirtus-net:
+        ipv4_address: 10.5.0.6
+    environment:
+      - GVIRTUS_BACKEND_IP=10.5.0.5
+      #- PATH_TO_FILE=/GVirtuS/demo/cusparse/level3/gemmi.cu
+      #- PATH_TO_FILE=/GVirtuS/demo/cusolver/sparse/high_level/spcsrlsvlu.cu
+      - PATH_TO_FILE=/GVirtuS/demo/cusparse/generic/cusparse_vector.cu
+networks:
+  gvirtus-net:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1

@@ -69,3 +69,5 @@ gvirtus_add_frontend(cusolver ${CUDA_VERSION}
         frontend/Cusolver_refactorization.cpp
         frontend/Utilities.h
 )
+
+add_subdirectory(demo)

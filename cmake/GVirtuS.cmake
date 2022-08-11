@@ -24,6 +24,15 @@ ExternalProject_Add(log4cplus
         BUILD_COMMAND make
         INSTALL_COMMAND make install
         )
+
+#ExternalProject_Add(log4cplus
+#        SOURCE_DIR ${CMAKE_SOURCE_DIR}/log4cplus-2.0.5
+#        TIMEOUT 360
+#        BUILD_IN_SOURCE 1
+#        CONFIGURE_COMMAND ./configure --prefix=${EXTERNAL_INSTALL_LOCATION} CFLAGS=-fPIC CPPFLAGS=-I${EXTERNAL_INSTALL_LOCATION}/include/ LDFLAGS=-L${EXTERNAL_INSTALL_LOCATION}/lib/
+#        BUILD_COMMAND make
+#        INSTALL_COMMAND make install
+#        )
 set(LIBLOG4CPLUS ${EXTERNAL_INSTALL_LOCATION}/lib/liblog4cplus.so)
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(LIBLOG4CPLUS ${EXTERNAL_INSTALL_LOCATION}/lib/liblog4cplus.dylib)
@@ -36,6 +45,17 @@ if(IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/gvirtus)
     message(STATUS "Installing ${CMAKE_CURRENT_SOURCE_DIR}/include/gvirtus to ${GVIRTUS_HOME}/include")
     install(DIRECTORY include/gvirtus DESTINATION ${GVIRTUS_HOME}/include)
 endif()
+
+configure_file(docker/Dockerfile-backend ${GVIRTUS_HOME} COPYONLY)
+message(STATUS "Installing ${CMAKE_CURRENT_SOURCE_DIR}/docker/Dockerfile-backend to ${GVIRTUS_HOME}")
+configure_file(docker/Dockerfile-frontend ${GVIRTUS_HOME} COPYONLY)
+message(STATUS "Installing ${CMAKE_CURRENT_SOURCE_DIR}/docker/Dockerfile-frontend to ${GVIRTUS_HOME}")
+configure_file(docker/Dockerfile-frontend-cusparse ${GVIRTUS_HOME} COPYONLY)
+message(STATUS "Installing ${CMAKE_CURRENT_SOURCE_DIR}/docker/Dockerfile-frontend-cusparse to ${GVIRTUS_HOME}")
+configure_file(docker/Dockerfile-frontend-cusolver ${GVIRTUS_HOME} COPYONLY)
+message(STATUS "Installing ${CMAKE_CURRENT_SOURCE_DIR}/docker/Dockerfile-frontend-cusolver to ${GVIRTUS_HOME}")
+configure_file(docker/docker-compose.yml ${GVIRTUS_HOME} COPYONLY)
+message(STATUS "Installing ${CMAKE_CURRENT_SOURCE_DIR}/docker/docker-compose.yml to ${GVIRTUS_HOME}")
 
 macro(gvirtus_install_target target_name)
     install(TARGETS ${target_name}

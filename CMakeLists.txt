@@ -15,6 +15,7 @@ include(cmake/GVirtuS.cmake)
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann/json.hpp
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann
         COMMAND curl -L https://github.com/nlohmann/json/releases/download/v3.7.3/json.hpp -o ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann/json.hpp)
+        #COMMAND cp ${CMAKE_SOURCE_DIR}/nlohmann/json.hpp ${CMAKE_CURRENT_BINARY_DIR}/include/nlohmann/json.hpp)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
 add_library(gvirtus-common SHARED
@@ -77,4 +78,3 @@ add_subdirectory(plugins/cusolver)
 add_subdirectory(plugins/cusolverMg)
 
 #add_subdirectory(tools/protocol-generator)
-

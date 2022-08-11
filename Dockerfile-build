@@ -1,0 +1,34 @@
+FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu18.04
+
+RUN echo 'Building GVirtuS'
+
+RUN apt -y update && apt -y upgrade
+RUN apt install -y wget
+RUN apt-get -y install libssl-dev
+RUN apt -y install curl
+RUN apt -y install libtool libxmu-dev libxi-dev libgl-dev libosmesa-dev liblog4cplus-dev
+
+RUN wget https://cmake.org/files/v3.19/cmake-3.19.8.tar.gz
+RUN tar zxvf cmake-3.19.8.tar.gz
+WORKDIR /cmake-3.19.8
+RUN ./bootstrap --prefix=/usr/local
+RUN make -j$(nproc)
+RUN make install
+
+RUN mkdir /GVirtuS
+
+WORKDIR /
+
+ENV GVIRTUS_HOME=/GVirtuS
+ENV EXTRA_NVCCFLAGS="--cudart=shared"
+ENV CUDA_HOME=/usr/local/cuda-11.4/
+ENV LDFLAGS="-L$CUDA_HOME/lib64"
+ENV CPPFLAGS="-I$CUDA_HOME/include"
+
+RUN mkdir /build
+RUN chmod 777 /build
+WORKDIR /build
+
+CMD cmake ../src ; \
+  make; \
+  make install

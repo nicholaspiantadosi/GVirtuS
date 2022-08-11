@@ -1,0 +1,22 @@
+FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu18.04
+
+RUN echo "GVirtuS FRONTEND - cusolver"
+
+COPY bin ./GVirtuS/bin
+COPY etc ./GVirtuS/etc
+COPY include ./GVirtuS/include
+COPY lib ./GVirtuS/lib
+COPY demo ./GVirtuS/demo
+
+ENV GVIRTUS_HOME=/GVirtuS
+ENV LD_LIBRARY_PATH=$GVIRTUS_HOME/lib:$GVIRTUS_HOME/lib/frontend:$LD_LIBRARY_PATH
+ENV EXTRA_NVCCFLAGS="--cudart=shared -lcusolver"
+ENV DEFAULT_ENDPOINT=0
+ENV GVIRTUS_CONFIG=$HOME/GVirtuS/etc/properties-frontend.json
+
+RUN ln /GVirtuS/lib/frontend/libcudart.so.11 /GVirtuS/lib/frontend/libcudart.so.11.0
+
+CMD echo "Running FE against BE on ${GVIRTUS_BACKEND_IP}" ; \
+    sed -e "s/\${ip}/\"${GVIRTUS_BACKEND_IP}\"/" /GVirtuS/etc/properties-docker.json > /GVirtuS/etc/properties-frontend.json ; \
+    nvcc ${PATH_TO_FILE} -o /GVirtuS/demo/cusolver/out.e --cudart=shared -lcusolver ; \
+    ./GVirtuS/demo/cusolver/out.e

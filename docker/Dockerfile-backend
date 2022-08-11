@@ -1,0 +1,15 @@
+FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu18.04
+
+RUN echo 'Building nvidia/cuda 11.4.2 using GVirtuS - BACKEND'
+
+COPY bin ./GVirtuS/bin
+COPY etc ./GVirtuS/etc
+COPY include ./GVirtuS/include
+COPY lib ./GVirtuS/lib
+
+ENV GVIRTUS_HOME=/GVirtuS
+ENV LD_LIBRARY_PATH=$GVIRTUS_HOME/lib:$GVIRTUS_HOME/lib/communicator:$GVIRTUS_HOME/lib/backend:$GVIRTUS_HOME/external/lib::$LD_LIBRARY_PATH
+ENV EXTRA_NVCCFLAGS="--cudart=shared -lcusparse"
+ENV GVIRTUS_LOGLEVEL=0
+
+CMD /GVirtuS/bin/gvirtus-backend /GVirtuS/etc/properties.json

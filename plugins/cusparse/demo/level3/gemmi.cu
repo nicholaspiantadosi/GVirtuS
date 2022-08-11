@@ -8,6 +8,8 @@
 
 int main(int argn, char *argv[])
 {
+    clock_t tStart = clock();
+    
     // Host problem definition
 
     int m = 4;
@@ -84,6 +86,10 @@ int main(int argn, char *argv[])
     CHECK_CUDA( cudaFree(dCscColPtrB) );
     CHECK_CUDA( cudaFree(dCscRowIndB) );
     CHECK_CUDA( cudaFree(dC) );
-    return EXIT_SUCCESS;
 
+    clock_t tFinish = clock();
+
+    printf("\nTotal time:\t\t\t%fms\n\n", (double)(tFinish - tStart)/(CLOCKS_PER_SEC/1000));
+
+    return EXIT_SUCCESS;
 }

@@ -176,6 +176,52 @@ If you are using nvcc be sure you are compiling using shared libraries:
 
     export EXTRA_NVCCFLAGS="--cudart=shared"
 
+### DOCKER ###
+
+You can run GVirtuS using following Docker images:
+* gvirtus-build
+* gvirtus-backend
+* gvirtus-frontend
+
+The first image, `gvirtus-build`, is used for compilation and build purposes. You can run following commands in order to have compiled files in destintation folder:
+```
+cd <GVIRTUS_SOURCE_DIR>
+docker build -t gvirtus-build -f ./Dockerfile-build .
+docker run -it --user $UID:$GID -v "${GVIRTUS_HOME}":/GVirtuS -v "<GVIRTUS_SOURCE_DIR>":"/src" gvirtus-build
+```
+You have to replace:
+* <GVIRTUS_SOURCE_DIR> - path to folder containing sources (e.g. /home/USER/CLionProjects/GVirtuS)
+
+If everything it's ok you can find output generated from build in the GVIRTUS_HOME folder.
+
+Then you can build and run the backend Docker image using following commands:
+```
+cd ${GVIRTUS_HOME}
+docker build -t gvirtus-backend -f Dockerfile-backend .
+docker run -it --runtime=nvidia --user $UID:$GID gvirtus-backend
+```
+The `gvirtus-backend` image start using the command `/GVirtuS/bin/gvirtus-backend /GVirtuS/etc/properties.json` inside the container.
+
+Now you can build and run the frontend Docker image using following commands:
+```
+cd ${GVIRTUS_HOME}
+docker build -t gvirtus-frontend -f Dockerfile-frontend .
+docker run -it --runtime=nvidia -e GVIRTUS_BACKEND_IP=<IP_OF_GVIRTUS_BACKEND> -e PATH_TO_FILE=<PATH_TO_SOURCE_FILE_CU>  gvirtus-frontend
+```
+You have to replace:
+* <IP_OF_GVIRTUS_BACKEND> - ip address (local) of the Docker image `gvirtus-backend` (you can find this information running `docker container ls` at first, getting the id of the container and running `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <CONTAINER_ID>`)
+* <PATH_TO_SOURCE_FILE_CU> - path to folder containing source file to compile and execute (e.g. /GVirtuS/demo/cusparse/level3/gemmi.cu)
+
+The `gvirtus-frontend` image start replacing the placeholder defined inside `properties-docker.json` with ip address provided, compiling cu file specified and executing the compiled file.
+
+If everything it's ok you can see the output of the test in the `gvirtus-frontend` console and see the list of the backend functions called in the `gvirtus-backend` console.
+
+There is also a `docker-compose.yml` file available. Using docker-compose you can build and run everything with following commands:
+* build `gvirtus-backend` (see previous section where this topic was described)
+* `cd ${GVIRTUS_HOME}`
+* `docker-compose build`
+* `UID=${UID} GID=${GID} docker-compose up`
+If everything it's ok you can see all logs in the console, colored differently depending on the backend or frontend.
 
 ## Logging ##
 

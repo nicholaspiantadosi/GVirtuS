@@ -64,4 +64,4 @@ gvirtus_add_frontend(cusparse ${CUDA_VERSION}
 		frontend/Utilities.h
 )
 
-#add_subdirectory(demo/level3)
+add_subdirectory(demo)
