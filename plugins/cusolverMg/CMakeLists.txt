@@ -44,3 +44,5 @@ gvirtus_add_frontend(cusolverMg ${CUDA_VERSION}
         frontend/CusolverMg_multi_gpu_helper.cpp
         frontend/CusolverMg_multi_gpu_dense_linear_solver.cpp
         frontend/CusolverMg_multi_gpu_dense_linear_eigenvalue.cpp)
+
+add_subdirectory(demo)

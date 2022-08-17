@@ -33,7 +33,6 @@ using namespace std;
 
 extern "C" cusolverStatus_t CUSOLVERAPI cusolverMgCreate(cusolverMgHandle_t *handle) {
     CusolverMgFrontend::Prepare();
-    printf("ajejeeeee\n");
     CusolverMgFrontend::AddHostPointerForArguments<cusolverMgHandle_t>(handle);
     CusolverMgFrontend::Execute("cusolverMgCreate");
     if(CusolverMgFrontend::Success())

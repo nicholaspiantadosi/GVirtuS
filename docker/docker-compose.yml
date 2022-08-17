@@ -28,7 +28,9 @@ services:
       - GVIRTUS_BACKEND_IP=10.5.0.5
       #- PATH_TO_FILE=/GVirtuS/demo/cusparse/level3/gemmi.cu
       #- PATH_TO_FILE=/GVirtuS/demo/cusolver/sparse/high_level/spcsrlsvlu.cu
-      - PATH_TO_FILE=/GVirtuS/demo/cusparse/generic/cusparse_vector.cu
+      #- PATH_TO_FILE=/GVirtuS/demo/cusparse/generic/cusparse_vector.cu
+      #- PATH_TO_FILE=/GVirtuS/demo/cusolvermg/multigpu/linear_solver/getrf_getrs.cu
+      - PATH_TO_FILE=/GVirtuS/demo/cusparse/generic/perf_test.cu
 networks:
   gvirtus-net:
     driver: bridge

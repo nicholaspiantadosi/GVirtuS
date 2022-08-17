@@ -18,5 +18,5 @@ RUN ln /GVirtuS/lib/frontend/libcudart.so.11 /GVirtuS/lib/frontend/libcudart.so.
 
 CMD echo "Running FE against BE on ${GVIRTUS_BACKEND_IP}" ; \
     sed -e "s/\${ip}/\"${GVIRTUS_BACKEND_IP}\"/" /GVirtuS/etc/properties-docker.json > /GVirtuS/etc/properties-frontend.json ; \
-    nvcc ${PATH_TO_FILE} -o /GVirtuS/demo/cusparse/out.e --cudart=shared -lcusparse -lcusolver ; \
+    nvcc ${PATH_TO_FILE} -o /GVirtuS/demo/cusparse/out.e --cudart=shared -lcusparse -lcusolver -lcusolverMg ; \
     ./GVirtuS/demo/cusparse/out.e

@@ -1,0 +1,1 @@
+install(DIRECTORY multigpu DESTINATION ${GVIRTUS_HOME}/demo/cusolvermg)
