@@ -53,9 +53,9 @@ void initializeMatrixRandom(double *matrix, int M, int N)
 int main(int argn, char *argv[])
 {
     // Host problem definition
-    int m = 10000;
-    int n = 10000;
-    int nnz = 5000;
+    int m = 1000;
+    int n = 1000;
+    int nnz = 500;
     int lda = m;
     int ldb = m;
     int ldc = m;
@@ -106,9 +106,9 @@ int main(int argn, char *argv[])
 
     CHECK_CUSPARSE(cusparseDpruneDense2csr_bufferSizeExt(handle, m, n, dA, lda, &threshold, descrC, NULL, dCsrRowPtrC, NULL, &pBufferSize));
 
-    if(pBufferSize == 0) {
+//    if(pBufferSize == 0) {
         pBufferSize = 512;
-    }
+//    }
 
     CHECK_CUDA(cudaMalloc((void**)&pBuffer, pBufferSize));
 
