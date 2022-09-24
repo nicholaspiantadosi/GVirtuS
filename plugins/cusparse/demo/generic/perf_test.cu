@@ -59,8 +59,8 @@ int main(int argn, char *argv[])
     int lda = m;
     int ldb = m;
     int ldc = m;
-    double alpha = 1.0f;
-    double beta = 0.0f;
+    double alpha = 2.5f;
+    double beta = 1.5f;
 
     double *hA = (double *)malloc(m*n*sizeof(double));
     initializeMatrixRandomSparse(hA, m, n, nnz);

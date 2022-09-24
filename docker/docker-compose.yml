@@ -30,7 +30,8 @@ services:
       #- PATH_TO_FILE=/GVirtuS/demo/cusolver/sparse/high_level/spcsrlsvlu.cu
       #- PATH_TO_FILE=/GVirtuS/demo/cusparse/generic/cusparse_vector.cu
       #- PATH_TO_FILE=/GVirtuS/demo/cusolvermg/multigpu/linear_solver/getrf_getrs.cu
-      - PATH_TO_FILE=/GVirtuS/demo/cusparse/generic/perf_test.cu
+      #- PATH_TO_FILE=/GVirtuS/demo/cusparse/generic/perf_test.cu
+      - PATH_TO_FILE=/GVirtuS/demo/cusparse/generic/perf_test_cusparse.cu
 networks:
   gvirtus-net:
     driver: bridge

@@ -68,7 +68,7 @@ CUSPARSE_ROUTINE_HANDLER(Destroy){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("Destroy"));
     cusparseHandle_t handle = (cusparseHandle_t)in->Get<long long int>();
     cusparseStatus_t cs = cusparseDestroy(handle);
-    cout << "DEBUG - cusparseDestroy Executed"<<endl;
+    LOG4CPLUS_DEBUG(logger,"cusparseDestroy Executed");
     return std::make_shared<Result>(cs);
 }
 

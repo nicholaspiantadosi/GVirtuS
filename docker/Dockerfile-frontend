@@ -14,7 +14,7 @@ ENV EXTRA_NVCCFLAGS="--cudart=shared -lcusparse -lcusolver"
 ENV DEFAULT_ENDPOINT=0
 ENV GVIRTUS_CONFIG=$HOME/GVirtuS/etc/properties-frontend.json
 
-RUN ln /GVirtuS/lib/frontend/libcudart.so.11 /GVirtuS/lib/frontend/libcudart.so.11.0
+RUN ln -sf /GVirtuS/lib/frontend/libcudart.so.11 /GVirtuS/lib/frontend/libcudart.so.11.0
 
 CMD echo "Running FE against BE on ${GVIRTUS_BACKEND_IP}" ; \
     sed -e "s/\${ip}/\"${GVIRTUS_BACKEND_IP}\"/" /GVirtuS/etc/properties-docker.json > /GVirtuS/etc/properties-frontend.json ; \
